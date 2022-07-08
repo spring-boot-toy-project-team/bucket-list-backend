@@ -4,7 +4,7 @@ spring:
       enabled: true
       path: /h2     # (1) Context path
   datasource:
-    url: jdbc:h2:bucket:list    # (2) JDBC URL
+    url: jdbc:h2:mem:bucket-list    # (2) JDBC URL
   jpa:
     hibernate:
       ddl-auto: create
