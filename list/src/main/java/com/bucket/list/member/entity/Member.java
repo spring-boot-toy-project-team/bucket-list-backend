@@ -30,7 +30,7 @@ public class Member {
   private LocalDateTime modifiedAt = LocalDateTime.now();
 
   @Enumerated( EnumType.STRING)
-  private Active active;
+  private Active active = Active.MEMBER_ACTIVE;
 
   private enum Active {
     MEMBER_ACTIVE(1, "활동중"),
