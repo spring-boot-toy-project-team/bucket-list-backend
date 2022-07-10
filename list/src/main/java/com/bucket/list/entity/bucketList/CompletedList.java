@@ -36,16 +36,18 @@ public class CompletedList {
     private List<Comments> commentsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "completedList")
-    private List<Like> likes;
+    private List<Like> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "completedList")
     private List<Img> imgList = new ArrayList<>();
 
     private String contents;
 
-    private LocalDateTime completedAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    private Integer likeCount;
+    private LocalDateTime modifiedAt = LocalDateTime.now();
+
+    private long likeCount;
 
     public void addComment(Comments comments){
         this.commentsList.add(comments);

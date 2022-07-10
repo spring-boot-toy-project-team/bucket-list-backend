@@ -20,6 +20,9 @@ public class BucketList {
     @JoinColumn(name = "BUCKET_LIST_GROUP_ID")
     private BucketListGroup bucketListGroup;
 
+    @OneToOne(mappedBy = "bucketList")
+    private CompletedList completedList;
+
 
     @Column(length = 500)
     private String target;
@@ -28,5 +31,9 @@ public class BucketList {
 
     public void addBucketListGroup(BucketListGroup bucketListGroup){
         this.bucketListGroup = bucketListGroup;
+    }
+
+    public void addCompletedList(CompletedList completedList){
+        this.completedList=completedList;
     }
 }

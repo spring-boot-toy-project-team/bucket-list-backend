@@ -47,15 +47,17 @@ public class Member {
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
     public enum MemberStatus {
-        MEMBER_ACTIVE("활동중"),
-        MEMBER_SLEEP("휴면"),
-        MEMBER_QUIT("탈퇴");
+        MEMBER_ACTIVE(1,"활동중"),
+        MEMBER_SLEEP(2,"휴면"),
+        MEMBER_QUIT(3,"탈퇴");
 
         @Getter
         private String status;
+        private int code;
 
-        MemberStatus(String status) {
+        MemberStatus(int code, String status) {
             this.status = status;
+            this.code=code;
         }
     }
 }
