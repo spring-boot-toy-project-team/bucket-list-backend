@@ -11,8 +11,6 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "TAG" +
-        "")
 public class Tag {
 
     @Id

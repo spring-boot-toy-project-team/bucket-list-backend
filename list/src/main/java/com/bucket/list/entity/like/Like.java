@@ -16,7 +16,6 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "LIKES")
 public class Like {
 
     @Id
@@ -25,7 +24,7 @@ public class Like {
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
-    private List<Member> memberList = new ArrayList<>();
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "COMPLETED_LIST_ID")
@@ -35,7 +34,7 @@ public class Like {
     private Tag tag;
 
     public void addMember(Member member){
-        this.memberList.add(member);
+        this.member=member;
     }
 
     public void addCompletedList(CompletedList completedList){

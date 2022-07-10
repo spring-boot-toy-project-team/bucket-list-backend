@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "COMPLETED_LIST_TAG")
 public class CompletedListTag {
 
     @Id
@@ -26,7 +25,7 @@ public class CompletedListTag {
 
     @ManyToOne
     @JoinColumn(name = "COMPLETED_LIST_ID")
-    private List<CompletedList> completedLists = new ArrayList<>();
+    private CompletedList completedList;
 
 
     public void addTag(Tag tag){
@@ -34,6 +33,6 @@ public class CompletedListTag {
     }
 
     public void addCompleteList(CompletedList completedList){
-        this.completedLists.add(completedList);
+        this.completedList=completedList;
     }
 }

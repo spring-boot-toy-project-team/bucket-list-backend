@@ -19,7 +19,6 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "COMPLETED_LIST")
 public class CompletedList {
 
     @Id
@@ -33,16 +32,16 @@ public class CompletedList {
     @OneToMany(mappedBy = "completedBucketList")
     private List<Tag> tags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "completedListTag")
+    @OneToMany(mappedBy = "completedList")
     private List<CompletedListTag> completedListTagList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comments")
+    @OneToMany(mappedBy = "completedList")
     private List<Comments> commentsList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "likes")
+    @OneToMany(mappedBy = "completedList")
     private Like like;
 
-    @OneToMany(mappedBy = "img")
+    @OneToMany(mappedBy = "completedList")
     private List<Img> imgList = new ArrayList<>();
 
     private String contents;
@@ -66,4 +65,5 @@ public class CompletedList {
     public void addImg(Img img){
         this.imgList.add(img);
     }
+
 }

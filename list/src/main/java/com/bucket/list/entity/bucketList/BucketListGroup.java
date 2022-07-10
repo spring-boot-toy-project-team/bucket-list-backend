@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "BUCKET_LIST_GROUP")
 public class BucketListGroup {
 
     @Id
@@ -26,7 +25,9 @@ public class BucketListGroup {
     @Column(length = 300)
     private String title;
 
-    @OneToMany(mappedBy = "bucketList")
+//    @OneToMany(mappedBy = "bucketList")
+    private BucketList bucketList;
+    @OneToMany(mappedBy = "bucketListGroup")
     private List<BucketList> bucketLists = new ArrayList<>();
 
     public void addBucketList(BucketList bucketList){

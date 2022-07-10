@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "RE_COMMENTS")
 public class ReComments {
 
     @Id
