@@ -20,7 +20,7 @@ import java.util.List;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long memberId;
 
 //    @Column(length = 300, unique = true)
@@ -38,17 +38,6 @@ public class Member {
     @Column(length = 500)
     private String profileimg;
 
-    @OneToMany(mappedBy = "reComments")
-    private List<ReComments> reCommentsList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "follower")
-    private List<Follower> followerList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "comments")
-    private List<Comments> commentsList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "likes")
-    private List<Like> likes = new ArrayList<>();
 
     private LocalDateTime createdAt = LocalDateTime.now();
 

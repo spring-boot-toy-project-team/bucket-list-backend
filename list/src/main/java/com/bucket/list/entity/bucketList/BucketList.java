@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class BucketList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long buckListId;
 
     @ManyToOne

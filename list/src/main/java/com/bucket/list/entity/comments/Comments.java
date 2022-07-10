@@ -21,25 +21,19 @@ import java.util.List;
 public class Comments {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long commentId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long commentsId;
 
     @ManyToOne
-    @JoinColumn(name = "COMPLETED_LIST ID")
+    @JoinColumn(name = "COMPLETED_LIST_ID")
     private CompletedList completedList;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "COMMENTS_ID")
-    private Comments comments;
-
-    @OneToMany(mappedBy = "reComments")
+    @OneToMany(mappedBy = "comments")
     private List<ReComments> reComments = new ArrayList<>();
-
-
 
     private String contents;
 

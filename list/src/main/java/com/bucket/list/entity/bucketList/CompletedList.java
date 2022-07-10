@@ -22,15 +22,12 @@ import java.util.List;
 public class CompletedList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long completedListId;
 
     @OneToOne
     @JoinColumn(name = "BUCKET_LIST_ID")
     private BucketList bucketList;
-
-    @OneToMany(mappedBy = "completedBucketList")
-    private List<Tag> tags = new ArrayList<>();
 
     @OneToMany(mappedBy = "completedList")
     private List<CompletedListTag> completedListTagList = new ArrayList<>();
@@ -39,7 +36,7 @@ public class CompletedList {
     private List<Comments> commentsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "completedList")
-    private Like like;
+    private List<Like> likes;
 
     @OneToMany(mappedBy = "completedList")
     private List<Img> imgList = new ArrayList<>();
@@ -55,7 +52,9 @@ public class CompletedList {
     }
 
     public void addLike(Like like){
-        this.like=like;
+        if(!this.likes.contains(like)){
+            this.likes.add(like);
+        }
     }
 
     public void addCompletedListTag(CompletedListTag completedListTag){

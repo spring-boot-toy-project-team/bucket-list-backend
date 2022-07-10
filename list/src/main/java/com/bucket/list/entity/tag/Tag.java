@@ -19,7 +19,7 @@ public class Tag {
     @Column(length = 200,unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "completedListTag")
+    @OneToMany(mappedBy = "tag")
     private List<CompletedListTag> completedListTagList;
 
     public void addCompletedListTag(CompletedListTag completedListTag){

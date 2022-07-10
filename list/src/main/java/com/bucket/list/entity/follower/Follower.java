@@ -16,6 +16,18 @@ public class Follower {
     private long followerId;
 
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member memberId;
+    @JoinColumn(name = "FROM_MEMBER_ID")
+    private Member fromMember;
+
+    @ManyToOne
+    @JoinColumn(name = "TO_MEMBER_ID")
+    private Member toMember;
+
+    public void addFromMember(Member fromMember){
+        this.fromMember = fromMember;
+    }
+
+    public void addTOMember(Member toMember){
+        this.toMember = toMember;
+    }
 }

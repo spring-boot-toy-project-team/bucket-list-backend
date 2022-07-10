@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +17,19 @@ import java.util.List;
 public class BucketListGroup {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long buckListGroupId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long bucketListGroupId;
 
     //처음 BuckListGroup을 만들때 한 번만 적는다
-    private long year;
+    @Column(name = "CREATED_YEAR")
+    private int year = LocalDateTime.now().getYear();
 
     @Column(length = 300)
     private String title;
 
 //    @OneToMany(mappedBy = "bucketList")
-    private BucketList bucketList;
+//    private BucketList bucketList;
+
     @OneToMany(mappedBy = "bucketListGroup")
     private List<BucketList> bucketLists = new ArrayList<>();
 

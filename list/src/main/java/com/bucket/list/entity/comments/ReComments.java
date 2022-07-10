@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 public class ReComments {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long reCommentId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long reCommentsId;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
