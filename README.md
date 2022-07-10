@@ -10,5 +10,5 @@
 
 <hr>
 
-DB : https://www.erdcloud.com/d/bWGmmorjCfKTMcTWy
-UI/UX : https://www.figma.com/file/8usXJvCka7qSB3lWNmMEhR/Bucket-list?node-id=0%3A1
+<div>DB : https://www.erdcloud.com/d/bWGmmorjCfKTMcTWy</div>
+<div>UI/UX : https://www.figma.com/file/8usXJvCka7qSB3lWNmMEhR/Bucket-list?node-id=0%3A1<div>
