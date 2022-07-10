@@ -13,18 +13,21 @@ import java.time.LocalDateTime;
 public class ReComments {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long reCommentId;
+  private long reCommentsId;
 
+  @Column(columnDefinition = "TEXT")
   private String contents;
 
   private LocalDateTime createdAt = LocalDateTime.now();
+
+  private LocalDateTime modifiedAt = LocalDateTime.now();
 
   @ManyToOne
   @JoinColumn(name = "MEMBER_ID")
   private Member member;
 
   @ManyToOne
-  @JoinColumn(name = "COMMENT_ID")
+  @JoinColumn(name = "COMMENTS_ID")
   private Comments comments;
 
   public void addMember(Member member) {

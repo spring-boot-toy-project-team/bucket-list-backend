@@ -14,6 +14,7 @@ public class BucketList {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long bucketListId;
 
+  @Column(length = 500)
   private String target;
 
   private boolean isCompleted;

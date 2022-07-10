@@ -16,8 +16,9 @@ import java.util.List;
 public class Comments {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long commentId;
+  private long commentsId;
 
+  @Column(columnDefinition = "TEXT")
   private String contents;
 
   private LocalDateTime createdAt = LocalDateTime.now();

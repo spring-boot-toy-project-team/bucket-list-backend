@@ -20,6 +20,7 @@ public class CompletedList {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long completedId;
 
+  @Column(columnDefinition = "TEXT")
   private String contents;
 
   private LocalDateTime createdAt = LocalDateTime.now();
