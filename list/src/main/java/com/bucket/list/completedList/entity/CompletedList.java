@@ -2,8 +2,7 @@ package com.bucket.list.completedList.entity;
 
 import com.bucket.list.bucketList.entity.BucketList;
 import com.bucket.list.comment.entity.Comments;
-import com.bucket.list.img.entity.Img;
-import com.bucket.list.like.entity.Like;
+import com.bucket.list.tag.entity.CompletedListTag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

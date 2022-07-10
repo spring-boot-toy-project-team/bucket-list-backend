@@ -1,32 +1,29 @@
 package com.bucket.list.completedList.entity;
 
-import com.bucket.list.tag.entity.Tag;
+import com.bucket.list.completedList.entity.CompletedList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
-@Entity
 @NoArgsConstructor
-public class CompletedListTag {
+@Entity
+public class Img {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long completedListTagId;
+  private long imgId;
+
+  private LocalDateTime createdAt = LocalDateTime.now();
+
+  private String fileDir;
 
   @ManyToOne
   @JoinColumn(name = "COMPLETED_LIST_ID")
   private CompletedList completedList;
 
-  @ManyToOne
-  @JoinColumn(name = "TAG_ID")
-  private Tag tag;
-
   public void addCompletedList(CompletedList completedList) {
-    this.completedList =completedList;
-  }
-
-  public void addTag(Tag tag) {
-    this.tag = tag;
+    this.completedList = completedList;
   }
 }

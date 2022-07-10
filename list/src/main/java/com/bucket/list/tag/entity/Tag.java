@@ -1,7 +1,5 @@
 package com.bucket.list.tag.entity;
 
-import com.bucket.list.completedList.entity.CompletedList;
-import com.bucket.list.completedList.entity.CompletedListTag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

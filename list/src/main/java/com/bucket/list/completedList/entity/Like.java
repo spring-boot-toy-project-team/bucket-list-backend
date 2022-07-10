@@ -1,4 +1,4 @@
-package com.bucket.list.like.entity;
+package com.bucket.list.completedList.entity;
 
 import com.bucket.list.completedList.entity.CompletedList;
 import com.bucket.list.member.entity.Member;
