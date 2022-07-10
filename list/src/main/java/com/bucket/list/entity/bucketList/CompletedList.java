@@ -40,7 +40,7 @@ public class CompletedList {
     private List<Comments> commentsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "likes")
-    private List<Like> likeList = new ArrayList<>();
+    private Like like;
 
     @OneToMany(mappedBy = "img")
     private List<Img> imgList = new ArrayList<>();
@@ -56,7 +56,7 @@ public class CompletedList {
     }
 
     public void addLike(Like like){
-        this.likeList.add(like);
+        this.like=like;
     }
 
     public void addCompletedListTag(CompletedListTag completedListTag){

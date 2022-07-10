@@ -2,6 +2,7 @@ package com.bucket.list.entity.comments;
 
 
 import com.bucket.list.entity.bucketList.CompletedList;
+import com.bucket.list.entity.like.Like;
 import com.bucket.list.entity.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +33,14 @@ public class Comments {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @ManyToOne
+    @JoinColumn(name = "COMMENTS_ID")
+    private Comments comments;
+
     @OneToMany(mappedBy = "reComments")
     private List<ReComments> reComments = new ArrayList<>();
+
+
 
     private String contents;
 

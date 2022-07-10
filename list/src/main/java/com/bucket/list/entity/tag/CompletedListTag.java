@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,7 +26,7 @@ public class CompletedListTag {
 
     @ManyToOne
     @JoinColumn(name = "COMPLETED_LIST_ID")
-    private CompletedList completedList;
+    private List<CompletedList> completedLists = new ArrayList<>();
 
 
     public void addTag(Tag tag){
@@ -32,6 +34,6 @@ public class CompletedListTag {
     }
 
     public void addCompleteList(CompletedList completedList){
-        this.completedList=completedList;
+        this.completedLists.add(completedList);
     }
 }

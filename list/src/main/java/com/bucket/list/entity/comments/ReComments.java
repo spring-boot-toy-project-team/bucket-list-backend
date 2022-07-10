@@ -28,7 +28,7 @@ public class ReComments {
 //    private Member memberId2;
 
     @ManyToOne
-    @JoinColumn(name = "COMMENT_ID")
+    @JoinColumn(name = "COMMENTS_ID")
     private Comments comments;
 
     private String contents;
