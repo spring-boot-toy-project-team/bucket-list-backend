@@ -20,6 +20,8 @@ public class BucketListGroup {
   private int year = LocalDateTime.now().getYear();
 
   private String title;
+  
+  private long likeCount;
 
   @OneToMany(mappedBy = "bucketListGroup")
   private List<BucketList> bucketLists = new ArrayList<>();
