@@ -1,49 +1,49 @@
-package com.bucket.list.service;
-
-
+package com.bucket.list.service.member;
 import com.bucket.list.entity.member.Member;
-import com.bucket.list.repository.MemberRepository;
-import com.bucket.list.requestDto.member.MemberPostDto;
+import com.bucket.list.repository.member.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final AccountService accountService;
 
-    public MemberService(MemberRepository memberRepository, AccountService accountService) {
+    public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-        this.accountService = accountService;
     }
 
-    public Member createdMember(MemberPostDto member){
+    //회원가입
+    public Member createMember(Member member){
+        MemberEmail(member.getEmail());
         Member createdMember = new Member();
-
         return memberRepository.save(createdMember);
     }
 
+    //회원 수정
     public Member updateMember(Member member){
-        Member findMember = verifieMember(member.getMemberId());
-        return memberRepository.save(findMember);
+        Member updateMember = verifieMember(member.getMemberId());
+        return memberRepository.save(updateMember);
     }
 
-    public Member findMembers(long memberId){
+    //회원 조회
+        public Member findMembers(long memberId){
         Member findMember = verifieMember(memberId);
         return findMember;
     }
 
-    public void deleteMember(long memberId){
-        Member findMember = verifieMember(memberId);
-        memberRepository.delete(findMember);
+    //회원 삭제
+        public void deleteMember(long memberId){
+        Member deleteMember = verifieMember(memberId);
+        memberRepository.delete(deleteMember);
     }
 
 //    public void MemberLogin (Member member){
 //        accountService.join(member);
 //    }
-//
+
 //    public void MemberLogout(long memberId){
 //        Member findMember = verifieMember(memberId);
 //    }
@@ -53,9 +53,8 @@ public class MemberService {
         Member findMember = optionalMember.get();
         return findMember;
     }
-
-//    public void MemberEmail(String email){
-//        Optional<Member> optionalMember = memberRepository.findByEmail(email);
-//    }
-
+    public void MemberEmail(String email){
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+    }
 }
+
