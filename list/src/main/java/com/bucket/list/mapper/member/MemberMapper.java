@@ -15,7 +15,7 @@ public interface MemberMapper {
     Member memberPostToMember(MemberRequestDto.memberLogOut memberLogOutDto);
     Member memberPostToMember(MemberRequestDto.findMember findMemberDto);
 
-    //response
+    //response 이부분을 어찌해야되는지 잘 모르겠습니다 응답이 전부 null로 나와서
     MemberResponseDto.memberSignIn memberToMemberSignIn(Member member);
     MemberResponseDto.memberSignUpDto memberToMemberSignUp(Member member);
     MemberResponseDto.modifyMember memberToMemberModify(Member member);
