@@ -28,25 +28,26 @@ public class MemberController {
         Member member = mapper.memberPostToMember(memberSignUpDto);
         Member createdMember = memberService.createMember(member);
 
-        return new ResponseEntity<>(mapper.memberToMemberSignUp(createdMember), HttpStatus.OK);
+
+        return new ResponseEntity<>(mapper.memberToMemberSignUp(createdMember), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{member-id}")
-    public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId, @RequestBody MemberRequestDto.modifyMember modifyMemberDto){
-        modifyMemberDto.setMemberId(memberId);
+    public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId, @RequestBody MemberRequestDto.updateMember updateMemberDto){
+        updateMemberDto.setMemberId(memberId);
 
-        Member modifyMember = memberService.updateMember(mapper.memberPostToMember(modifyMemberDto));
+        Member updateMember = memberService.updateMember(mapper.memberPostToMember(updateMemberDto));
 
-        return new ResponseEntity(mapper.memberToMemberModify(modifyMember), HttpStatus.OK);
+        return new ResponseEntity(mapper.memberToMemberModify(updateMember), HttpStatus.OK);
     }
 
     @GetMapping("/{member-id}")
-    public ResponseEntity getMember(@PathVariable("member-id") @Positive long memberId, @RequestBody MemberRequestDto.findMember findMemberDto){
+    public ResponseEntity getMember(@PathVariable("member-id") @Positive long memberId){
         Member member = memberService.findMembers(memberId);
         return new ResponseEntity<>(mapper.memberToMemberFindMember(member), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{member-id")
+    @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(@PathVariable("member-id") @Positive long memberId){
         memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

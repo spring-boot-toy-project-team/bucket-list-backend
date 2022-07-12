@@ -1,20 +1,16 @@
 package com.bucket.list.dto.member;
 
 import com.bucket.list.entity.member.Member;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 
-@Data
+
 public class MemberRequestDto {
 
     //회원가입
     @Getter
-    @NoArgsConstructor
     public static class memberSignUpDto{
         @Email
         private String email;
@@ -39,7 +35,7 @@ public class MemberRequestDto {
 
     //회원 정보 조회
     @Getter
-    @NoArgsConstructor
+    @AllArgsConstructor
     public static class findMember{
         @Id
         private long memberId;
@@ -48,8 +44,7 @@ public class MemberRequestDto {
     //회원 정보 수정
     @Getter
     @Setter
-    @NoArgsConstructor
-    public static class modifyMember{
+    public static class updateMember{
         private String password;
 
         private String nickName;
@@ -65,7 +60,6 @@ public class MemberRequestDto {
 
     //로그인
     @Getter
-    @NoArgsConstructor
     public static class memberSignIn{
         private String email;
 
@@ -74,7 +68,6 @@ public class MemberRequestDto {
 
     //로그아웃
     @Getter
-    @NoArgsConstructor
     public static class memberLogOut{
         private long memberId;
     }

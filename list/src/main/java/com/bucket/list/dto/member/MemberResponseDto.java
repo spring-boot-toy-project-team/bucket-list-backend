@@ -1,5 +1,6 @@
 package com.bucket.list.dto.member;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,11 +8,14 @@ import lombok.Setter;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+@Getter
+@AllArgsConstructor
 public class MemberResponseDto {
 
     //회원가입
     @Getter
-    public static class memberSignUpDto{
+    @AllArgsConstructor
+    public static class memberSignUp{
         private String message;
 
         //확인용
@@ -22,12 +26,15 @@ public class MemberResponseDto {
 
     //회원 탈퇴
     @Getter
+    @NoArgsConstructor
     public static class memberAccountSecession{
         private String message;
     }
 
     //회원 정보 조회
     @Getter
+    @Setter
+    @AllArgsConstructor
     public static class findMember{
 
         private String password;
@@ -47,9 +54,8 @@ public class MemberResponseDto {
     //회원 정보 수정
     @Getter
     @Setter
-    @NoArgsConstructor
-    public static class modifyMember{
-        private String password;
+    @AllArgsConstructor
+    public static class updateMember{
 
         private String nickName;
 
@@ -60,6 +66,7 @@ public class MemberResponseDto {
         private String profileImg;
 
         private String message;
+
     }
 
 

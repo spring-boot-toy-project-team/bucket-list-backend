@@ -18,13 +18,13 @@ public class MemberService {
     //회원가입
     public Member createMember(Member member){
         MemberEmail(member.getEmail());
-        Member createdMember = new Member();
-        return memberRepository.save(createdMember);
+        return memberRepository.save(member);
     }
 
     //회원 수정
     public Member updateMember(Member member){
         Member updateMember = verifieMember(member.getMemberId());
+        updateMember.setMemberId(member.getMemberId());
         return memberRepository.save(updateMember);
     }
 

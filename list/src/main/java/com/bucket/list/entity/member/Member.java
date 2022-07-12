@@ -36,7 +36,12 @@ public class Member {
     private String tel;
 
     @Column(length = 500)
-    private String profileimg;
+    private String profileImg;
+
+    private String introduction;
+
+    @Column(unique = true)
+    private String password;
 
 
     private LocalDateTime createdAt = LocalDateTime.now();
