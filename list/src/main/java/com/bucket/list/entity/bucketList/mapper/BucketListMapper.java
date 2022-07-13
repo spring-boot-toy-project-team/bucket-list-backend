@@ -1,7 +1,7 @@
-package com.bucket.list.mapper.bucketList;
+package com.bucket.list.entity.bucketList.mapper;
 
-import com.bucket.list.dto.bucketList.BucketListRequestDto;
-import com.bucket.list.dto.bucketList.BucketListResponseDto;
+import com.bucket.list.entity.bucketList.dto.BucketListRequestDto;
+import com.bucket.list.entity.bucketList.dto.BucketListResponseDto;
 import com.bucket.list.entity.bucketList.BucketList;
 import org.mapstruct.Mapper;
 

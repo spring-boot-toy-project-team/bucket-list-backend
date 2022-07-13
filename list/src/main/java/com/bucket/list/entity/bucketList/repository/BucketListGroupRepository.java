@@ -1,4 +1,4 @@
-package com.bucket.list.repository.bucketList;
+package com.bucket.list.entity.bucketList.repository;
 
 import com.bucket.list.entity.bucketList.BucketListGroup;
 import org.springframework.data.jpa.repository.JpaRepository;

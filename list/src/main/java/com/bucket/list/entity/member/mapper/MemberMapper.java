@@ -1,7 +1,7 @@
-package com.bucket.list.mapper.member;
+package com.bucket.list.entity.member.mapper;
 
-import com.bucket.list.dto.member.MemberRequestDto;
-import com.bucket.list.dto.member.MemberResponseDto;
+import com.bucket.list.entity.member.dto.MemberRequestDto;
+import com.bucket.list.entity.member.dto.MemberResponseDto;
 import com.bucket.list.entity.member.Member;
 import org.mapstruct.Mapper;
 

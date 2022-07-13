@@ -1,11 +1,11 @@
-package com.bucket.list.service.bucketList;
+package com.bucket.list.entity.bucketList.service;
 
 import com.bucket.list.entity.bucketList.BucketList;
 import com.bucket.list.entity.bucketList.BucketListGroup;
 import com.bucket.list.entity.member.Member;
-import com.bucket.list.repository.bucketList.BucketListGroupRepository;
-import com.bucket.list.repository.bucketList.BucketListRepository;
-import com.bucket.list.service.member.MemberService;
+import com.bucket.list.entity.bucketList.repository.BucketListGroupRepository;
+import com.bucket.list.entity.bucketList.repository.BucketListRepository;
+import com.bucket.list.entity.member.service.MemberService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

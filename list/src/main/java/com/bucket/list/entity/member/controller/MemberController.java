@@ -1,10 +1,10 @@
-package com.bucket.list.controller.member;
+package com.bucket.list.entity.member.controller;
 
 
-import com.bucket.list.dto.member.MemberRequestDto;
+import com.bucket.list.entity.member.dto.MemberRequestDto;
 import com.bucket.list.entity.member.Member;
-import com.bucket.list.mapper.member.MemberMapper;
-import com.bucket.list.service.member.MemberService;
+import com.bucket.list.entity.member.mapper.MemberMapper;
+import com.bucket.list.entity.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

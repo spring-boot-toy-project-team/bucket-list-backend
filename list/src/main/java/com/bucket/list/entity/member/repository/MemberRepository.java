@@ -1,4 +1,4 @@
-package com.bucket.list.repository.member;
+package com.bucket.list.entity.member.repository;
 
 import com.bucket.list.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
-package com.bucket.list.service.member;
+package com.bucket.list.entity.member.service;
 import com.bucket.list.entity.member.Member;
-import com.bucket.list.repository.member.MemberRepository;
+import com.bucket.list.entity.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

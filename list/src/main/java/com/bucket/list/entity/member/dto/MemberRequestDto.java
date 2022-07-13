@@ -1,4 +1,4 @@
-package com.bucket.list.dto.member;
+package com.bucket.list.entity.member.dto;
 
 import com.bucket.list.entity.member.Member;
 import lombok.*;

@@ -1,19 +1,15 @@
-package com.bucket.list.controller.bucketList;
+package com.bucket.list.entity.bucketList.controller;
 
-import com.bucket.list.dto.bucketList.BucketListRequestDto;
-import com.bucket.list.dto.bucketList.BucketListResponseDto;
+import com.bucket.list.entity.bucketList.dto.BucketListRequestDto;
 import com.bucket.list.entity.bucketList.BucketList;
-import com.bucket.list.entity.member.Member;
-import com.bucket.list.mapper.bucketList.BucketListMapper;
-import com.bucket.list.service.bucketList.BucketListGroupService;
-import com.bucket.list.service.bucketList.BucketListService;
+import com.bucket.list.entity.bucketList.mapper.BucketListMapper;
+import com.bucket.list.entity.bucketList.service.BucketListGroupService;
+import com.bucket.list.entity.bucketList.service.BucketListService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/bucket-groups/{bucketListGroupId}")
