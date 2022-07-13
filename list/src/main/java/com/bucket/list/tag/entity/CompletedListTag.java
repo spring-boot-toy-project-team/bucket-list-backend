@@ -3,12 +3,14 @@ package com.bucket.list.tag.entity;
 import com.bucket.list.completedList.entity.CompletedList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
-@Entity
 @NoArgsConstructor
+@Getter
+@Setter
+@Entity
 public class CompletedListTag {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

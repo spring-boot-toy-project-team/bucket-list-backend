@@ -2,12 +2,14 @@ package com.bucket.list.tag.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Tag {
   @Id

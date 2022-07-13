@@ -1,17 +1,18 @@
 package com.bucket.list.member.entity;
 
 import com.bucket.list.bucketList.entity.BucketListGroup;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Entity
 @NoArgsConstructor
+@Getter
+@Setter
+@Entity
 public class Member {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +20,9 @@ public class Member {
 
   @Column(unique = true, length = 200)
   private String email;
+
+  @JsonIgnore
+  private String password;
 
   private String nickName;
 
@@ -34,7 +38,8 @@ public class Member {
 
   private LocalDateTime modifiedAt = LocalDateTime.now();
 
-  @Enumerated( EnumType.STRING)
+  @Enumerated(value = EnumType.STRING)
+  @Column(length = 20, nullable = false)
   private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
   @OneToMany(mappedBy = "member")
@@ -46,16 +51,14 @@ public class Member {
     }
   }
 
-  private enum MemberStatus {
-    MEMBER_ACTIVE(1, "활동중"),
-    MEMBER_SLEEP(2, "휴면"),
-    MEMBER_QUIT(2, "탈퇴");
+  public enum MemberStatus {
+    MEMBER_ACTIVE("활동중"),
+    MEMBER_SLEEP("휴면"),
+    MEMBER_QUIT("탈퇴");
 
-    private int code;
     private String status;
 
-    MemberStatus(int code, String status) {
-      this.code = code;
+    MemberStatus(String status) {
       this.status = status;
     }
   }

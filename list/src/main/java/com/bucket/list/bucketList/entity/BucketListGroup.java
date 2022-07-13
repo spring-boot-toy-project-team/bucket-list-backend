@@ -3,14 +3,16 @@ package com.bucket.list.bucketList.entity;
 import com.bucket.list.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class BucketListGroup {
   @Id

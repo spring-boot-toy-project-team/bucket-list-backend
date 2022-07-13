@@ -3,13 +3,15 @@ package com.bucket.list.comment.entity;
 import com.bucket.list.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
-@Entity
 @NoArgsConstructor
+@Getter
+@Setter
+@Entity
 public class ReComments {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

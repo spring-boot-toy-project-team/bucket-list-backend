@@ -2,11 +2,13 @@ package com.bucket.list.member.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Follower {
   @Id

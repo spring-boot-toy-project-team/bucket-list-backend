@@ -5,14 +5,16 @@ import com.bucket.list.comment.entity.Comments;
 import com.bucket.list.tag.entity.CompletedListTag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class CompletedList {
   @Id

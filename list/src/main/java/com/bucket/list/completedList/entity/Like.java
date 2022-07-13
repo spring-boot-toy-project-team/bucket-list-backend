@@ -4,11 +4,13 @@ import com.bucket.list.completedList.entity.CompletedList;
 import com.bucket.list.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "LIKES")
 public class Like {
