@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 public class Comments {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long commentsId;
 
   @Column(columnDefinition = "TEXT")

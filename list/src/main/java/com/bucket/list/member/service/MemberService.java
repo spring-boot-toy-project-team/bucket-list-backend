@@ -33,12 +33,13 @@ public class MemberService {
   public Member updateMember(Member member) {
     Member findMember = findVerifiedMember(member.getMemberId());
 
-    Optional.ofNullable(member.getNickName()).ifPresent(nickName -> findMember.setNickName(nickName));
-    Optional.ofNullable(member.getIntroduction()).ifPresent(introduction -> findMember.setIntroduction(introduction));
-    Optional.ofNullable(member.getTel()).ifPresent(tel -> findMember.setTel(tel));
-    Optional.ofNullable(member.getProfileImg()).ifPresent(profileImg -> findMember.setProfileImg(profileImg));
-    Optional.ofNullable(member.getPassword()).ifPresent(password -> findMember.setPassword(password));
-    Optional.ofNullable(member.getMemberStatus()).ifPresent(memberStatus -> findMember.setMemberStatus(memberStatus));
+    // 휴대폰 번호 유니크 조건 검증!
+    Optional.ofNullable(member.getNickName()).ifPresent(findMember::setNickName);
+    Optional.ofNullable(member.getIntroduction()).ifPresent(findMember::setIntroduction);
+    Optional.ofNullable(member.getTel()).ifPresent(findMember::setTel);
+    Optional.ofNullable(member.getProfileImg()).ifPresent(findMember::setProfileImg);
+    Optional.ofNullable(member.getPassword()).ifPresent(findMember::setPassword);
+    Optional.ofNullable(member.getMemberStatus()).ifPresent(findMember::setMemberStatus);
     findMember.setModifiedAt(LocalDateTime.now());
 
     return memberRepository.save(findMember);

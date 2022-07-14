@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class Tag {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long tagId;
 
   @Column(unique = true, length = 200)

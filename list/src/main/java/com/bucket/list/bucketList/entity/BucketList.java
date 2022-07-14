@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 public class BucketList {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long bucketListId;
 
   @Column(length = 500)

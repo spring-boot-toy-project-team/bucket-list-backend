@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Img {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long imgId;
 
   private LocalDateTime createdAt = LocalDateTime.now();

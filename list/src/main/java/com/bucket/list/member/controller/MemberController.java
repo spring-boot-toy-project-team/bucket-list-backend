@@ -1,7 +1,6 @@
 package com.bucket.list.member.controller;
 
 import com.bucket.list.dto.MessageResponseDto;
-import com.bucket.list.dto.MultiResponseWithMessageDto;
 import com.bucket.list.dto.SingleResponseDto;
 import com.bucket.list.dto.SingleResponseWithMessageDto;
 import com.bucket.list.member.dto.MemberRequestDto;
@@ -57,8 +56,8 @@ public class MemberController {
                                      @RequestBody MemberRequestDto.UpdateDto updateDto) {
     updateDto.setMemberId(memberId);
     Member member = memberService.updateMember(mapper.updateDtoToMember(updateDto));
-
-    return new ResponseEntity<>(new SingleResponseWithMessageDto(member, "SUCCESS"), HttpStatus.OK);
+    MemberResponseDto.UpdateDto memberInfo = mapper.memberToUpdateDto(member);
+    return new ResponseEntity<>(new SingleResponseWithMessageDto(memberInfo, "SUCCESS"), HttpStatus.OK);
   }
 
   @DeleteMapping("/{member-id}")

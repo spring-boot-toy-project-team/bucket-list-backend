@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 public class CompletedList {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long completedId;
 
   @Column(columnDefinition = "TEXT")
