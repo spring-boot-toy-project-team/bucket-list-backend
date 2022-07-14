@@ -8,7 +8,10 @@ public enum ExceptionCode {
     MEMBER_IS_SLEEP(404,"Member is sleep"),
     MEMBER_IS_QUIT(404,"Member is quit"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
-    INVALID_MEMBER_STATUS(400, "Invalid member status");
+    INVALID_MEMBER_STATUS(400, "Invalid member status"),
+    FIELD_ERROR(400,"field error"),
+    CONSTRAINT_VIOLATION_ERROR(400, "Constraint Violation Error"),
+    BUCKET_LIST_GROUP_NOT_FOUND(404, "bucketListGroup not found");
 
     @Getter
     private int status;

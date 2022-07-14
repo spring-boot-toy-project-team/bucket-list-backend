@@ -1,6 +1,7 @@
 package com.bucket.list.bucketList.entity;
 
 
+import com.bucket.list.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import java.util.List;
 public class BucketListGroup {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long bucketListGroupId;
 
     //처음 BuckListGroup을 만들때 한 번만 적는다
@@ -30,7 +31,18 @@ public class BucketListGroup {
     @OneToMany(mappedBy = "bucketListGroup")
     private List<BucketList> bucketLists = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+
     public void addBucketList(BucketList bucketList){
-        this.bucketLists.add(bucketList);
+        if(!this.bucketLists.contains(bucketList)){
+            this.bucketLists.add(bucketList);
+        }
+    }
+
+    public void  addMember(Member member){
+        this.member=member;
     }
 }

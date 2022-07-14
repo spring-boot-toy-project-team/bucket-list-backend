@@ -56,9 +56,8 @@ public class MemberController {
     public ResponseEntity updateMember(@Positive @PathVariable("member-id") long memberId, @RequestBody MemberRequestDto.UpdateDto updateDto) {
         updateDto.setMemberId(memberId);
         Member member = memberService.updateMember(updateDto);
-
-
-        return new ResponseEntity<>(new SingleResponseWithMessageDto(member,"SUCCESS"),HttpStatus.OK);
+        MemberResponseDto.UpdateDto memberInfo = mapper.memberToMemberUpdateDto(member);
+        return new ResponseEntity<>(new SingleResponseWithMessageDto(memberInfo,"SUCCESS"),HttpStatus.OK);
     }
 
     @DeleteMapping("/{member-id}")

@@ -1,30 +1,32 @@
-//package com.bucket.list.entity.bucketList.mapper;
-//
-//import com.bucket.list.entity.bucketList.dto.BucketListRequestDto;
-//import com.bucket.list.entity.bucketList.dto.BucketListResponseDto;
-//import com.bucket.list.entity.bucketList.entity.BucketListGroup;
-//import org.mapstruct.Mapper;
-//
-//import java.util.List;
-//
-//@Mapper(componentModel = "spring")
-//public interface BucketListGroupMapper {
+package com.bucket.list.bucketList.mapper;
 
-//    BucketListGroup createdBucketListGroupPost(BucketListRequestDto.createdBucketListGroup createdBucketListGroupDto);
-//    BucketListGroup updateBucketListGroupPost(BucketListRequestDto.updateBucketListGroup updateBucketListGroupDto);
-//    BucketListGroup findBucketListGroupPost(BucketListRequestDto.findBucketListGroup findBucketListGroupDto);
-//    BucketListGroup findBucketListsGroupPosts(BucketListRequestDto.findBucketListGroups findBucketListGroupsDto);
-//    BucketListGroup deleteBucketListGroupPost(BucketListRequestDto.deleteBucketListGroup deleteBucketListGroupDto);
-//
-//
-//    BucketListResponseDto.createdBucketListGroup createdBucketListGroupResponse(BucketListGroup bucketListGroup);
-//    BucketListResponseDto.updateBucketListGroup updateBucketListGroupResponse(BucketListGroup bucketListGroup);
-//    BucketListResponseDto.findBucketListGroup findBucketListGroupResponse(BucketListGroup bucketListGroup);
-//    BucketListResponseDto.findBucketListGroups findsBucketListGroupResponses(List<BucketListGroup> bucketListGroups);
-//    BucketListResponseDto.deleteBucketListGroup deleteBucketListGroupResponse(String message);
 
-//    BucketListGroup createdBucketListGroupPost(BucketListRequestDto.createdBucketListGroup createdBucketListGroupDto);
-//
-//
-//    BucketListResponseDto.createdBucketListGroup createdBucketListGroupResponse(BucketListGroup bucketListGroup);
-//}
+import com.bucket.list.bucketList.dto.BucketListGroupRequestDto;
+import com.bucket.list.bucketList.dto.BucketListGroupResponseDto;
+import com.bucket.list.bucketList.entity.BucketListGroup;
+import com.bucket.list.member.dto.MemberResponseDto;
+import com.bucket.list.member.entity.Member;
+import org.mapstruct.Mapper;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring")
+public interface BucketListGroupMapper {
+
+   default BucketListGroup groupDtoToBucketListGroup(BucketListGroupRequestDto.GroupDto groupDto){
+       BucketListGroup bucketListGroup = new BucketListGroup();
+       Member member = new Member();
+       member.setMemberId(groupDto.getMemberId());
+       bucketListGroup.setTitle(groupDto.getTitle());
+       bucketListGroup.setMember(member);
+       return bucketListGroup;
+   }
+
+   BucketListGroupResponseDto.CreateGroupDto bucketListGroupToCreateGroupDto(BucketListGroup bucketListGroup);
+
+    BucketListGroupResponseDto.GroupInfo bucketListGroupToGroupInfo(BucketListGroup bucketListGroup);
+
+    List<BucketListGroupResponseDto.GroupInfo> bucketListGroupsToGroupsInfo(List<BucketListGroup> bucketListGroups);
+
+
+}

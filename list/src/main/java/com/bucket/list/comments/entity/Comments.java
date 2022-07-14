@@ -19,7 +19,7 @@ import java.util.List;
 public class Comments {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentsId;
 
     @ManyToOne

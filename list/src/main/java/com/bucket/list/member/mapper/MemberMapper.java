@@ -12,4 +12,6 @@ public interface MemberMapper {
     MemberResponseDto.MemberInfo memberToMemberInfo(Member member);
 
     Member updateDtoToMember(MemberRequestDto.UpdateDto updateDto);
+
+    MemberResponseDto.UpdateDto memberToMemberUpdateDto(Member member);
 }

@@ -1,74 +1,49 @@
-//package com.bucket.list.entity.bucketList.service;
-//
-//import com.bucket.list.entity.bucketList.entity.BucketListGroup;
-//import com.bucket.list.entity.member.entity.Member;
-//import com.bucket.list.entity.bucketList.repository.BucketListGroupRepository;
-//import com.bucket.list.entity.member.repository.MemberRepository;
-//import com.bucket.list.entity.member.service.MemberService;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@Service
-//public class BucketListGroupService {
-//    private final MemberService memberService;
-//    private final MemberRepository memberRepository;
-//    private final BucketListGroupRepository bucketListGroupRepository;
-//
-//    public BucketListGroupService(MemberService memberService, MemberRepository memberRepository, BucketListGroupRepository bucketListGroupRepository) {
-//        this.memberService = memberService;
-//        this.memberRepository = memberRepository;
-//        this.bucketListGroupRepository = bucketListGroupRepository;
-//    }
-//
-//
-//    //버킷 리스트 그룹 등록
-//    public BucketListGroup createBucketListGroup(BucketListGroup bucketListGroup){
-//        verifieBucketListGroup(bucketListGroup.getBucketListGroupId());
-//        return bucketListGroupRepository.save(bucketListGroup);
-//    }
-//
-//    //버킷 리스트 그룹 조회
-//    public BucketListGroup findBucketListGroup(long bucketListGroupId){
-//        BucketListGroup findBucketListGroup = verifieBucketListGroup(bucketListGroupId);
-//        return findBucketListGroup;
-//    }
-//
-//    //버킷 리스트 그룹들 조회
-//    public List<BucketListGroup> findBucketListGroups(long memberId){
-//        Member member = memberService.findMembers(memberId);
-//        List<BucketListGroup> findBucketListGroups = findBucketListGroups(memberId);
-//        return findBucketListGroups;
-//    }
-//
-//    //버킷 리스트 그룹들 조회
-//    public List<BucketListGroup> findBucketListGroups(){
-//        return (List<BucketListGroup>) bucketListGroupRepository.findAll();
-//    }
-//
-//    //버킷 리스트 그룹 삭제
-//    public void deleteBucketListGroup(long bucketListGroupId){
-//        BucketListGroup deleteBucketListGroup = verifieBucketListGroup(bucketListGroupId);
-//        bucketListGroupRepository.delete(deleteBucketListGroup);
-//    }
-//
-//    //버킷 리스트 그룹 변경
-//    public BucketListGroup updateBucketListGroup(long memberId){
-//        Member member = verifieMember(memberId);
-//        BucketListGroup updateBucketListGroup = updateBucketListGroup(memberId);
-//        return bucketListGroupRepository.save(updateBucketListGroup);
-//    }
-//
-//    public BucketListGroup verifieBucketListGroup(long bucketListGroupId){
-//        Optional<BucketListGroup> optionalBucketListGroup = bucketListGroupRepository.findById(bucketListGroupId);
-//        BucketListGroup findBuckListGroup = optionalBucketListGroup.get();
-//        return findBuckListGroup;
-//    }
-//
-//    public Member verifieMember(long memberId){
-//        Optional<Member> optionalMember = memberRepository.findById(memberId);
-//        Member findMember = optionalMember.get();
-//        return findMember;
-//    }
-//}
+package com.bucket.list.bucketList.service;
+
+import com.bucket.list.bucketList.entity.BucketListGroup;
+import com.bucket.list.bucketList.repository.BucketListGroupRepository;
+import com.bucket.list.exception.BusinessLogicException;
+import com.bucket.list.exception.ExceptionCode;
+import com.bucket.list.member.entity.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+
+@Service
+public class BucketListGroupService {
+
+    private final BucketListGroupRepository bucketListGroupRepository;
+
+    public BucketListGroupService(BucketListGroupRepository bucketListGroupRepository) {
+        this.bucketListGroupRepository = bucketListGroupRepository;
+    }
+
+    public BucketListGroup createGroup(BucketListGroup bucketListGroup){
+        return bucketListGroupRepository.save(bucketListGroup);
+    }
+
+    @Transactional(readOnly = true)
+    public BucketListGroup findBucketListGroup(long bucketListGroupId){
+        return findVerifiedGroup(bucketListGroupId);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<BucketListGroup> finBucketListGroups(int page,int size){
+        return bucketListGroupRepository.findAll(PageRequest.of(page,size, Sort.by("bucketListGroupId").descending()));
+    }
+
+    @Transactional(readOnly = true)
+    public BucketListGroup findVerifiedGroup(long bucketListGroupId) {
+        Optional<BucketListGroup> optionalBucketListGroup = bucketListGroupRepository.findById(bucketListGroupId);
+
+        BucketListGroup bucketListGroup = optionalBucketListGroup
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_GROUP_NOT_FOUND));
+
+        return bucketListGroup;
+    }
+}

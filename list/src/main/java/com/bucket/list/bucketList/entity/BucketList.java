@@ -14,8 +14,8 @@ import javax.persistence.*;
 public class BucketList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long buckListId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long bucketListId;
 
     @ManyToOne
     @JoinColumn(name = "BUCKET_LIST_GROUP_ID")
