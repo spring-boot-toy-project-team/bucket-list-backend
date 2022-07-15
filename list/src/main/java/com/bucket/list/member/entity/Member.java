@@ -1,5 +1,6 @@
 package com.bucket.list.member.entity;
 
+import com.bucket.list.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Member {
+public class Member extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,12 +36,7 @@ public class Member {
 
     @Column(unique = true)
     private String password;
-
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    
 
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;

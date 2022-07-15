@@ -1,6 +1,7 @@
 package com.bucket.list.comments.entity;
 
 
+import com.bucket.list.audit.Auditable;
 import com.bucket.list.completList.entity.CompletedList;
 import com.bucket.list.member.entity.Member;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Comments {
+public class Comments extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +36,6 @@ public class Comments {
 
     private String contents;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     public void addMember(Member member){
         this.member=member;

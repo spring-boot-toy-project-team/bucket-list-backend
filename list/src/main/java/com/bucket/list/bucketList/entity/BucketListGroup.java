@@ -1,10 +1,12 @@
 package com.bucket.list.bucketList.entity;
 
 
+import com.bucket.list.listener.YearListener;
 import com.bucket.list.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
+@EntityListeners(value = YearListener.class)
 public class BucketListGroup {
 
     @Id

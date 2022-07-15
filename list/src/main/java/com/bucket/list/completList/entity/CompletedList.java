@@ -1,6 +1,7 @@
 package com.bucket.list.completList.entity;
 
 
+import com.bucket.list.audit.Auditable;
 import com.bucket.list.bucketList.entity.BucketList;
 import com.bucket.list.comments.entity.Comments;
 import com.bucket.list.tag.entity.CompletedListTag;
@@ -17,7 +18,7 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-public class CompletedList {
+public class CompletedList extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,10 +41,6 @@ public class CompletedList {
     private List<Img> imgList = new ArrayList<>();
 
     private String contents;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     private long likeCount;
 

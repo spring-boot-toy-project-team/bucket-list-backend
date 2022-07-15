@@ -1,6 +1,7 @@
 package com.bucket.list.comments.entity;
 
 
+import com.bucket.list.audit.Auditable;
 import com.bucket.list.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @NoArgsConstructor
-public class ReComments {
+public class ReComments extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +32,6 @@ public class ReComments {
     private Comments comments;
 
     private String contents;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     public void addMember(Member member){
         this.member=member;
