@@ -27,8 +27,5 @@ public class MemberResponseDto {
         private String tel;
         private String introduction;
         private String profileImg;
-        private long memberId;
-        private String status;
-        private String password;
     }
 }

@@ -13,7 +13,7 @@ public class BucketListGroupRequestDto {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class GroupDto{
+    public static class CreateGroupDto{
 
         @NotNull
         private long memberId;
@@ -21,6 +21,21 @@ public class BucketListGroupRequestDto {
         @NotBlank
         private String title;
 
+    }
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UpdateGroupDto{
+
+        @NotNull
+        private long bucketGroupId;
+
+        @NotNull
+        private long memberId;
+
+        @NotBlank
+        private String title;
     }
 
 }

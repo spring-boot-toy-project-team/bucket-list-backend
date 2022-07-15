@@ -41,7 +41,6 @@ public class MemberService {
                 .ifPresent(password->findMember.setPassword(password));
         Optional.ofNullable(updateDto.getStatus())
                 .ifPresent(status->findMember.setMemberStatus(findMember.getMemberStatus()));
-        findMember.setModifiedAt(LocalDateTime.now());
 
         return memberRepository.save(findMember);
     }

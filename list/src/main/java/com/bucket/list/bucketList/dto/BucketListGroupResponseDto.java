@@ -32,4 +32,6 @@ public class BucketListGroupResponseDto {
         private int year;
     }
 
+
+
 }

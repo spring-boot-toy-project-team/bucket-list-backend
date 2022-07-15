@@ -4,16 +4,16 @@ package com.bucket.list.bucketList.mapper;
 import com.bucket.list.bucketList.dto.BucketListGroupRequestDto;
 import com.bucket.list.bucketList.dto.BucketListGroupResponseDto;
 import com.bucket.list.bucketList.entity.BucketListGroup;
-import com.bucket.list.member.dto.MemberResponseDto;
 import com.bucket.list.member.entity.Member;
 import org.mapstruct.Mapper;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface BucketListGroupMapper {
 
-   default BucketListGroup groupDtoToBucketListGroup(BucketListGroupRequestDto.GroupDto groupDto){
+   default BucketListGroup groupDtoToBucketListGroup(BucketListGroupRequestDto.@Valid CreateGroupDto groupDto){
        BucketListGroup bucketListGroup = new BucketListGroup();
        Member member = new Member();
        member.setMemberId(groupDto.getMemberId());
@@ -28,5 +28,6 @@ public interface BucketListGroupMapper {
 
     List<BucketListGroupResponseDto.GroupInfo> bucketListGroupsToGroupsInfo(List<BucketListGroup> bucketListGroups);
 
+BucketListGroup updateGroupDtoToBucketListGroup(BucketListGroupRequestDto.UpdateGroupDto updateGroupDto);
 
 }

@@ -37,6 +37,18 @@ public class BucketListGroupService {
         return bucketListGroupRepository.findAll(PageRequest.of(page,size, Sort.by("bucketListGroupId").descending()));
     }
 
+    public void deleteBucketListGroup(long bucketListGroupId){
+        BucketListGroup bucketListGroup = findVerifiedGroup(bucketListGroupId);
+        bucketListGroupRepository.delete(bucketListGroup);
+    }
+
+    public BucketListGroup updateGroup(BucketListGroup updateGroupDtoToBucketListGroup){
+       BucketListGroup findBucketListGroup = findBucketListGroup(updateGroupDtoToBucketListGroup.getBucketListGroupId());
+        Optional.ofNullable(updateGroupDtoToBucketListGroup.getTitle())
+                .ifPresent(findBucketListGroup::setTitle);
+        return findBucketListGroup;
+    }
+
     @Transactional(readOnly = true)
     public BucketListGroup findVerifiedGroup(long bucketListGroupId) {
         Optional<BucketListGroup> optionalBucketListGroup = bucketListGroupRepository.findById(bucketListGroupId);
@@ -46,4 +58,6 @@ public class BucketListGroupService {
 
         return bucketListGroup;
     }
+
+
 }
