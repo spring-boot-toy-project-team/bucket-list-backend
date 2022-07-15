@@ -1,11 +1,11 @@
 package com.bucket.list.member.entity;
 
+import com.bucket.list.audit.Auditable;
 import com.bucket.list.bucketList.entity.BucketListGroup;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Member {
+public class Member extends Auditable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long memberId;
@@ -33,10 +33,6 @@ public class Member {
   private String introduction;
 
   private String profileImg;
-
-  private LocalDateTime createdAt = LocalDateTime.now();
-
-  private LocalDateTime modifiedAt = LocalDateTime.now();
 
   @Enumerated(value = EnumType.STRING)
   @Column(length = 20, nullable = false)

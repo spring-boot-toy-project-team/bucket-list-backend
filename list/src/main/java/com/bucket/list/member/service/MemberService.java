@@ -40,7 +40,6 @@ public class MemberService {
     Optional.ofNullable(member.getProfileImg()).ifPresent(findMember::setProfileImg);
     Optional.ofNullable(member.getPassword()).ifPresent(findMember::setPassword);
     Optional.ofNullable(member.getMemberStatus()).ifPresent(findMember::setMemberStatus);
-    findMember.setModifiedAt(LocalDateTime.now());
 
     return memberRepository.save(findMember);
   }
