@@ -29,8 +29,8 @@ public class BucketListGroupController {
 
   // 그룹 등록
   @PostMapping
-  public ResponseEntity createGroup(@RequestBody @Valid BucketListGroupRequestDto.GroupDto groupDto) {
-    BucketListGroup bucketListGroup = bucketListGroupService.createGroup(mapper.groupDtoToBucketListGroup(groupDto));
+  public ResponseEntity createGroup(@RequestBody @Valid BucketListGroupRequestDto.CreateGroupDto createGroupDto) {
+    BucketListGroup bucketListGroup = bucketListGroupService.createGroup(mapper.createGroupDtoToBucketListGroup(createGroupDto));
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.bucketListGroupToCreateGroupDto(bucketListGroup),
       "CREATED"), HttpStatus.CREATED);
   }
@@ -54,14 +54,24 @@ public class BucketListGroupController {
       pageGroups),
       HttpStatus.OK);
   }
-//  // 그룹 삭제
-//  @DeleteMapping("/{group-id}")
-//  public ResponseEntity deleteGroup(@Positive @PathVariable("group-id") long bucketListGroupId) {
-//    return new ResponseEntity<>();
-//  }
-//  // 그룹 변경
-//  @PatchMapping("/{group-id}")
-//  public ResponseEntity updateGroup(@Positive @PathVariable("group-id") long bucketListGroupId) {
-//    return new ResponseEntity<>();
-//  }
+  // 그룹 삭제
+  @DeleteMapping("/{group-id}")
+  public ResponseEntity deleteGroup(@Positive @PathVariable("group-id") long bucketListGroupId) {
+    bucketListGroupService.deleteBucketListGroup(bucketListGroupId);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+  // 그룹 변경
+  @PatchMapping("/{group-id}")
+  public ResponseEntity updateGroup(@Positive @PathVariable("group-id") long bucketListGroupId,
+                                    @RequestBody @Valid BucketListGroupRequestDto.UpdateGroupDto updateGroupDto) {
+    updateGroupDto.setBucketListGroupId(bucketListGroupId);
+    BucketListGroup bucketListGroup =  bucketListGroupService.updateGroup(
+      mapper.updateGroupDtoToBucketListGroup(updateGroupDto)
+    );
+
+    return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.bucketListGroupToGroupInfo(bucketListGroup),
+      "SUCCESS"),
+      HttpStatus.OK
+    );
+  }
 }

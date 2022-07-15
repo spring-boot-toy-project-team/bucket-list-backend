@@ -60,7 +60,7 @@ class MemberControllerTest {
       .introduction("홍길동11 입니다.")
       .nickName("홍길동11")
       .password("1234")
-      .tel("010-1234-5678")
+      .tel("010-1234-5679")
       .build();
     String content = gson.toJson(signUpDto);
 

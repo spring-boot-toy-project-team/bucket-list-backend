@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface BucketListGroupMapper {
-  default BucketListGroup groupDtoToBucketListGroup(BucketListGroupRequestDto.GroupDto groupDto) {
+  default BucketListGroup createGroupDtoToBucketListGroup(BucketListGroupRequestDto.CreateGroupDto groupDto) {
     BucketListGroup bucketListGroup = new BucketListGroup();
     Member member = new Member();
     member.setMemberId(groupDto.getMemberId());
@@ -23,4 +23,6 @@ public interface BucketListGroupMapper {
   BucketListGroupResponseDto.GroupInfo bucketListGroupToGroupInfo(BucketListGroup bucketListGroup);
 
   List<BucketListGroupResponseDto.GroupInfo> bucketListGroupsToGroupInfo(List<BucketListGroup> bucketListGroups);
+
+  BucketListGroup updateGroupDtoToBucketListGroup(BucketListGroupRequestDto.UpdateGroupDto updateGroupDto);
 }

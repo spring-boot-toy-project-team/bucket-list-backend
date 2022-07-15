@@ -34,6 +34,21 @@ public class BucketListGroupService {
       Sort.by("bucketListGroupId").descending()));
   }
 
+  // TO-DO : memberId에 해당하고 BucketListGroupId가 일치하면 삭제하도록 설정 필요
+  public void deleteBucketListGroup(long bucketListGroupId) {
+     BucketListGroup bucketListGroup = findVerifiedGroup(bucketListGroupId);
+     bucketListGroupRepository.delete(bucketListGroup);
+  }
+
+  // TO-DO : memberId에 해당하고 BucketListGroupId가 일치하면 변경 가능하도록 설정 필요
+  public BucketListGroup updateGroup(BucketListGroup updateGroupDtoToBucketListGroup) {
+    BucketListGroup findBucketListGroup = findBucketListGroup(updateGroupDtoToBucketListGroup.getBucketListGroupId());
+    Optional.ofNullable(updateGroupDtoToBucketListGroup.getTitle())
+      .ifPresent(findBucketListGroup::setTitle);
+
+    return bucketListGroupRepository.save(findBucketListGroup);
+  }
+
   // TO-DO : memberId에 해당하는 BucketListGroup 조회 로직 추가
   @Transactional(readOnly = true)
   public BucketListGroup findVerifiedGroup(long bucketListGroupId) {
@@ -44,6 +59,4 @@ public class BucketListGroupService {
 
     return bucketListGroup;
   }
-
-
 }
