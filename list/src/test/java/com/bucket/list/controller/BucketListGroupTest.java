@@ -52,7 +52,7 @@ public class BucketListGroupTest {
 
     @Autowired
     private BucketListGroupMapper mapper;
-
+/**
 //    @BeforeEach
 //    public void init() throws Exception{
 //        //given
@@ -89,6 +89,7 @@ public class BucketListGroupTest {
 //                        .content(content)
 //        );
 //    }
+ */
     @Test
     @DisplayName("버킷리스트 그룹생성 테스트")
     public void createBucketGroup() throws Exception{
