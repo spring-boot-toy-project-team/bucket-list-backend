@@ -28,8 +28,7 @@ public class BucketListGroupRequestDto {
     @AllArgsConstructor
     public static class UpdateGroupDto{
 
-        @NotNull
-        private long bucketGroupId;
+        private long bucketListGroupId;
 
         @NotNull
         private long memberId;

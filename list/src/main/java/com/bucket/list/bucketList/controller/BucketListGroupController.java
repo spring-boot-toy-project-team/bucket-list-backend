@@ -65,8 +65,8 @@ public class BucketListGroupController {
 
     //그룹 변경
     @PatchMapping("/{group-id}")
-    public ResponseEntity updateGroup(@PathVariable("group-id") @Positive long bucketListGroupId, @RequestBody @Valid BucketListGroupRequestDto.UpdateGroupDto updateGroupDto){
-        updateGroupDto.setBucketGroupId(bucketListGroupId);
+    public ResponseEntity updateGroup(@Positive @PathVariable("group-id") @Positive long bucketListGroupId, @RequestBody @Valid BucketListGroupRequestDto.UpdateGroupDto updateGroupDto){
+        updateGroupDto.setBucketListGroupId(bucketListGroupId);
         BucketListGroup bucketListGroup =bucketListGroupService.updateGroup(mapper.updateGroupDtoToBucketListGroup(updateGroupDto));
         return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.bucketListGroupToGroupInfo(bucketListGroup),"SUCCESS"),HttpStatus.OK);
     }
