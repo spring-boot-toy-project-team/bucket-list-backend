@@ -41,9 +41,9 @@ public class BucketListGroupService {
   }
 
   // TO-DO : memberId에 해당하고 BucketListGroupId가 일치하면 변경 가능하도록 설정 필요
-  public BucketListGroup updateGroup(BucketListGroup updateGroupDtoToBucketListGroup) {
-    BucketListGroup findBucketListGroup = findBucketListGroup(updateGroupDtoToBucketListGroup.getBucketListGroupId());
-    Optional.ofNullable(updateGroupDtoToBucketListGroup.getTitle())
+  public BucketListGroup updateGroup(BucketListGroup bucketListGroup) {
+    BucketListGroup findBucketListGroup = findBucketListGroup(bucketListGroup.getBucketListGroupId());
+    Optional.ofNullable(bucketListGroup.getTitle())
       .ifPresent(findBucketListGroup::setTitle);
 
     return bucketListGroupRepository.save(findBucketListGroup);

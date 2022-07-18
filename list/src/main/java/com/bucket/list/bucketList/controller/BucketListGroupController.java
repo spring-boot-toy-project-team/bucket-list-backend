@@ -1,7 +1,6 @@
 package com.bucket.list.bucketList.controller;
 
 import com.bucket.list.bucketList.dto.BucketListGroupRequestDto;
-import com.bucket.list.bucketList.dto.BucketListGroupResponseDto;
 import com.bucket.list.bucketList.entity.BucketListGroup;
 import com.bucket.list.bucketList.mapper.BucketListGroupMapper;
 import com.bucket.list.bucketList.service.BucketListGroupService;

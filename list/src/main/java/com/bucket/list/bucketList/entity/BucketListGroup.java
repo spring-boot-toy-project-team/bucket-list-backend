@@ -26,7 +26,7 @@ public class BucketListGroup {
   @Column(length = 300)
   private String title;
 
-  @OneToMany(mappedBy = "bucketListGroup")
+  @OneToMany(mappedBy = "bucketListGroup", cascade = CascadeType.ALL)
   private List<BucketList> bucketLists = new ArrayList<>();
 
   @ManyToOne

@@ -28,6 +28,14 @@ public class BucketList {
   @OneToOne(mappedBy = "bucketList")
   private CompletedList completedList;
 
+  public boolean getIsCompleted() {
+    return this.isCompleted;
+  }
+
+  public void setIsCompleted(boolean isCompleted) {
+    this.isCompleted = isCompleted;
+  }
+
   public void addCompletedList(CompletedList completedList) {
     this.completedList = completedList;
   }

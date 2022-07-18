@@ -11,7 +11,8 @@ public enum ExceptionCode {
   CONSTRAINT_VIOLATION_ERROR(400, "Constraint Violation Error"),
   NOT_IMPLEMENTATION(501, "Not Implementation"),
   INVALID_MEMBER_STATUS(400, "Invalid member status"),
-  BUCKET_LIST_GROUP_NOT_FOUND(404, "Bucket List Group not found" );
+  BUCKET_LIST_GROUP_NOT_FOUND(404, "Bucket List Group not found" ),
+  BUCKET_LIST_NOT_FOUND(404, "Bucket List not found" );
 
   @Getter
   private int status;
