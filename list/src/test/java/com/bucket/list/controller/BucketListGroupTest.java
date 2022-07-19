@@ -176,40 +176,40 @@ public class BucketListGroupTest {
                 .andReturn();
     }
 
-    @Test
-    @DisplayName("버킷리스트 그룹들 조회")
-    public void getBucketListGroups() throws Exception{
-        List<BucketListGroup> bucketListGroupList = new ArrayList<>();
-        int page =1;
-        int size =2;
-       int totalElements = 4;
-       for(int i=0;i<totalElements;i++){
-           BucketListGroup bucketListGroup = new BucketListGroup();
-           bucketListGroup.setBucketListGroupId((long) i);
-           bucketListGroup.setTitle("sun"+i);
-           bucketListGroup.setMember(new Member());
-           bucketListGroupList.add(bucketListGroup);
-       }
-       Page<BucketListGroup> groupPage = new PageImpl<>(bucketListGroupList, PageRequest.of(page-1,size, Sort.by("bucketListGroupId").descending()),bucketListGroupList.size());
-
-       given(bucketListGroupService.finBucketListGroups(Mockito.anyInt(),Mockito.anyInt())).willReturn(groupPage);
-
-        ResultActions actions = mockMvc.perform(
-                get("/bucket-groups")
-                        .param("page", String.valueOf(page))
-                        .param("size", String.valueOf(size))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-        );
-
-        MvcResult result = actions
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.pageInfo.page").value(page))
-                .andExpect(jsonPath("$.pageInfo.size").value(size))
-                .andExpect(jsonPath("$.pageInfo.totalElements").value(totalElements))
-                .andReturn();
-
-    }
+//    @Test
+//    @DisplayName("버킷리스트 그룹들 조회")
+//    public void getBucketListGroups() throws Exception{
+//        List<BucketListGroup> bucketListGroupList = new ArrayList<>();
+//        int page =1;
+//        int size =2;
+//       int totalElements = 4;
+//       for(int i=0;i<totalElements;i++){
+//           BucketListGroup bucketListGroup = new BucketListGroup();
+//           bucketListGroup.setBucketListGroupId((long) i);
+//           bucketListGroup.setTitle("sun"+i);
+//           bucketListGroup.setMember(new Member());
+//           bucketListGroupList.add(bucketListGroup);
+//       }
+//       Page<BucketListGroup> groupPage = new PageImpl<>(bucketListGroupList, PageRequest.of(page-1,size, Sort.by("bucketListGroupId").descending()),bucketListGroupList.size());
+//
+//       given(bucketListGroupService.finBucketListGroups(Mockito.anyInt(),Mockito.anyInt())).willReturn(groupPage);
+//
+//        ResultActions actions = mockMvc.perform(
+//                get("/bucket-groups")
+//                        .param("page", String.valueOf(page))
+//                        .param("size", String.valueOf(size))
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//        );
+//
+//        MvcResult result = actions
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.pageInfo.page").value(page))
+//                .andExpect(jsonPath("$.pageInfo.size").value(size))
+//                .andExpect(jsonPath("$.pageInfo.totalElements").value(totalElements))
+//                .andReturn();
+//
+//    }
     @Test
     @DisplayName("버킷리스트그룹 삭제")
     public void deleteBucketGroup() throws Exception{

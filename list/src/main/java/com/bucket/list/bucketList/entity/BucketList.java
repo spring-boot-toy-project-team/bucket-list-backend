@@ -28,7 +28,17 @@ public class BucketList {
     @Column(length = 500)
     private String target;
 
-    private Boolean isComplete;
+    private boolean isCompleted;
+
+    public boolean getIsCompleted() {
+        return this.isCompleted;
+    }
+
+    public void setIsCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
+
+
 
     public void addBucketListGroup(BucketListGroup bucketListGroup){
         this.bucketListGroup = bucketListGroup;
