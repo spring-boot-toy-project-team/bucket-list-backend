@@ -19,7 +19,13 @@ public interface BucketListMapper {
     bucketList.setBucketListGroup(bucketListGroup);
     return bucketList;
   }
-  BucketListResponseDto.BucketListInfo bucketListToBucketListInfo(BucketList bucketList);
+  default BucketListResponseDto.BucketListInfo bucketListToBucketListInfo(BucketList bucketList) {
+    return BucketListResponseDto.BucketListInfo.builder()
+      .bucketListId(bucketList.getBucketListId())
+      .completed(bucketList.getCompleted())
+      .target(bucketList.getTarget())
+      .build();
+  }
   List<BucketListResponseDto.BucketListInfo> bucketListsToBucketListInfo(List<BucketList> bucketLists);
   default BucketList updateBucketListDtoToBucketList(BucketListRequestDto.UpdateBucketListDto updateBucketListDto) {
     BucketListGroup bucketListGroup = new BucketListGroup();

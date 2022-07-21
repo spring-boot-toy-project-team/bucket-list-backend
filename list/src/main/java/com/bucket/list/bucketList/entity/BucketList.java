@@ -19,7 +19,7 @@ public class BucketList {
   @Column(length = 500)
   private String target;
 
-  private boolean isCompleted;
+  private Boolean completed = false;
 
   @ManyToOne
   @JoinColumn(name = "BUCKET_LIST_GROUP_ID")
@@ -28,19 +28,14 @@ public class BucketList {
   @OneToOne(mappedBy = "bucketList")
   private CompletedList completedList;
 
-  public boolean getIsCompleted() {
-    return this.isCompleted;
+  public boolean getCompleted() {
+    return this.completed;
   }
 
-  public void setIsCompleted(boolean isCompleted) {
-    this.isCompleted = isCompleted;
-  }
-
-  public void addCompletedList(CompletedList completedList) {
-    this.completedList = completedList;
-  }
 
   public void addBucketListGroup(BucketListGroup bucketListGroup) {
     this.bucketListGroup = bucketListGroup;
   }
+
+
 }

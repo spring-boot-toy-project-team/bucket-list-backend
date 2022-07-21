@@ -30,6 +30,6 @@ public class BucketListRequestDto {
     @NotBlank
     private String target;
     @NotNull
-    private boolean isComplete;
+    private boolean completed;
   }
 }

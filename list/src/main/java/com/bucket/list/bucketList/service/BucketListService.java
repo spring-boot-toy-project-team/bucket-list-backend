@@ -45,7 +45,7 @@ public class BucketListService {
       bucketList.getBucketListId());
 
     Optional.ofNullable(bucketList.getTarget()).ifPresent(findBucketList::setTarget);
-    Optional.of(bucketList.getIsCompleted()).ifPresent(findBucketList::setIsCompleted);
+    Optional.ofNullable(bucketList.getCompleted()).ifPresent(findBucketList::setCompleted);
     return bucketListRepository.save(findBucketList);
   }
 
