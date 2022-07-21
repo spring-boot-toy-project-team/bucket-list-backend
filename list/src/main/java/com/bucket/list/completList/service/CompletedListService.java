@@ -6,6 +6,7 @@ import com.bucket.list.completList.entity.CompletedList;
 import com.bucket.list.completList.repository.CompletedListRepository;
 import com.bucket.list.exception.BusinessLogicException;
 import com.bucket.list.exception.ExceptionCode;
+import com.bucket.list.util.TagsHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +55,8 @@ public class CompletedListService {
         CompletedList findCompletedList = findCompletedList(completedList.getBucketList().getBucketListId(),
                 completedList.getCompletedListId());
 
-
+        Optional.ofNullable(completedList.getTags())
+                .ifPresent(tags -> findCompletedList.setTags(TagsHelper.duplicateCheck(tags)));
         Optional.ofNullable(completedList.getContents()).ifPresent(findCompletedList::setContents);
         return completedListRepository.save(findCompletedList);
     }

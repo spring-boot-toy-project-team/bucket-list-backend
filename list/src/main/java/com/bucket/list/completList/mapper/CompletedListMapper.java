@@ -5,7 +5,6 @@ import com.bucket.list.bucketList.entity.BucketListGroup;
 import com.bucket.list.completList.dto.CompletedListRequestDto;
 import com.bucket.list.completList.dto.CompletedListResponseDto;
 import com.bucket.list.completList.entity.CompletedList;
-import com.bucket.list.tag.dto.TagResponseDto;
 import com.bucket.list.tag.entity.CompletedListTag;
 import com.bucket.list.tag.entity.Tag;
 import org.mapstruct.Mapper;
@@ -13,7 +12,6 @@ import org.mapstruct.Mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.fasterxml.jackson.databind.util.ClassUtil.name;
 
 @Mapper(componentModel = "spring")
 public interface CompletedListMapper {
