@@ -3,16 +3,18 @@ package com.bucket.list.completedList.entity;
 import com.bucket.list.completedList.entity.CompletedList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Img {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long imgId;
 
   private LocalDateTime createdAt = LocalDateTime.now();

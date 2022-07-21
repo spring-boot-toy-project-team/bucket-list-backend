@@ -2,22 +2,23 @@ package com.bucket.list.completedList.entity;
 
 import com.bucket.list.bucketList.entity.BucketList;
 import com.bucket.list.comment.entity.Comments;
-import com.bucket.list.tag.entity.CompletedListTag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class CompletedList {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private long completedId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long completedListId;
 
   @Column(columnDefinition = "TEXT")
   private String contents;
@@ -29,8 +30,8 @@ public class CompletedList {
   @OneToMany(mappedBy = "completedList")
   List<Img> imgs = new ArrayList<>();
 
-  @OneToMany(mappedBy = "completedList")
-  private List<CompletedListTag> completedListTags;
+  @Column(columnDefinition = "TEXT")
+  private String tags;
 
   @OneToOne
   @JoinColumn(name = "BUCKET_LIST_ID")
@@ -56,11 +57,6 @@ public class CompletedList {
 
   public void addBucketList(BucketList bucketList) {
     this.bucketList = bucketList;
-  }
-
-  public void addCompletedListTag(CompletedListTag completedListTag) {
-    if(!completedListTags.contains(completedListTag))
-      this.completedListTags.add(completedListTag);
   }
 
   public void addImg(Img img) {
