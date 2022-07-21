@@ -30,9 +30,7 @@ public class CompletedListService {
         .getBucketListGroup().getBucketListGroupId(),
       completedList.getBucketList().getBucketListId());
 
-    // bucketListService 쪽으로 comleted 바꿔주는거 넣어 주고 여기서 호출
-    bucketList.setCompleted(true);
-    bucketListService.updateBucketList(bucketList);
+    bucketListService.updateCompleted(bucketList, true);
 
     findIfExistsError(completedList.getBucketList().getBucketListId());
     return completedListRepository.save(completedList);
@@ -49,8 +47,6 @@ public class CompletedListService {
     // TO-DO : 파일 변경 로직 수행
     CompletedList findCompletedList = findCompletedList(completedList.getBucketList().getBucketListId(),
       completedList.getCompletedListId());
-    // 태그 변경 필요
-
 
     Optional.ofNullable(completedList.getTags())
       .ifPresent(tags -> findCompletedList.setTags(TagsHelper.duplicateCheck(tags)));
@@ -60,8 +56,7 @@ public class CompletedListService {
 
   public void deleteCompletedList(long groupId, long bucketListId, long completedListId) {
     BucketList bucketList = bucketListService.findBucketList(groupId, bucketListId);
-    bucketList.setCompleted(false);
-    bucketListService.updateBucketList(bucketList);
+    bucketListService.updateCompleted(bucketList, false);
     CompletedList completedList = findCompletedList(bucketListId, completedListId);
     completedListRepository.delete(completedList);
   }

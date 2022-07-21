@@ -58,4 +58,9 @@ public class BucketListService {
 
     return bucketList;
   }
+
+  public void updateCompleted(BucketList bucketList, boolean completed) {
+    bucketList.setCompleted(completed);
+    bucketListRepository.save(bucketList);
+  }
 }
