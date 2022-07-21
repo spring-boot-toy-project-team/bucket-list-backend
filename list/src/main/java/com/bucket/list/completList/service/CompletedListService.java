@@ -54,7 +54,6 @@ public class CompletedListService {
         CompletedList findCompletedList = findCompletedList(completedList.getBucketList().getBucketListId(),
                 completedList.getCompletedListId());
 
-        Optional.ofNullable(completedList.getTags()).ifPresent(tags -> findCompletedList.getTags());
 
         Optional.ofNullable(completedList.getContents()).ifPresent(findCompletedList::setContents);
         return completedListRepository.save(findCompletedList);
