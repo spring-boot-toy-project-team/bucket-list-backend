@@ -22,19 +22,21 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    private ErrorResponse(HttpStatus httpStatus,String message,  List<FieldError> fieldErrors,
-                          final List<ConstraintViolationError> violationErrors) {
+    private ErrorResponse(HttpStatus httpStatus,
+                          String message,
+                          List<FieldError> fieldErrors,
+                          List<ConstraintViolationError> violationErrors) {
+        this.message = message;
         this.status = httpStatus.value();
         this.fieldErrors = fieldErrors;
         this.violationErrors = violationErrors;
-        this.message = message;
     }
 
     public static ErrorResponse of(HttpStatus httpStatus, BindingResult bindingResult) {
-        return new ErrorResponse(httpStatus,ExceptionCode.FIELD_ERROR.getMessage(),FieldError.of(bindingResult), null);
+        return new ErrorResponse(httpStatus, ExceptionCode.FIELD_ERROR.getMessage(), FieldError.of(bindingResult), null);
     }
 
-    public static ErrorResponse of(HttpStatus httpStatus,Set<ConstraintViolation<?>> violations) {
+    public static ErrorResponse of(HttpStatus httpStatus, Set<ConstraintViolation<?>> violations) {
         return new ErrorResponse(httpStatus, ExceptionCode.CONSTRAINT_VIOLATION_ERROR.getMessage(), null, ConstraintViolationError.of(violations));
     }
 

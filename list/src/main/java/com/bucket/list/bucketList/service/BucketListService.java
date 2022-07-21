@@ -11,62 +11,56 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.Positive;
 import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class BucketListService {
+  private final BucketListRepository bucketListRepository;
 
-    private final BucketListRepository bucketListRepository;
+  public BucketList createBucketList(BucketList bucketList) {
+    return bucketListRepository.save(bucketList);
+  }
 
+  @Transactional(readOnly = true)
+  public BucketList findBucketList(long groupId, long bucketListId) {
+    return findVerifiedBucketList(groupId, bucketListId);
+  }
 
-    //버킷리스트 생성
-    public BucketList createdBucketList(BucketList bucketList){
-        return bucketListRepository.save(bucketList);
-    }
+  @Transactional(readOnly = true)
+  public Page<BucketList> findBucketLists(long groupId, int page, int size) {
+    return bucketListRepository.findAllByBucketListGroup(groupId,
+      PageRequest.of(page, size, Sort.by("BUCKET_LIST_ID").descending()));
+  }
 
-    //조회
-    @Transactional
-    public BucketList findBucketList(long groupId, long bucketListId){
-        return findVerifiedBucketList(groupId,bucketListId);
-    }
+  public void deleteBucketList(long groupId, long bucketListId) {
+    BucketList bucketList = findVerifiedBucketList(groupId, bucketListId);
+    bucketListRepository.delete(bucketList);
+  }
 
-    //리스트들
-    @Transactional(readOnly = true)
-    public Page<BucketList> findBucketLists(long groupId, int page, int size){
-        return bucketListRepository.findAllByBucketListGroupId(groupId, PageRequest.of(page,size, Sort.by("groupId").descending()));
-    }
+  public BucketList updateBucketList(BucketList bucketList) {
+    BucketList findBucketList = findVerifiedBucketList(bucketList.getBucketListGroup().getBucketListGroupId(),
+      bucketList.getBucketListId());
 
-    //삭제
-    @Transactional
-    public void deleteBucketList(long groupId, long bucketListId){
-        BucketList bucketList = findVerifiedBucketList(groupId, bucketListId);
-        bucketListRepository.delete(bucketList);
-    }
+    Optional.ofNullable(bucketList.getTarget()).ifPresent(findBucketList::setTarget);
+    Optional.ofNullable(bucketList.getCompleted()).ifPresent(findBucketList::setCompleted);
+    return bucketListRepository.save(findBucketList);
+  }
 
-    //변경
-    @Transactional
-    public BucketList updateBucketList(BucketList bucketList){
-        BucketList findBucketList = findVerifiedBucketList(bucketList.getBucketListGroup().getBucketListGroupId(), bucketList.getBucketListId());
+  @Transactional(readOnly = true)
+  public BucketList findVerifiedBucketList(long groupId, long bucketListId) {
+    Optional<BucketList> optionalBucketList = bucketListRepository.findByBucketListGroupIdAndId(groupId, bucketListId);
 
-        Optional.ofNullable(bucketList.getTarget()).ifPresent(findBucketList::setTarget);
-        updateCompleted(bucketList, bucketList.getCompleted());
-        return bucketListRepository.save(findBucketList);
-    }
+    BucketList bucketList = optionalBucketList
+      .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_NOT_FOUND));
 
-    @Transactional(readOnly = true)
-    public BucketList findVerifiedBucketList(long groupId, long bucketListId) {
-        Optional<BucketList> optionalBucketList = bucketListRepository.findByBucketListGroupIdAndId(groupId, bucketListId);
+    return bucketList;
+  }
 
-        BucketList bucketList = optionalBucketList
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_NOT_FOUND));
-
-        return bucketList;
-    }
-
-    public void updateCompleted(BucketList bucketList,boolean completed){
-        bucketList.setCompleted(completed);
-        bucketListRepository.save(bucketList);
-    }
+  public void updateCompleted(BucketList bucketList, boolean completed) {
+    bucketList.setCompleted(completed);
+    bucketListRepository.save(bucketList);
+  }
 }

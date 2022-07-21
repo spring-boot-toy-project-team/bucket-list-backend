@@ -1,40 +1,35 @@
 package com.bucket.list.bucketList.dto;
 
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+
 public class BucketListGroupRequestDto {
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class CreateGroupDto {
+    @NotNull
+    private long memberId;
+    @NotBlank
+    private String title;
+  }
 
-    //  버킷리스트 그룹 등록
-    @Builder
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class CreateGroupDto{
-
-        @NotNull
-        private long memberId;
-
-        @NotBlank
-        private String title;
-
-    }
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UpdateGroupDto{
-
-        private long bucketListGroupId;
-
-        @NotNull
-        private long memberId;
-
-        @NotBlank
-        private String title;
-    }
-
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class UpdateGroupDto {
+    private long bucketListGroupId;
+    @NotNull
+    private long memberId;
+    @NotBlank
+    private String title;
+  }
 }

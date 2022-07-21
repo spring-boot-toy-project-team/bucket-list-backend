@@ -1,26 +1,24 @@
 package com.bucket.list.comment.entity;
 
+import com.bucket.list.audit.Auditable;
 import com.bucket.list.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Getter
-@Entity
 @NoArgsConstructor
-public class ReComments {
+@Getter
+@Setter
+@Entity
+public class ReComments extends Auditable {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long reCommentsId;
 
   @Column(columnDefinition = "TEXT")
   private String contents;
-
-  private LocalDateTime createdAt = LocalDateTime.now();
-
-  private LocalDateTime modifiedAt = LocalDateTime.now();
 
   @ManyToOne
   @JoinColumn(name = "MEMBER_ID")

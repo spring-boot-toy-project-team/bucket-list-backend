@@ -1,37 +1,29 @@
 package com.bucket.list.bucketList.dto;
 
-import com.bucket.list.bucketList.entity.BucketList;
-import com.bucket.list.bucketList.entity.BucketListGroup;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class BucketListGroupResponseDto {
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class CreateGroupDto {
+    private long bucketListGroupId;
+    private String title;
+    private int year;
+  }
 
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class CreateGroupDto{
-
-        private long bucketListGroupId;
-
-        private String title;
-        private int year;
-
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class GroupInfo{
-        private String title;
-        private int year;
-    }
-
-
-
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class GroupInfo {
+    private String title;
+    private int year;
+  }
 }

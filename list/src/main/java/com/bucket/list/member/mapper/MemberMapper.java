@@ -5,13 +5,14 @@ import com.bucket.list.member.dto.MemberResponseDto;
 import com.bucket.list.member.entity.Member;
 import org.mapstruct.Mapper;
 
+
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
-    Member signUpDtoToMember(MemberRequestDto.SignUpDto signUpDto);
+  Member signUpDtoToMember(MemberRequestDto.SignUpDto signUpDto);
 
-    MemberResponseDto.MemberInfo memberToMemberInfo(Member member);
+  MemberResponseDto.MemberInfo memberToMemberInfo(Member member);
 
-    Member updateDtoToMember(MemberRequestDto.UpdateDto updateDto);
+  MemberResponseDto.UpdateDto memberToUpdateDto(Member member);
 
-    MemberResponseDto.UpdateDto memberToMemberUpdateDto(Member member);
+  Member updateDtoToMember(MemberRequestDto.UpdateDto updateDto);
 }

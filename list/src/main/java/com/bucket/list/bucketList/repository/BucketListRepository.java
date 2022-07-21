@@ -13,9 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface BucketListRepository extends JpaRepository<BucketList, Long> {
-    @Query(value = "select * from BUCKET_LIST bl where bl.BUCKET_LIST_GROUP_ID = :groupId and bl.BUCKET_LIST_ID = :bucketListId", nativeQuery = true)
-    Optional<BucketList> findByBucketListGroupIdAndId(@Param(value = "groupId") long groupId, @Param(value = "bucketListId") long bucketListId);
+  @Query(value = "select * from BUCKET_LIST where BUCKET_LIST_GROUP_ID = :groupId and BUCKET_LIST_ID = :bucketListId", nativeQuery = true)
+  Optional<BucketList> findByBucketListGroupIdAndId(@Param(value = "groupId") long groupId, @Param("bucketListId") long bucketListId);
 
-    @Query(value = "select * from BUCKET_LIST bl where bl.BUCKET_LIST_GROUP_ID = :groupId", nativeQuery = true)
-    Page<BucketList> findAllByBucketListGroupId(@Param(value = "groupId") long groupId, Pageable pageable);
+  @Query(value = "select * from BUCKET_LIST where BUCKET_LIST_GROUP_ID = :groupId", nativeQuery = true)
+  Page<BucketList> findAllByBucketListGroup(@Param(value = "groupId") long groupId, Pageable pageable);
 }

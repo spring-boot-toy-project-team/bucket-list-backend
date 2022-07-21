@@ -1,0 +1,57 @@
+= 버킷리스트 토이 프로젝트
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+v1.0.0, 2022.07.15
+
+***
+== MemberController
+=== 회원 가입
+.curl-request
+include::{snippets}/signup-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/signup-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/signup-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/signup-member/http-response.adoc[]
+
+=== 회원 정보 조회
+.curl-request
+include::{snippets}/get-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-member/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-member/http-response.adoc[]
+
+=== 회원 정보 수정
+.curl-request
+include::{snippets}/update-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/update-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/update-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/update-member/http-response.adoc[]
+
+=== 회원 탈퇴
+.curl-request
+include::{snippets}/delete-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
+
+.http-response
+include::{snippets}/delete-member/http-response.adoc[]
+
