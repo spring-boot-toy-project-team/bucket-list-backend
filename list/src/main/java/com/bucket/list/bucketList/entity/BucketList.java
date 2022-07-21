@@ -21,22 +21,23 @@ public class BucketList {
     @JoinColumn(name = "BUCKET_LIST_GROUP_ID")
     private BucketListGroup bucketListGroup;
 
-    @OneToOne(mappedBy = "bucketList")
+    @OneToOne(mappedBy = "bucketList",cascade = CascadeType.ALL)
     private CompletedList completedList;
 
 
     @Column(length = 500)
     private String target;
 
-    private boolean isCompleted;
+    private boolean completed;
 
-    public boolean getIsCompleted() {
-        return this.isCompleted;
+    public boolean getCompleted() {
+        return this.completed;
     }
 
-    public void setIsCompleted(boolean isCompleted) {
-        this.isCompleted = isCompleted;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
+
 
 
 

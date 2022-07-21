@@ -39,6 +39,6 @@ public class BucketListRequestDto {
         private long groupId;
 
         @NotNull
-        private boolean isCompleted;
+        private boolean completed;
     }
 }

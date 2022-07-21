@@ -4,13 +4,11 @@ package com.bucket.list.completList.entity;
 import com.bucket.list.audit.Auditable;
 import com.bucket.list.bucketList.entity.BucketList;
 import com.bucket.list.comments.entity.Comments;
-import com.bucket.list.tag.entity.CompletedListTag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,31 +19,34 @@ import java.util.List;
 public class CompletedList extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long completedListId;
 
     @OneToOne
     @JoinColumn(name = "BUCKET_LIST_ID")
     private BucketList bucketList;
 
-    @OneToMany(mappedBy = "completedList")
-    private List<CompletedListTag> completedListTagList = new ArrayList<>();
+    @OneToMany(mappedBy = "completedList", cascade = CascadeType.ALL)
+    private String tags;
 
     @OneToMany(mappedBy = "completedList")
-    private List<Comments> commentsList = new ArrayList<>();
+    private List<Comments> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "completedList")
     private List<Like> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "completedList")
-    private List<Img> imgList = new ArrayList<>();
+    private List<Img> imgs = new ArrayList<>();
 
+    @Column(columnDefinition = "TEXT")
     private String contents;
 
     private long likeCount;
 
-    public void addComment(Comments comments){
-        this.commentsList.add(comments);
+    public void addComments(Comments comments) {
+        if(!this.comments.contains(comments)) {
+            this.comments.add(comments);
+        }
     }
 
     public void addLike(Like like){
@@ -54,12 +55,14 @@ public class CompletedList extends Auditable {
         }
     }
 
-    public void addCompletedListTag(CompletedListTag completedListTag){
-        this.completedListTagList.add(completedListTag);
+
+    public void addImg(Img img) {
+        if(!this.imgs.contains(img))
+            this.imgs.add(img);
     }
 
-    public void addImg(Img img){
-        this.imgList.add(img);
+    public void addBucketList(BucketList bucketList) {
+        this.bucketList = bucketList;
     }
 
 }

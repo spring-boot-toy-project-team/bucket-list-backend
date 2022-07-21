@@ -20,8 +20,9 @@ public class BucketListResponseDto {
         @NotBlank
         private String target;
 
-        private boolean isCompleted;
+        private boolean completed;
 
     }
+
 
 }

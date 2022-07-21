@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class Img {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long imgId;
 
     @ManyToOne

@@ -51,7 +51,7 @@ public class BucketListService {
         BucketList findBucketList = findVerifiedBucketList(bucketList.getBucketListGroup().getBucketListGroupId(), bucketList.getBucketListId());
 
         Optional.ofNullable(bucketList.getTarget()).ifPresent(findBucketList::setTarget);
-        Optional.of(bucketList.getIsCompleted()).ifPresent(findBucketList::setIsCompleted);
+        updateCompleted(bucketList, bucketList.getCompleted());
         return bucketListRepository.save(findBucketList);
     }
 
@@ -63,5 +63,10 @@ public class BucketListService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_NOT_FOUND));
 
         return bucketList;
+    }
+
+    public void updateCompleted(BucketList bucketList,boolean completed){
+        bucketList.setCompleted(completed);
+        bucketListRepository.save(bucketList);
     }
 }
