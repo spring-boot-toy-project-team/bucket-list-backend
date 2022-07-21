@@ -19,7 +19,7 @@ import java.util.List;
 public class CompletedList {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long completedId;
+  private long completedListId;
 
   @Column(columnDefinition = "TEXT")
   private String contents;
@@ -31,7 +31,7 @@ public class CompletedList {
   @OneToMany(mappedBy = "completedList")
   List<Img> imgs = new ArrayList<>();
 
-  @OneToMany(mappedBy = "completedList")
+  @OneToMany(mappedBy = "completedList", cascade = CascadeType.ALL)
   private List<CompletedListTag> completedListTags;
 
   @OneToOne
