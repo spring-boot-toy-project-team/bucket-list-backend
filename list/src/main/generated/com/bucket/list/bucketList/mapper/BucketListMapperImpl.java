@@ -9,25 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-19T00:02:35+0900",
+    date = "2022-07-21T01:17:09+0900",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.15 (Azul Systems, Inc.)"
 )
 @Component
 public class BucketListMapperImpl implements BucketListMapper {
-
-    @Override
-    public BucketListResponseDto.BucketListInfo bucketListToBucketListInfo(BucketList bucketList) {
-        if ( bucketList == null ) {
-            return null;
-        }
-
-        BucketListResponseDto.BucketListInfo bucketListInfo = new BucketListResponseDto.BucketListInfo();
-
-        bucketListInfo.setBucketListId( bucketList.getBucketListId() );
-        bucketListInfo.setTarget( bucketList.getTarget() );
-
-        return bucketListInfo;
-    }
 
     @Override
     public List<BucketListResponseDto.BucketListInfo> bucketListsToBucketListInfo(List<BucketList> bucketLists) {

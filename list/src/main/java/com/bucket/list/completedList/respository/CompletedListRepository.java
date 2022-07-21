@@ -2,6 +2,7 @@ package com.bucket.list.completedList.respository;
 
 import com.bucket.list.completedList.entity.CompletedList;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,4 +16,7 @@ public interface CompletedListRepository extends JpaRepository<CompletedList, Lo
 
   @Query(value = "select * from COMPLETED_LIST where BUCKET_LIST_ID = :bucketListId", nativeQuery = true)
   Optional<CompletedList> findByBucketListId(@Param("bucketListId") long bucketListId);
+
+  @Modifying(clearAutomatically = true)
+  CompletedList save(CompletedList completedList);
 }

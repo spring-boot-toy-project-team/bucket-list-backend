@@ -33,7 +33,7 @@ public class MemberService {
   public Member updateMember(Member member) {
     Member findMember = findVerifiedMember(member.getMemberId());
 
-    // 휴대폰 번호 유니크 조건 검증!
+    // TO-DO : 휴대폰 번호 유니크 조건 검증!
     Optional.ofNullable(member.getNickName()).ifPresent(findMember::setNickName);
     Optional.ofNullable(member.getIntroduction()).ifPresent(findMember::setIntroduction);
     Optional.ofNullable(member.getTel()).ifPresent(findMember::setTel);

@@ -6,9 +6,7 @@ import com.bucket.list.completedList.entity.CompletedList;
 import com.bucket.list.completedList.respository.CompletedListRepository;
 import com.bucket.list.exception.BusinessLogicException;
 import com.bucket.list.exception.ExceptionCode;
-import com.bucket.list.tag.entity.CompletedListTag;
-import com.bucket.list.tag.entity.Tag;
-import com.bucket.list.tag.service.TagService;
+import com.bucket.list.util.tags.TagsHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CompletedListService {
   private final CompletedListRepository completedListRepository;
-  private final TagService tagService;
   private final BucketListService bucketListService;
 
   public CompletedList createCompletedList(CompletedList completedList, List<MultipartFile> files) {
@@ -32,10 +29,13 @@ public class CompletedListService {
     BucketList bucketList = bucketListService.findVerifiedBucketList(completedList.getBucketList()
         .getBucketListGroup().getBucketListGroupId(),
       completedList.getBucketList().getBucketListId());
+
+    // bucketListService 쪽으로 comleted 바꿔주는거 넣어 주고 여기서 호출
     bucketList.setCompleted(true);
     bucketListService.updateBucketList(bucketList);
 
-    return saveIfNotExists(completedList);
+    findIfExistsError(completedList.getBucketList().getBucketListId());
+    return completedListRepository.save(completedList);
   }
 
   @Transactional(readOnly = true)
@@ -50,14 +50,10 @@ public class CompletedListService {
     CompletedList findCompletedList = findCompletedList(completedList.getBucketList().getBucketListId(),
       completedList.getCompletedListId());
     // 태그 변경 필요
-    // completedList의 스트림과 findCompletedList stream 둘을 비교해서 다르면 바꿔주기
-    List<CompletedListTag> completedListTags = completedList.getCompletedListTags().stream()
-      .peek(completedListTag -> {
-        Tag createdTag = tagService.createTag(completedListTag.getTag());
-        completedListTag.setTag(createdTag);
-      }).collect(Collectors.toList());
-    findCompletedList.setCompletedListTags(completedListTags);
 
+
+    Optional.ofNullable(completedList.getTags())
+      .ifPresent(tags -> findCompletedList.setTags(TagsHelper.duplicateCheck(tags)));
     Optional.ofNullable(completedList.getContents()).ifPresent(findCompletedList::setContents);
     return completedListRepository.save(findCompletedList);
   }
@@ -68,18 +64,6 @@ public class CompletedListService {
     bucketListService.updateBucketList(bucketList);
     CompletedList completedList = findCompletedList(bucketListId, completedListId);
     completedListRepository.delete(completedList);
-  }
-
-  public CompletedList saveIfNotExists(CompletedList completedList) {
-    List<CompletedListTag> completedListTags = completedList.getCompletedListTags().stream()
-      .peek(completedListTag -> {
-        Tag createdTag = tagService.createTag(completedListTag.getTag());
-        completedListTag.setTag(createdTag);
-      }).collect(Collectors.toList());
-    completedList.setCompletedListTags(completedListTags);
-
-    findIfExistsError(completedList.getBucketList().getBucketListId());
-    return completedListRepository.save(completedList);
   }
 
   @Transactional(readOnly = true)

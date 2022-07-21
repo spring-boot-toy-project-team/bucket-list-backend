@@ -70,6 +70,7 @@ public class CompletedListController {
       HttpStatus.OK);
   }
 
+
   // 완료된 버킷 리스트 삭제
   @DeleteMapping("/{completed-list-id}")
   public ResponseEntity deleteCompletedList(@Positive @PathVariable("group-id") long groupId,

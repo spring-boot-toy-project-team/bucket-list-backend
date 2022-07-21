@@ -5,13 +5,7 @@ import com.bucket.list.bucketList.entity.BucketListGroup;
 import com.bucket.list.completedList.dto.CompletedListRequestDto;
 import com.bucket.list.completedList.dto.CompletedListResponseDto;
 import com.bucket.list.completedList.entity.CompletedList;
-import com.bucket.list.tag.dto.TagResponseDto;
-import com.bucket.list.tag.entity.CompletedListTag;
-import com.bucket.list.tag.entity.Tag;
 import org.mapstruct.Mapper;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface CompletedListMapper {
@@ -24,15 +18,7 @@ public interface CompletedListMapper {
     CompletedList completedList = new CompletedList();
     completedList.setBucketList(bucketList);
     completedList.setContents(createCompletedListDto.getContents());
-    List<CompletedListTag> completedListTags = createCompletedListDto.getCompletedListTags().stream().map(data -> {
-      Tag tag = new Tag();
-      tag.setName(data.getName());
-      CompletedListTag completedListTag = new CompletedListTag();
-      completedListTag.setTag(tag);
-      completedListTag.setCompletedList(completedList);
-      return completedListTag;
-    }).collect(Collectors.toList());
-    completedList.setCompletedListTags(completedListTags);
+    completedList.setTags(createCompletedListDto.getTags());
     return completedList;
   }
 
@@ -40,14 +26,7 @@ public interface CompletedListMapper {
     return CompletedListResponseDto.CompletedListInfo.builder()
       .contents(completedList.getContents())
       .completedListId(completedList.getCompletedListId())
-      .tags(completedList.getCompletedListTags().stream().map(completedListTag -> {
-          Tag tag = completedListTag.getTag();
-          return TagResponseDto.TagInfo.builder()
-            .name(tag.getName())
-            .tagId(tag.getTagId())
-            .build();
-        })
-        .collect(Collectors.toList()))
+      .tags(completedList.getTags())
       .imgs(completedList.getImgs())
       .bucketListId(completedList.getBucketList().getBucketListId())
       .bucketListGroupId(completedList.getBucketList().getBucketListGroup().getBucketListGroupId())
@@ -64,15 +43,7 @@ public interface CompletedListMapper {
     completedList.setCompletedListId(updateCompletedListDto.getCompletedListId());
     completedList.setBucketList(bucketList);
     completedList.setContents(updateCompletedListDto.getContents());
-    List<CompletedListTag> completedListTags = updateCompletedListDto.getCompletedListTags().stream().map(data -> {
-      Tag tag = new Tag();
-      tag.setName(data.getName());
-      CompletedListTag completedListTag = new CompletedListTag();
-      completedListTag.setTag(tag);
-      completedListTag.setCompletedList(completedList);
-      return completedListTag;
-    }).collect(Collectors.toList());
-    completedList.setCompletedListTags(completedListTags);
+    completedList.setTags(updateCompletedListDto.getTags());
     return completedList;
   }
 }
