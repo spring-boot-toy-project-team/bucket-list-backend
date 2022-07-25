@@ -1,8 +1,8 @@
 package com.bucket.list.member.controller;
 
-import com.bucket.list.dto.MessageResponseDto;
-import com.bucket.list.dto.SingleResponseDto;
-import com.bucket.list.dto.SingleResponseWithMessageDto;
+import com.bucket.list.dto.response.MessageResponseDto;
+import com.bucket.list.dto.response.SingleResponseDto;
+import com.bucket.list.dto.response.SingleResponseWithMessageDto;
 import com.bucket.list.member.dto.MemberRequestDto;
 import com.bucket.list.member.dto.MemberResponseDto;
 import com.bucket.list.member.entity.Member;

@@ -1,11 +1,10 @@
 package com.bucket.list.completedList.controller;
 
 import com.bucket.list.completedList.dto.CompletedListRequestDto;
-import com.bucket.list.completedList.dto.CompletedListResponseDto;
 import com.bucket.list.completedList.entity.CompletedList;
 import com.bucket.list.completedList.mapper.CompletedListMapper;
 import com.bucket.list.completedList.service.CompletedListService;
-import com.bucket.list.dto.SingleResponseWithMessageDto;
+import com.bucket.list.dto.response.SingleResponseWithMessageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

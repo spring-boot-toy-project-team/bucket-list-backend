@@ -1,4 +1,4 @@
-package com.bucket.list.dto;
+package com.bucket.list.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

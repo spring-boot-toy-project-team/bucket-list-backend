@@ -34,6 +34,8 @@ public class Member extends Auditable {
 
   private String profileImg;
 
+
+
   @Enumerated(value = EnumType.STRING)
   @Column(length = 20, nullable = false)
   private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;

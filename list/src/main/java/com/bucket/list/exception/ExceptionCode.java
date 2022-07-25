@@ -15,7 +15,8 @@ public enum ExceptionCode {
   BUCKET_LIST_GROUP_NOT_FOUND(404, "Bucket List Group not found" ),
   BUCKET_LIST_NOT_FOUND(404, "Bucket List not found" ),
   COMPLETED_LIST_NOT_FOUND(404, "Completed List not found"),
-  COMPLETED_LIST_ALREADY_EXISTS(409, "Completed List already exists");
+  COMPLETED_LIST_ALREADY_EXISTS(409, "Completed List already exists"),
+  ROLES_IS_NOT_EXISTS(404, "roles is not exists");
 
   @Getter
   private int status;
