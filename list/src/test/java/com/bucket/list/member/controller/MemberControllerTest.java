@@ -1,8 +1,7 @@
 package com.bucket.list.member.controller;
 
-import com.bucket.list.dto.MessageResponseDto;
-import com.bucket.list.dto.SingleResponseDto;
-import com.bucket.list.dto.SingleResponseWithMessageDto;
+import com.bucket.list.dto.response.MessageResponseDto;
+import com.bucket.list.dto.response.SingleResponseDto;
 import com.bucket.list.member.dto.MemberRequestDto;
 import com.bucket.list.member.dto.MemberResponseDto;
 import com.bucket.list.member.entity.Member;
@@ -14,13 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;

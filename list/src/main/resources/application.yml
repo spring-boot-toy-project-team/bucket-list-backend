@@ -9,3 +9,8 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+  jwt:
+    secret: bucket-list-test-key                          # 추후 제거
+    type: Bearer
+    accessTokenExpirationDateInMs: 5 * 60 * 1000          # 5 min
+    refreshTokenExpirationDateInMs: 24 * 60 * 60 * 1000   # 1 day
