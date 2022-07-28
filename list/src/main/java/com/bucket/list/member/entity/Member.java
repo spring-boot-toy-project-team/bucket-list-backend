@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
@@ -26,7 +27,7 @@ public class Member extends Auditable {
 
   private String nickName;
 
-  @Column(length = 50, unique = true)
+  @Column(length = 50)
   private String tel;
 
   @Column(columnDefinition = "TEXT")
@@ -34,7 +35,15 @@ public class Member extends Auditable {
 
   private String profileImg;
 
+  private String roles;
+  private String provider;
 
+  public List<String> getRoleList(){
+    if (this.roles.length()>0){
+      return Arrays.asList(this.roles.split(","));
+    }
+    return new ArrayList<>();
+  }
 
   @Enumerated(value = EnumType.STRING)
   @Column(length = 20, nullable = false)

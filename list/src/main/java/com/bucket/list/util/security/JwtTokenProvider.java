@@ -3,6 +3,8 @@ package com.bucket.list.util.security;
 import com.bucket.list.dto.token.TokenDto;
 import com.bucket.list.exception.BusinessLogicException;
 import com.bucket.list.exception.ExceptionCode;
+import com.bucket.list.member.entity.Member;
+import com.bucket.list.member.service.MemberService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.Base64UrlCodec;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +29,11 @@ import java.util.List;
 public class JwtTokenProvider {
   @Value("spring.jwt.secret")
   private String secretKey;
-  @Value("spring.jwt.type")
-  private String grantType;
-  @Value("spring.jwt.accessTokenExpirationDateInMs")
-  private Long accessTokenExpiredTime;
-  @Value("spring.jwt.refreshTokenExpirationDateInMs")
-  private Long refreshTokenExpiredTime;
+  private static final String grantType = "Bearer";
+  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 60 * 1000L;         // 5 min
+  private static final Long REFRESH_TOKEN_EXPIRED_IN = 24 * 60 * 60 * 1000L;  // 1 day
 
-  private final String ROLES = "roles";
+  private static final String ROLES = "roles";
   private final UserDetailsService userDetailsService;
 
   @PostConstruct
@@ -42,34 +41,36 @@ public class JwtTokenProvider {
     secretKey = Base64UrlCodec.BASE64URL.encode(secretKey.getBytes(StandardCharsets.UTF_8));
   }
 
-  public TokenDto.Token createTokenDto(Long memberId, List<String> roles) {
+  public TokenDto.Token createTokenDto(Member member) {
     // TO-DO : memberId로 할지, email로 jwt에 넣을지 고민
-    Claims claims = Jwts.claims().setSubject(String.valueOf(memberId));
-    claims.put(ROLES, roles);
+//    Claims claims = Jwts.claims().setSubject(String.valueOf(memberId));
+    Claims claims = Jwts.claims().setSubject(String.valueOf(member.getMemberId()));
+    claims.put("email", member.getEmail());
+    claims.put(ROLES, member.getRoleList());
 
     Date now = new Date();
 
     String accessToken = Jwts.builder()
-      .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-      .setClaims(claims)
-      .setIssuedAt(now)
-      .setExpiration(new Date(now.getTime() + accessTokenExpiredTime))
-      .signWith(SignatureAlgorithm.HS256, secretKey)
-      .compact();
+            .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_EXPIRED_IN))
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
 
     String refreshToken = Jwts.builder()
-      .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-      .setExpiration(new Date(now.getTime() + refreshTokenExpiredTime))
-      .signWith(SignatureAlgorithm.HS256, secretKey)
-      .compact();
+            .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+            .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRED_IN))
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
 
     return TokenDto.Token.builder()
-      .grantType(grantType)
-      .accessToken(accessToken)
-      .accessTokenExpiredTime(accessTokenExpiredTime)
-      .refreshToken(refreshToken)
-      .refreshTokenExpiredTime(refreshTokenExpiredTime)
-      .build();
+            .grantType(grantType)
+            .accessToken(accessToken)
+            .accessTokenExpiredTime(ACCESS_TOKEN_EXPIRED_IN)
+            .refreshToken(refreshToken)
+            .refreshTokenExpiredTime(REFRESH_TOKEN_EXPIRED_IN)
+            .build();
   }
 
   // jwt로 인증정보를 조회
@@ -113,5 +114,9 @@ public class JwtTokenProvider {
       log.error("잘못된 토큰입니다.");
     }
     return false;
+  }
+
+  public boolean validateToken(String token) {
+    return true;
   }
 }

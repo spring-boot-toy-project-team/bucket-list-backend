@@ -1,5 +1,6 @@
 package com.bucket.list.member.controller;
 
+import com.bucket.list.auth.Oauth2.user.provider.AuthProvider;
 import com.bucket.list.dto.response.MessageResponseDto;
 import com.bucket.list.dto.response.SingleResponseDto;
 import com.bucket.list.dto.response.SingleResponseWithMessageDto;
@@ -33,6 +34,7 @@ public class MemberController {
 
   @PostMapping
   public ResponseEntity signUp(@RequestBody @Valid MemberRequestDto.SignUpDto signUpDto) {
+    signUpDto.setProvider(AuthProvider.local.toString());
     Member member = mapper.signUpDtoToMember(signUpDto);
     memberService.createMember(member);
 
