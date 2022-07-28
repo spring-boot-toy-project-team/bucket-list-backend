@@ -2,17 +2,20 @@ package com.bucket.list.member.entity;
 
 import com.bucket.list.audit.Auditable;
 import com.bucket.list.bucketList.entity.BucketListGroup;
+import com.bucket.list.listener.MemberListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@EntityListeners(value = MemberListener.class)
 public class Member extends Auditable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +29,7 @@ public class Member extends Auditable {
 
   private String nickName;
 
-  @Column(length = 50, unique = true)
+  @Column(length = 50)
   private String tel;
 
   @Column(columnDefinition = "TEXT")
@@ -36,15 +39,25 @@ public class Member extends Auditable {
 
   @Enumerated(value = EnumType.STRING)
   @Column(length = 20, nullable = false)
-  private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
+  private MemberStatus memberStatus;
 
-  @OneToMany(mappedBy = "member")
+  private String roles;
+
+  private String provider;
+
+  @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
   List<BucketListGroup> bucketListGroups = new ArrayList<>();
 
   public void addBucketListGroup(BucketListGroup bucketListGroup) {
     if(!this.bucketListGroups.contains(bucketListGroup)) {
       this.bucketListGroups.add(bucketListGroup);
     }
+  }
+
+  public List<String> getRoleList() {
+    if(this.roles.length() > 0)
+      return Arrays.asList(this.roles.split(","));
+    return new ArrayList<>();
   }
 
   public enum MemberStatus {

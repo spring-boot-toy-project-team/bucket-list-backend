@@ -40,6 +40,7 @@ public class MemberRequestDto {
     @NotBlank
     @Pattern(regexp = "^010-\\d{3,4}-\\d{4}$")
     private String tel;
+    private String provider;
   }
 
   @Data
