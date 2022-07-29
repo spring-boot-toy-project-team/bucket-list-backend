@@ -20,58 +20,54 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 public class OAuth2MemberService extends DefaultOAuth2UserService {
+  private final MemberRepository memberRepository;
 
-    private final MemberRepository memberRepository;
-
-    //OAuth2UserRequest에 있는 Access Token으로 유저정보 가져옴
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User oAuth2User = super.loadUser(userRequest);
-        try {
-            return process(userRequest, oAuth2User);
-        } catch (Exception e){
-            throw new InternalAuthenticationServiceException(e.getMessage());
-        }
+  // OAuth2UserRequest에 있는 Access Token으로 유저정보 get
+  @Override
+  public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+    OAuth2User oAuth2User = super.loadUser(userRequest);
+    try {
+      return process(userRequest, oAuth2User);
+    } catch (Exception e) {
+      throw new InternalAuthenticationServiceException(e.getMessage());
     }
+  }
 
-    //획득한 유저정보를 Java Model과 매ㅣㅇ하고 프로세스 진행
-    private OAuth2User process(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User){
-        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
+  // 획득한 유저정보를 Java Model과 맵핑하고 프로세스 진행
+  private OAuth2User process(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
+    OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
 
-        if(StringUtils.hasText(oAuth2UserInfo.getEmail())) {
-            throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
-        }
-
-        Optional<Member> optionalMember = memberRepository.findByEmail(oAuth2UserInfo.getEmail());
-        Member member;
-        if(optionalMember.isPresent()) {
-            member = optionalMember.get();
-            if(!member.getProvider().equals(oAuth2UserRequest.getClientRegistration().getRegistrationId().toLowerCase())) {
-                throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
-                        member.getProvider() + " account. Please use your " + member.getProvider() +
-                        " account to login.");
-            }
-            member = updateExistingUser(member,oAuth2UserRequest);
-        } else {
-            member = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
-        }
-        return MemberDetails.create(member, oAuth2User.getAttributes());
+    if(StringUtils.hasText(oAuth2UserInfo.getEmail())) {
+      throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
     }
+    Optional<Member> optionalMember = memberRepository.findByEmail(oAuth2UserInfo.getEmail());
+    Member member;
 
-    private Member registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-        Member member = new Member();
-        member.setProvider(oAuth2UserRequest.getClientRegistration().getRegistrationId().toLowerCase());
-        member.setNickName(oAuth2UserInfo.getName());
-        member.setEmail(oAuth2UserInfo.getEmail());
-        member.setProfileImg(oAuth2UserInfo.getImageUrl());
-
-        return memberRepository.save(member);
+    if(optionalMember.isPresent()) {
+      member = optionalMember.get();
+      if(!member.getProvider().equals(oAuth2UserRequest.getClientRegistration().getRegistrationId().toLowerCase())) {
+        throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
+          member.getProvider() + " account. Please use your " + member.getProvider() +
+          " account to login.");
+      }
+      member = updateExistingMember(member, oAuth2UserRequest);
+    } else {
+      member = registerNewMember(oAuth2UserRequest, oAuth2UserInfo);
     }
+    return MemberDetails.create(member, oAuth2User.getAttributes());
+  }
 
-    private Member updateExistingUser(Member member,OAuth2UserRequest oAuth2UserRequest) {
-        member.setProvider(oAuth2UserRequest.getClientRegistration().getRegistrationId().toLowerCase());
-        return memberRepository.save(member);
-    }
+  private Member registerNewMember(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+    Member member = new Member();
+    member.setProvider(oAuth2UserRequest.getClientRegistration().getRegistrationId().toLowerCase());
+    member.setNickName(oAuth2UserInfo.getName());
+    member.setEmail(oAuth2UserInfo.getEmail());
+    member.setProfileImg(oAuth2UserInfo.getImageUrl());
+    return memberRepository.save(member);
+  }
+
+  private Member updateExistingMember(Member member, OAuth2UserRequest oAuth2UserRequest) {
+    member.setProvider(oAuth2UserRequest.getClientRegistration().getRegistrationId().toLowerCase());
+    return memberRepository.save(member);
+  }
 }
-
-

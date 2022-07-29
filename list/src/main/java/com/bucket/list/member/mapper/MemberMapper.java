@@ -16,5 +16,5 @@ public interface MemberMapper {
 
   Member updateDtoToMember(MemberRequestDto.UpdateDto updateDto);
 
-    Member loginDtoToMember(MemberRequestDto.loginDto loginDto);
+  Member loginDtoToMember(MemberRequestDto.loginDto loginDto);
 }
