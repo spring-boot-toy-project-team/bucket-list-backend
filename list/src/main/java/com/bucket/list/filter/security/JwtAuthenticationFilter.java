@@ -26,11 +26,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                   HttpServletResponse response,
                                   FilterChain filterChain) throws ServletException, IOException {
     String token = parseBearerToken(request);
+
     if(StringUtils.hasText(token) && jwtTokenProvider.validationToken(token)) {
       Authentication authentication = jwtTokenProvider.getAuthentication(token);
       SecurityContextHolder.getContext().setAuthentication(authentication);
-    } else {
-      log.debug("유효한 JWT 토큰이 없습니다.");
     }
 
     filterChain.doFilter(request, response);

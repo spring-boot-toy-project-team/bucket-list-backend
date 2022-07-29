@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-28T20:38:08+0900",
+    date = "2022-07-29T12:34:11+0900",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.15 (Azul Systems, Inc.)"
 )
 @Component
@@ -81,6 +81,20 @@ public class MemberMapperImpl implements MemberMapper {
         member.setTel( updateDto.getTel() );
         member.setIntroduction( updateDto.getIntroduction() );
         member.setProfileImg( updateDto.getProfileImg() );
+
+        return member;
+    }
+
+    @Override
+    public Member loginDtoToMember(MemberRequestDto.loginDto loginDto) {
+        if ( loginDto == null ) {
+            return null;
+        }
+
+        Member member = new Member();
+
+        member.setEmail( loginDto.getEmail() );
+        member.setPassword( loginDto.getPassword() );
 
         return member;
     }

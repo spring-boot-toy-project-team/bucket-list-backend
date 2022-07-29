@@ -29,7 +29,8 @@ public class JwtTokenProvider {
   @Value("spring.jwt.secret")
   private String secretKey;
   private static final String grantType = "Bearer";
-  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 60 * 1000L;         // 5 min
+//  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 60 * 1000L;         // 5 min
+  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 1000L;         // 5 min
   private static final Long REFRESH_TOKEN_EXPIRED_IN = 24 * 60 * 60 * 1000L;  // 1 day
 
   private static final String ROLES = "roles";
@@ -41,10 +42,7 @@ public class JwtTokenProvider {
   }
 
   public TokenDto.Token createTokenDto(Member member) {
-    // TO-DO : memberId로 할지, email로 jwt에 넣을지 고민
-//    Claims claims = Jwts.claims().setSubject(String.valueOf(memberId));
-    Claims claims = Jwts.claims().setSubject(String.valueOf(member.getMemberId()));
-    claims.put("email", member.getEmail());
+    Claims claims = Jwts.claims().setSubject(member.getEmail());
     claims.put(ROLES, member.getRoleList());
 
     Date now = new Date();
@@ -76,7 +74,6 @@ public class JwtTokenProvider {
   public Authentication getAuthentication(String token) {
     // claims 추출
     Claims claims = parseClaims(token);
-
     // 권한 정보 없으면
     if(claims.get(ROLES) == null)
       throw new BusinessLogicException(ExceptionCode.ROLE_IS_NOT_EXISTS);
