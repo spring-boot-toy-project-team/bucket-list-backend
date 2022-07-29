@@ -18,7 +18,7 @@ import org.springframework.web.filter.CorsFilter;
 
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
   private final CorsFilter corsFilter;

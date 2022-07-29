@@ -2,6 +2,7 @@ package com.bucket.list.member.entity;
 
 import com.bucket.list.audit.Auditable;
 import com.bucket.list.bucketList.entity.BucketListGroup;
+import com.bucket.list.listener.MemberListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@EntityListeners(value = MemberListener.class)
 public class Member extends Auditable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

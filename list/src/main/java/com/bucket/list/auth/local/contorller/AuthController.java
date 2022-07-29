@@ -2,6 +2,7 @@ package com.bucket.list.auth.local.contorller;
 
 
 import com.bucket.list.auth.local.service.AuthService;
+import com.bucket.list.auth.oauth2.user.provider.AuthProvider;
 import com.bucket.list.dto.response.MessageResponseDto;
 import com.bucket.list.dto.response.SingleResponseWithMessageDto;
 import com.bucket.list.dto.token.TokenDto;
@@ -34,7 +35,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody @Valid MemberRequestDto.SignUpDto signUpDto){
-//        signUpDto.setProvider(AuthProvider.local.toString());
+        signUpDto.setProvider(AuthProvider.local.toString());
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         Member member = mapper.signUpDtoToMember(signUpDto);
         memberService.createMember(member);
