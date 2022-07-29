@@ -38,9 +38,9 @@ public class SecurityConfig {
     http.csrf().disable();
     http.headers().frameOptions().disable();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-      .and()
-      .formLogin().disable()
-      .httpBasic().disable()   // basic auth disable
+            .and()
+            .formLogin().disable()
+            .httpBasic().disable()   // basic auth disable
 //      // TO-DO : OAuth2 로그인 관련 filter 추가가
 //     .oauth2Login()
 //        .authorizationEndpoint()
@@ -56,15 +56,15 @@ public class SecurityConfig {
 //        .successHandler(authenticationSuccessHandler)
 //        .failureHandler(authenticationFailureHandler)
 //      .and()
-      .apply(new CustomDsl())
-      .and()
-      .authorizeRequests()
-        .antMatchers("/v1/**")
-        .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-        .antMatchers("/admin/**")
-        .access("hasRole('ROLE_ADMIN')")
-        .anyRequest()
-        .permitAll();
+            .apply(new CustomDsl())
+            .and()
+            .authorizeRequests()
+            .antMatchers("/v1/**")
+            .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+            .antMatchers("/admin/**")
+            .access("hasRole('ROLE_ADMIN')")
+            .anyRequest()
+            .permitAll();
 
     return http.build();
   }
@@ -74,8 +74,8 @@ public class SecurityConfig {
     public void configure(HttpSecurity builder) throws Exception {
       AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
       builder
-        .addFilter(corsFilter)
-        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+              .addFilter(corsFilter)
+              .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
   }
 }

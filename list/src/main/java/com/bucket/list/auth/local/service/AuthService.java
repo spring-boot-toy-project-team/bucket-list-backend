@@ -7,7 +7,6 @@ import com.bucket.list.member.entity.Member;
 import com.bucket.list.member.repository.MemberRepository;
 import com.bucket.list.util.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,8 @@ public class AuthService {
       throw new BusinessLogicException(ExceptionCode.PASSWORD_INCORRECT);
     }
 
-    return jwtTokenProvider.createTokenDto(findMember);
+    TokenDto.Token token = jwtTokenProvider.createTokenDto(findMember);
+    return token;
   }
 
   public String getCurrentMember() {

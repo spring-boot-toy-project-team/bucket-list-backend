@@ -38,8 +38,8 @@ public class AuthController {
     memberService.createMember(member);
 
     MessageResponseDto message = MessageResponseDto.builder()
-      .message("WELCOME")
-      .build();
+            .message("WELCOME")
+            .build();
 
     return new ResponseEntity<>(message, HttpStatus.CREATED);
   }
@@ -48,15 +48,15 @@ public class AuthController {
   public ResponseEntity login(@RequestBody @Valid MemberRequestDto.loginDto loginDto) {
     TokenDto.Token response = authService.login(mapper.loginDtoToMember(loginDto));
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(response,
-      "SUCCESS"),
-      HttpStatus.OK);
+            "SUCCESS"),
+            HttpStatus.OK);
   }
 
   @PostMapping("/reissue")
   public ResponseEntity reIssue(@RequestBody @Valid TokenDto.ReIssue reIssue) {
     TokenDto.Token response =  authService.reIssue(reIssue);
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(response,
-      "SUCCESS"),
-      HttpStatus.OK);
+            "SUCCESS"),
+            HttpStatus.OK);
   }
 }

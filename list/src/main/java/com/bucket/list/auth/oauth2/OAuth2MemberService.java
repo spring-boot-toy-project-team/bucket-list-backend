@@ -3,7 +3,6 @@ package com.bucket.list.auth.oauth2;
 import com.bucket.list.auth.MemberDetails;
 import com.bucket.list.auth.oauth2.user.OAuth2UserInfo;
 import com.bucket.list.auth.oauth2.user.OAuth2UserInfoFactory;
-import com.bucket.list.auth.oauth2.user.provider.AuthProvider;
 import com.bucket.list.exception.OAuth2AuthenticationProcessingException;
 import com.bucket.list.member.entity.Member;
 import com.bucket.list.member.repository.MemberRepository;
@@ -47,8 +46,8 @@ public class OAuth2MemberService extends DefaultOAuth2UserService {
       member = optionalMember.get();
       if(!member.getProvider().equals(oAuth2UserRequest.getClientRegistration().getRegistrationId().toLowerCase())) {
         throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
-          member.getProvider() + " account. Please use your " + member.getProvider() +
-          " account to login.");
+                member.getProvider() + " account. Please use your " + member.getProvider() +
+                " account to login.");
       }
       member = updateExistingMember(member, oAuth2UserRequest);
     } else {

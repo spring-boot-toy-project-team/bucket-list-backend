@@ -37,16 +37,6 @@ public class Member extends Auditable {
 
   private String profileImg;
 
-  private String roles;
-  private String provider;
-
-  public List<String> getRoleList(){
-    if (this.roles.length()>0){
-      return Arrays.asList(this.roles.split(","));
-    }
-    return new ArrayList<>();
-  }
-
   @Enumerated(value = EnumType.STRING)
   @Column(length = 20, nullable = false)
   private MemberStatus memberStatus;

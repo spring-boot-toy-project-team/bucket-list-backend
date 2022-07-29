@@ -19,8 +19,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -29,7 +29,7 @@ public class JwtTokenProvider {
   @Value("spring.jwt.secret")
   private String secretKey;
   private static final String grantType = "Bearer";
-//  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 60 * 1000L;         // 5 min
+  //  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 60 * 1000L;         // 5 min
   private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 1000L;         // 5 min
   private static final Long REFRESH_TOKEN_EXPIRED_IN = 24 * 60 * 60 * 1000L;  // 1 day
 
@@ -39,6 +39,7 @@ public class JwtTokenProvider {
   @PostConstruct
   protected void init() {
     secretKey = Base64UrlCodec.BASE64URL.encode(secretKey.getBytes(StandardCharsets.UTF_8));
+//    secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
   }
 
   public TokenDto.Token createTokenDto(Member member) {
@@ -48,26 +49,26 @@ public class JwtTokenProvider {
     Date now = new Date();
 
     String accessToken = Jwts.builder()
-      .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-      .setClaims(claims)
-      .setIssuedAt(now)
-      .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_EXPIRED_IN))
-      .signWith(SignatureAlgorithm.HS256, secretKey)
-      .compact();
+            .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_EXPIRED_IN))
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
 
     String refreshToken = Jwts.builder()
-      .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-      .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRED_IN))
-      .signWith(SignatureAlgorithm.HS256, secretKey)
-      .compact();
+            .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+            .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRED_IN))
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
 
     return TokenDto.Token.builder()
-      .grantType(grantType)
-      .accessToken(accessToken)
-      .accessTokenExpiredTime(ACCESS_TOKEN_EXPIRED_IN)
-      .refreshToken(refreshToken)
-      .refreshTokenExpiredTime(REFRESH_TOKEN_EXPIRED_IN)
-      .build();
+            .grantType(grantType)
+            .accessToken(accessToken)
+            .accessTokenExpiredTime(ACCESS_TOKEN_EXPIRED_IN)
+            .refreshToken(refreshToken)
+            .refreshTokenExpiredTime(REFRESH_TOKEN_EXPIRED_IN)
+            .build();
   }
 
   // jwt로 인증정보를 조회
@@ -111,6 +112,6 @@ public class JwtTokenProvider {
     }
     return false;
   }
-  
+
 
 }

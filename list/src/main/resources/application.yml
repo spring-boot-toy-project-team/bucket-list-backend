@@ -10,4 +10,4 @@ spring:
       ddl-auto: create
     show-sql: true
   jwt:
-    secret: bucket-list-test-key                          # 추후 제거
+    secret: bucket-list-test-key

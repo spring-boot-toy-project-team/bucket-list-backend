@@ -26,6 +26,25 @@ public class MemberController {
   private final MemberService memberService;
   private final MemberMapper mapper;
 
+  @PostMapping("/login")
+  public ResponseEntity login(@RequestBody @Valid MemberRequestDto.loginDto loginDto) {
+
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @PostMapping
+  public ResponseEntity signUp(@RequestBody @Valid MemberRequestDto.SignUpDto signUpDto) {
+    signUpDto.setProvider(AuthProvider.local.toString());
+    Member member = mapper.signUpDtoToMember(signUpDto);
+    memberService.createMember(member);
+
+    MessageResponseDto message = MessageResponseDto.builder()
+            .message("WELCOME")
+            .build();
+
+    return new ResponseEntity<>(message, HttpStatus.CREATED);
+  }
+
   @GetMapping("/{member-id}")
   public ResponseEntity getMember(@Positive @PathVariable("member-id") long memberId)  {
     Member member = memberService.findMember(memberId);
