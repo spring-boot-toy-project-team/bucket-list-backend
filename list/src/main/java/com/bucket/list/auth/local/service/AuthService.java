@@ -7,6 +7,7 @@ import com.bucket.list.member.entity.Member;
 import com.bucket.list.member.repository.MemberRepository;
 import com.bucket.list.util.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -22,6 +24,7 @@ public class AuthService {
   private final MemberRepository memberRepository;
   private final JwtTokenProvider jwtTokenProvider;
   private final PasswordEncoder passwordEncoder;
+  private final RedisTemplate<String, Object> redisTemplate;
 
   public TokenDto.Token login(Member member) {
     Member findMember = findVerifiedMember(member);
@@ -29,8 +32,10 @@ public class AuthService {
     if(!passwordEncoder.matches(member.getPassword(), findMember.getPassword())) {
       throw new BusinessLogicException(ExceptionCode.PASSWORD_INCORRECT);
     }
-
-    return jwtTokenProvider.createTokenDto(findMember);
+    TokenDto.Token token = jwtTokenProvider.createTokenDto(findMember);
+    redisTemplate.opsForValue()
+      .set(findMember.getEmail(), token.getRefreshToken(), token.getRefreshTokenExpiredTime(), TimeUnit.MILLISECONDS);
+    return token;
   }
 
   public String getCurrentMember() {

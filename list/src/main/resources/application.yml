@@ -11,3 +11,10 @@ spring:
     show-sql: true
   jwt:
     secret: bucket-list-test-key                          # 추후 제거
+
+  redis:
+    host: localhost
+    port: 6379
+    pool:
+      max-idle: 10
+      min-idle: 0
