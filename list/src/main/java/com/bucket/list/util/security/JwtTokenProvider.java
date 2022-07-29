@@ -44,8 +44,7 @@ public class JwtTokenProvider {
   public TokenDto.Token createTokenDto(Member member) {
     // TO-DO : memberId로 할지, email로 jwt에 넣을지 고민
 //    Claims claims = Jwts.claims().setSubject(String.valueOf(memberId));
-    Claims claims = Jwts.claims().setSubject(String.valueOf(member.getMemberId()));
-    claims.put("email", member.getEmail());
+    Claims claims = Jwts.claims().setSubject(member.getEmail());
     claims.put(ROLES, member.getRoleList());
 
     Date now = new Date();
@@ -88,7 +87,7 @@ public class JwtTokenProvider {
   // Jwt 토큰 복호화해서 가져오기
   private Claims parseClaims(String token) {
     try {
-      return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+      return Jwts.parser().setSigningKey(secretKey).parseClaimsJwt(token).getBody();
     } catch (ExpiredJwtException e) {
       return e.getClaims();
     }
@@ -102,7 +101,7 @@ public class JwtTokenProvider {
   // jwt 의 유효성 및 만료일자 확인
   public boolean validationToken(String token) {
     try {
-      Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+      Jwts.parser().setSigningKey(secretKey).parseClaimsJwt(token);
       return true;
     } catch (SecurityException | MalformedJwtException e) {
       log.error("잘못된 Jwt 서명입니다.");
@@ -114,9 +113,5 @@ public class JwtTokenProvider {
       log.error("잘못된 토큰입니다.");
     }
     return false;
-  }
-
-  public boolean validateToken(String token) {
-    return true;
   }
 }

@@ -1,6 +1,6 @@
-package com.bucket.list.auth.Oauth2.user.provider;
+package com.bucket.list.auth.oauth2.user.provider;
 
-import com.bucket.list.auth.Oauth2.user.OAuth2UserInfo;
+import com.bucket.list.auth.oauth2.user.OAuth2UserInfo;
 
 import java.util.Map;
 
@@ -20,12 +20,6 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
     public String getEmail() {
         return (String) attributes.get("email");
     }
-
-    @Override
-    public String getImgeUrl() {
-        return null;
-    }
-
     @Override
     public String getImageUrl() {
         if(attributes.containsKey("picture")) {
@@ -39,5 +33,4 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
         }
         return null;
     }
-
 }

@@ -15,4 +15,6 @@ public interface MemberMapper {
   MemberResponseDto.UpdateDto memberToUpdateDto(Member member);
 
   Member updateDtoToMember(MemberRequestDto.UpdateDto updateDto);
+
+    Member loginDtoToMember(MemberRequestDto.loginDto loginDto);
 }

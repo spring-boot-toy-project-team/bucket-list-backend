@@ -1,4 +1,4 @@
-package com.bucket.list.auth.Oauth2.user;
+package com.bucket.list.auth.oauth2.user;
 
 import java.util.Map;
 
@@ -13,7 +13,5 @@ public abstract class OAuth2UserInfo {
     public abstract String getId();
     public abstract String getName();
     public abstract String getEmail();
-    public abstract String getImgeUrl();
-
     public abstract String getImageUrl();
 }

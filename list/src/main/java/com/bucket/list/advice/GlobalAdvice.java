@@ -21,7 +21,7 @@ public class GlobalAdvice {
   @ExceptionHandler
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorResponse handleMethodArgumentNotValidException(
-    MethodArgumentNotValidException e) {
+          MethodArgumentNotValidException e) {
 
     final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getBindingResult());
 
@@ -31,7 +31,7 @@ public class GlobalAdvice {
   @ExceptionHandler
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorResponse handleConstraintViolationException(
-    ConstraintViolationException e) {
+          ConstraintViolationException e) {
     final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getConstraintViolations());
 
     return response;
@@ -42,13 +42,13 @@ public class GlobalAdvice {
     final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
 
     return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode()
-      .getStatus()));
+            .getStatus()));
   }
 
   @ExceptionHandler
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
   public ErrorResponse handleHttpRequestMethodNotSupportedException(
-    HttpRequestMethodNotSupportedException e) {
+          HttpRequestMethodNotSupportedException e) {
 
     final ErrorResponse response = ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
 
@@ -58,10 +58,10 @@ public class GlobalAdvice {
   @ExceptionHandler
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorResponse handleHttpMessageNotReadableException(
-    HttpMessageNotReadableException e) {
+          HttpMessageNotReadableException e) {
 
     final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST,
-      "Required request body is missing");
+            "Required request body is missing");
 
     return response;
   }
@@ -69,10 +69,10 @@ public class GlobalAdvice {
   @ExceptionHandler
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorResponse handleMissingServletRequestParameterException(
-    MissingServletRequestParameterException e) {
+          MissingServletRequestParameterException e) {
 
     final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST,
-      e.getMessage());
+            e.getMessage());
 
     return response;
   }

@@ -1,6 +1,6 @@
 package com.bucket.list.member.controller;
 
-import com.bucket.list.auth.Oauth2.user.provider.AuthProvider;
+import com.bucket.list.auth.oauth2.user.provider.AuthProvider;
 import com.bucket.list.dto.response.MessageResponseDto;
 import com.bucket.list.dto.response.SingleResponseDto;
 import com.bucket.list.dto.response.SingleResponseWithMessageDto;
@@ -39,8 +39,8 @@ public class MemberController {
     memberService.createMember(member);
 
     MessageResponseDto message = MessageResponseDto.builder()
-      .message("WELCOME")
-      .build();
+            .message("WELCOME")
+            .build();
 
     return new ResponseEntity<>(message, HttpStatus.CREATED);
   }

@@ -14,35 +14,38 @@ import java.util.Map;
 
 @Data
 public class MemberDetails implements UserDetails, OAuth2User {
-
     private long memberId;
-    private String email;
     private String nickName;
+    private String email;
     private Collection<? extends GrantedAuthority> roles;
     private Map<String, Object> attributes;
 
-    public MemberDetails(long memberId, String email, Collection<? extends GrantedAuthority> roles, String nickName) {
+    public MemberDetails(long memberId, String email, String nickName, Collection<? extends GrantedAuthority> roles) {
         this.memberId = memberId;
+        this.nickName = nickName;
         this.email = email;
         this.roles = roles;
-        this.nickName=nickName;
     }
 
-
+    //일반 회원가입
     public static MemberDetails create(Member member){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         member.getRoleList().forEach(n -> {
             authorities.add(() -> n);
         });
 
-        MemberDetails memberDetails = new MemberDetails(member.getMemberId(), member.getEmail(), authorities, member.getNickName());
-        return memberDetails;
+        return new MemberDetails(member.getMemberId(), member.getEmail(), member.getNickName(), authorities);
     }
 
     public static MemberDetails create(Member member, Map<String, Object> attributes){
         MemberDetails memberDetails = MemberDetails.create(member);
         memberDetails.setAttributes(attributes);
         return memberDetails;
+    }
+
+    @Override
+    public <A> A getAttribute(String name) {
+        return OAuth2User.super.getAttribute(name);
     }
 
     @Override

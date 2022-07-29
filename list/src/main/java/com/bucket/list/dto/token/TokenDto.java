@@ -17,4 +17,17 @@ public class TokenDto {
     private Long accessTokenExpiredTime;
     private Long refreshTokenExpiredTime;
   }
+
+
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class ReIssue{
+    private String grantType;
+    private String accessToken;
+    private String refreshToken;
+    private Long accessTokenExpiredTime;
+    private Long refreshTokenExpiredTime;
+  }
 }
