@@ -54,7 +54,9 @@ public class AuthController {
 
   @PostMapping("/reissue")
   public ResponseEntity reIssue(@RequestBody @Valid TokenDto.ReIssue reIssue) {
-
-    return new ResponseEntity<>(HttpStatus.OK);
+    TokenDto.Token response =  authService.reIssue(reIssue);
+    return new ResponseEntity<>(new SingleResponseWithMessageDto<>(response,
+      "SUCCESS"),
+      HttpStatus.OK);
   }
 }

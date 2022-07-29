@@ -37,9 +37,15 @@ public class AuthService {
     return SecurityContextHolder.getContext().getAuthentication().getName();
   }
 
+  public TokenDto.Token reIssue(TokenDto.ReIssue reIssue) {
+    return null;
+  }
+
   @Transactional(readOnly = true)
   public Member findVerifiedMember(Member member) {
     Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail());
     return optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
   }
+
+
 }
