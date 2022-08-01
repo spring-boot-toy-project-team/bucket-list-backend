@@ -28,8 +28,8 @@ public class JwtTokenProvider {
   @Value("spring.jwt.secret")
   private String secretKey;
   private static final String grantType = "Bearer";
-//    private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 60 * 1000L;         // 5 min
-  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 1000L;         // 5 sec
+    private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 60 * 1000L;         // 5 min
+//  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 1000L;         // 5 sec
   private static final Long REFRESH_TOKEN_EXPIRED_IN = 24 * 60 * 60 * 1000L;  // 1 day
 //  private static final Long REFRESH_TOKEN_EXPIRED_IN = 15 * 1000L;  // 1 day
 

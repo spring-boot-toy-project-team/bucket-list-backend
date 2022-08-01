@@ -3,7 +3,7 @@ package com.bucket.list.auth.oauth2;
 import com.bucket.list.auth.MemberDetails;
 import com.bucket.list.auth.oauth2.user.OAuth2UserInfo;
 import com.bucket.list.auth.oauth2.user.OAuth2UserInfoFactory;
-import com.bucket.list.exception.OAuth2AuthenticationProcessingException;
+import com.bucket.list.exception.security.OAuth2AuthenticationProcessingException;
 import com.bucket.list.member.entity.Member;
 import com.bucket.list.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

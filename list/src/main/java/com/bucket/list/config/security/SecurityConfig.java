@@ -1,6 +1,8 @@
 package com.bucket.list.config.security;
 
+import com.bucket.list.exception.security.JwtAuthenticationEntryPoint;
 import com.bucket.list.filter.security.JwtAuthenticationFilter;
+import com.bucket.list.exception.security.JwtAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +24,8 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
   private final CorsFilter corsFilter;
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+  private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -65,6 +69,10 @@ public class SecurityConfig {
             .access("hasRole('ROLE_ADMIN')")
             .anyRequest()
             .permitAll();
+
+    http.exceptionHandling()
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint)	// 401
+            .accessDeniedHandler(jwtAccessDeniedHandler);		// 403 user가 admin
 
     return http.build();
   }
