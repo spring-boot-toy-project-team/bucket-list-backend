@@ -5,7 +5,7 @@ import com.bucket.list.auth.oauth2.user.provider.AuthProvider;
 import com.bucket.list.auth.oauth2.user.provider.FacebookOAuth2UserInfo;
 import com.bucket.list.auth.oauth2.user.provider.GithubOAuth2UserInfo;
 import com.bucket.list.auth.oauth2.user.provider.GoogleOAuth2UserInfo;
-import com.bucket.list.exception.OAuth2AuthenticationProcessingException;
+import com.bucket.list.exception.security.OAuth2AuthenticationProcessingException;
 
 import java.util.Map;
 

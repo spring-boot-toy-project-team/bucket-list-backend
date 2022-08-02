@@ -54,60 +54,6 @@ class MemberControllerTest {
   private MemberMapper mapper;
 
   @Test
-  @DisplayName("회원 가입 테스트")
-  public void signUpTest() throws Exception {
-    // given
-    MemberRequestDto.SignUpDto signUpDto = MemberRequestDto.SignUpDto.builder()
-      .email("hgd11@gmail.com")
-      .introduction("홍길동 입니다.")
-      .nickName("홍길동")
-      .password("1234")
-      .tel("010-1234-5679")
-      .build();
-    String content = gson.toJson(signUpDto);
-
-    MessageResponseDto responseDto = MessageResponseDto.builder()
-      .message("WELCOME")
-      .build();
-
-    given(mapper.signUpDtoToMember(Mockito.any(MemberRequestDto.SignUpDto.class))).willReturn(new Member());
-    given(memberService.createMember(Mockito.any(Member.class))).willReturn(new Member());
-
-
-    // when
-    ResultActions actions = mockMvc.perform(
-      post("/v1/members")
-        .accept(MediaType.APPLICATION_JSON)
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(content)
-    );
-
-    // then
-    actions
-      .andExpect(status().isCreated())
-      .andExpect(jsonPath("$.message").value("WELCOME"))
-      .andDo(document(
-        "signup-member",
-        getRequestPreProcessor(),
-        getResponsePreProcessor(),
-        requestFields(
-          List.of(
-            fieldWithPath("email").type(JsonFieldType.STRING).description("이메일").attributes(key("constraints").value("not blank")),
-            fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호").attributes(key("constraints").value("not blank")),
-            fieldWithPath("nickName").type(JsonFieldType.STRING).description("닉네임").attributes(key("constraints").value("not blank")),
-            fieldWithPath("introduction").type(JsonFieldType.STRING).description("소개글"),
-            fieldWithPath("tel").type(JsonFieldType.STRING).description("연락처").attributes(key("constraints").value("not blank"))
-          )
-        ),
-        responseFields(
-          List.of(
-            fieldWithPath("message").type(JsonFieldType.STRING).description("결과 메시지")
-          )
-        )
-      ));
-  }
-
-  @Test
   @DisplayName("회원 조회 테스트")
   public void getMemberTest() throws Exception {
     // given

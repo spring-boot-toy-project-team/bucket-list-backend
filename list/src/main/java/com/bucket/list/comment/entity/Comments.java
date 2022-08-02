@@ -27,7 +27,7 @@ public class Comments extends Auditable {
   @JoinColumn(name = "COMPLETED_LIST_ID")
   private CompletedList completedList;
 
-  @OneToMany(mappedBy = "comments", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "comments", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<ReComments> reComments = new ArrayList<>();
 
   @ManyToOne

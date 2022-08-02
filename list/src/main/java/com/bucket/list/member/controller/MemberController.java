@@ -1,5 +1,6 @@
 package com.bucket.list.member.controller;
 
+import com.bucket.list.auth.MemberDetails;
 import com.bucket.list.auth.oauth2.user.provider.AuthProvider;
 import com.bucket.list.dto.response.MessageResponseDto;
 import com.bucket.list.dto.response.SingleResponseDto;
@@ -12,6 +13,7 @@ import com.bucket.list.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,27 +28,9 @@ public class MemberController {
   private final MemberService memberService;
   private final MemberMapper mapper;
 
-  @PostMapping("/login")
-  public ResponseEntity login(@RequestBody @Valid MemberRequestDto.loginDto loginDto) {
-
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
-
-  @PostMapping
-  public ResponseEntity signUp(@RequestBody @Valid MemberRequestDto.SignUpDto signUpDto) {
-    signUpDto.setProvider(AuthProvider.local.toString());
-    Member member = mapper.signUpDtoToMember(signUpDto);
-    memberService.createMember(member);
-
-    MessageResponseDto message = MessageResponseDto.builder()
-      .message("WELCOME")
-      .build();
-
-    return new ResponseEntity<>(message, HttpStatus.CREATED);
-  }
-
   @GetMapping("/{member-id}")
-  public ResponseEntity getMember(@Positive @PathVariable("member-id") long memberId)  {
+  public ResponseEntity getMember(@AuthenticationPrincipal MemberDetails memberDetails, @Positive @PathVariable("member-id") long memberId)  {
+    System.out.println(memberDetails.getEmail());
     Member member = memberService.findMember(memberId);
 
     MemberResponseDto.MemberInfo memberInfo = mapper.memberToMemberInfo(member);

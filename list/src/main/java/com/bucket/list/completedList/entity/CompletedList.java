@@ -37,10 +37,10 @@ public class CompletedList {
   @JoinColumn(name = "BUCKET_LIST_ID")
   private BucketList bucketList;
 
-  @OneToMany(mappedBy = "completedList")
+  @OneToMany(mappedBy = "completedList", cascade = CascadeType.ALL)
   private List<Comments> comments = new ArrayList<>();
 
-  @OneToMany(mappedBy = "completedList")
+  @OneToMany(mappedBy = "completedList", cascade = CascadeType.ALL)
   private List<Like> likes = new ArrayList<>();
 
   public void addLike(Like like) {

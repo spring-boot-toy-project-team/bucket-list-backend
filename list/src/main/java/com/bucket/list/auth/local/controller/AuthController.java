@@ -4,10 +4,10 @@ import com.bucket.list.auth.local.service.AuthService;
 import com.bucket.list.auth.oauth2.user.provider.AuthProvider;
 import com.bucket.list.dto.response.MessageResponseDto;
 import com.bucket.list.dto.response.SingleResponseWithMessageDto;
-import com.bucket.list.dto.token.TokenDto;
+import com.bucket.list.dto.token.TokenRequestDto;
+import com.bucket.list.dto.token.TokenResponseDto;
 import com.bucket.list.member.dto.MemberRequestDto;
 import com.bucket.list.member.entity.Member;
-import com.bucket.list.member.entity.Roles;
 import com.bucket.list.member.mapper.MemberMapper;
 import com.bucket.list.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -46,15 +46,15 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity login(@RequestBody @Valid MemberRequestDto.loginDto loginDto) {
-    TokenDto.Token response = authService.login(mapper.loginDtoToMember(loginDto));
+    TokenResponseDto.Token response = authService.login(mapper.loginDtoToMember(loginDto));
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(response,
       "SUCCESS"),
       HttpStatus.OK);
   }
 
   @PostMapping("/reissue")
-  public ResponseEntity reIssue(@RequestBody @Valid TokenDto.ReIssue reIssue) {
-    TokenDto.Token response =  authService.reIssue(reIssue);
+  public ResponseEntity reIssue(@RequestBody @Valid TokenRequestDto.ReIssue reIssue) {
+    TokenResponseDto.ReIssueToken response =  authService.reIssue(reIssue);
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(response,
       "SUCCESS"),
       HttpStatus.OK);

@@ -17,7 +17,11 @@ public enum ExceptionCode {
   COMPLETED_LIST_NOT_FOUND(404, "Completed List not found"),
   COMPLETED_LIST_ALREADY_EXISTS(409, "Completed List already exists"),
   ROLE_IS_NOT_EXISTS(403, "Role is not exists"),
-  PASSWORD_INCORRECT(404, "Password Incorrect");
+  PASSWORD_INCORRECT(404, "Password Incorrect"),
+  TOKEN_IS_INVALID(401, "Token is invalid"),
+  REFRESH_TOKEN_IS_EXPIRED(403, "Refresh Token is expired"),
+  COMMENTS_IS_NOT_FOUND(404, "Comments is not found"),
+  RE_COMMENTS_IS_NOT_FOUND(404, "ReComments is not found");
 
   @Getter
   private int status;

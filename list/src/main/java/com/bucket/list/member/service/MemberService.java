@@ -69,4 +69,15 @@ public class MemberService {
       throw new BusinessLogicException(ExceptionCode.MEMBER_IS_SLEEP);
     return findMember;
   }
+
+  @Transactional(readOnly = true)
+  public Member findVerifiedMemberByEmail(String email) {
+    Optional<Member> optionalMember = memberRepository.findByEmail(email);
+    Member findMember = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    if(findMember.getMemberStatus().equals(Member.MemberStatus.MEMBER_QUIT))
+      throw new BusinessLogicException(ExceptionCode.MEMBER_IS_QUIT);
+    if(findMember.getMemberStatus().equals(Member.MemberStatus.MEMBER_SLEEP))
+      throw new BusinessLogicException(ExceptionCode.MEMBER_IS_SLEEP);
+    return findMember;
+  }
 }

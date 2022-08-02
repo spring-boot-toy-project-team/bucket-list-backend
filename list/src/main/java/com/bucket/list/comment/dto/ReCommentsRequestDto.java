@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 
-public class CommentsRequestDto {
+public class ReCommentsRequestDto {
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
   @Builder
-  public static class CreateCommentsDto {
-    private long completedListId;
+  public static class CreateReCommentsDto {
+    private long commentsId;
     @NotEmpty
     private String contents;
   }
@@ -22,9 +22,9 @@ public class CommentsRequestDto {
   @NoArgsConstructor
   @AllArgsConstructor
   @Builder
-  public static class UpdateCommentsDto {
+  public static class UpdateReCommentsDto {
+    private long reCommentsId;
     private long commentsId;
-    private long completedListId;
     @NotEmpty
     private String contents;
   }

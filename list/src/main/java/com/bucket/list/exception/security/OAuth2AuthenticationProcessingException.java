@@ -1,4 +1,4 @@
-package com.bucket.list.exception;
+package com.bucket.list.exception.security;
 
 import org.springframework.security.core.AuthenticationException;
 

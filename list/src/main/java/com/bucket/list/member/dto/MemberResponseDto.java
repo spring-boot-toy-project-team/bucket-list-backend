@@ -30,4 +30,14 @@ public class MemberResponseDto {
     private String profileImg;
     private long memberId;
   }
+
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class MemberComments {
+    private String nickName;
+    private String profileImg;
+  }
+
 }

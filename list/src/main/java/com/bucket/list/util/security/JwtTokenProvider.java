@@ -1,13 +1,13 @@
 package com.bucket.list.util.security;
 
-import com.bucket.list.dto.token.TokenDto;
+import com.bucket.list.dto.token.TokenResponseDto;
 import com.bucket.list.exception.BusinessLogicException;
 import com.bucket.list.exception.ExceptionCode;
 import com.bucket.list.member.entity.Member;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.Base64UrlCodec;
 import lombok.RequiredArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +20,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -29,8 +28,8 @@ public class JwtTokenProvider {
   @Value("spring.jwt.secret")
   private String secretKey;
   private static final String grantType = "Bearer";
-//  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 60 * 1000L;         // 5 min
-  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 1000L;         // 5 min
+  private static final Long ACCESS_TOKEN_EXPIRED_IN = 30 * 60 * 1000L;         // 5 min
+//  private static final Long ACCESS_TOKEN_EXPIRED_IN = 5 * 1000L;         // 5 sec
   private static final Long REFRESH_TOKEN_EXPIRED_IN = 24 * 60 * 60 * 1000L;  // 1 day
 
   private static final String ROLES = "roles";
@@ -41,7 +40,7 @@ public class JwtTokenProvider {
     secretKey = Base64UrlCodec.BASE64URL.encode(secretKey.getBytes(StandardCharsets.UTF_8));
   }
 
-  public TokenDto.Token createTokenDto(Member member) {
+  public TokenResponseDto.Token createTokenDto(Member member) {
     Claims claims = Jwts.claims().setSubject(member.getEmail());
     claims.put(ROLES, member.getRoleList());
 
@@ -61,12 +60,33 @@ public class JwtTokenProvider {
       .signWith(SignatureAlgorithm.HS256, secretKey)
       .compact();
 
-    return TokenDto.Token.builder()
+    return TokenResponseDto.Token.builder()
       .grantType(grantType)
       .accessToken(accessToken)
       .accessTokenExpiredTime(ACCESS_TOKEN_EXPIRED_IN)
       .refreshToken(refreshToken)
       .refreshTokenExpiredTime(REFRESH_TOKEN_EXPIRED_IN)
+      .build();
+  }
+
+  public TokenResponseDto.ReIssueToken createReIssueTokenDto(Member member) {
+    Claims claims = Jwts.claims().setSubject(member.getEmail());
+    claims.put(ROLES, member.getRoleList());
+
+    Date now = new Date();
+
+    String accessToken = Jwts.builder()
+      .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+      .setClaims(claims)
+      .setIssuedAt(now)
+      .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_EXPIRED_IN))
+      .signWith(SignatureAlgorithm.HS256, secretKey)
+      .compact();
+
+    return TokenResponseDto.ReIssueToken.builder()
+      .grantType(grantType)
+      .accessToken(accessToken)
+      .accessTokenExpiredTime(ACCESS_TOKEN_EXPIRED_IN)
       .build();
   }
 
@@ -111,6 +131,4 @@ public class JwtTokenProvider {
     }
     return false;
   }
-  
-
 }
