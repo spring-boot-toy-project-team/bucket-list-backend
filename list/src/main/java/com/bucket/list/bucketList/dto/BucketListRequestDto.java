@@ -18,6 +18,7 @@ public class BucketListRequestDto {
 
     @NotBlank
     private String target;
+    private long memberId;
   }
 
   @Data
@@ -31,5 +32,6 @@ public class BucketListRequestDto {
     private String target;
     @NotNull
     private boolean completed;
+    private long memberId;
   }
 }

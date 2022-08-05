@@ -1,5 +1,6 @@
 package com.bucket.list.completedList.controller;
 
+import com.bucket.list.auth.MemberDetails;
 import com.bucket.list.completedList.dto.CompletedListRequestDto;
 import com.bucket.list.completedList.entity.CompletedList;
 import com.bucket.list.completedList.mapper.CompletedListMapper;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,12 +29,14 @@ public class CompletedListController {
 
   // 완료된 버킷 리스트 등록
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-  public ResponseEntity createCompletedList(@Positive @PathVariable("group-id") long groupId,
+  public ResponseEntity createCompletedList(@AuthenticationPrincipal MemberDetails memberDetails,
+                                            @Positive@PathVariable("group-id") long groupId,
                                             @Positive @PathVariable("bucket-list-id") long bucketListId,
                                             @Valid @RequestPart("data") CompletedListRequestDto.CreateCompletedListDto createCompletedListDto,
                                             @RequestPart(name = "files", required = false) List<MultipartFile> files) {
     createCompletedListDto.setGroupId(groupId);
     createCompletedListDto.setBucketListId(bucketListId);
+    createCompletedListDto.setMemberId(memberDetails.getMemberId());
     CompletedList completedList = completedListService.createCompletedList(mapper.createCompletedListDtoToCompletedList(createCompletedListDto), files);
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.completeListToCompletedInfo(completedList),
       "SUCCESS"),

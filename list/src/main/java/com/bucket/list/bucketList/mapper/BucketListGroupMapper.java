@@ -24,5 +24,13 @@ public interface BucketListGroupMapper {
 
   List<BucketListGroupResponseDto.GroupInfo> bucketListGroupsToGroupInfo(List<BucketListGroup> bucketListGroups);
 
-  BucketListGroup updateGroupDtoToBucketListGroup(BucketListGroupRequestDto.UpdateGroupDto updateGroupDto);
+  default BucketListGroup updateGroupDtoToBucketListGroup(BucketListGroupRequestDto.UpdateGroupDto updateGroupDto) {
+    BucketListGroup bucketListGroup = new BucketListGroup();
+    Member member = new Member();
+    member.setMemberId(updateGroupDto.getMemberId());
+    bucketListGroup.setMember(member);
+    bucketListGroup.setBucketListGroupId(updateGroupDto.getBucketListGroupId());
+    bucketListGroup.setTitle(updateGroupDto.getTitle());
+    return bucketListGroup;
+  }
 }

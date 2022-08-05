@@ -25,24 +25,24 @@ public class BucketListService {
   }
 
   @Transactional(readOnly = true)
-  public BucketList findBucketList(long groupId, long bucketListId) {
-    return findVerifiedBucketList(groupId, bucketListId);
+  public BucketList findBucketList(long groupId, long bucketListId, long memberId) {
+    return findVerifiedBucketList(groupId, bucketListId, memberId);
   }
 
   @Transactional(readOnly = true)
-  public Page<BucketList> findBucketLists(long groupId, int page, int size) {
+  public Page<BucketList> findBucketLists(long groupId, int page, int size, long memberId) {
     return bucketListRepository.findAllByBucketListGroup(groupId,
-      PageRequest.of(page, size, Sort.by("BUCKET_LIST_ID").descending()));
+            memberId, PageRequest.of(page, size, Sort.by("BUCKET_LIST_ID").descending()));
   }
 
-  public void deleteBucketList(long groupId, long bucketListId) {
-    BucketList bucketList = findVerifiedBucketList(groupId, bucketListId);
+  public void deleteBucketList(long groupId, long bucketListId, long memberId) {
+    BucketList bucketList = findVerifiedBucketList(groupId, bucketListId, memberId);
     bucketListRepository.delete(bucketList);
   }
 
   public BucketList updateBucketList(BucketList bucketList) {
     BucketList findBucketList = findVerifiedBucketList(bucketList.getBucketListGroup().getBucketListGroupId(),
-      bucketList.getBucketListId());
+            bucketList.getBucketListId(), bucketList.getBucketListGroup().getMember().getMemberId());
 
     Optional.ofNullable(bucketList.getTarget()).ifPresent(findBucketList::setTarget);
     Optional.ofNullable(bucketList.getCompleted()).ifPresent(findBucketList::setCompleted);
@@ -50,13 +50,11 @@ public class BucketListService {
   }
 
   @Transactional(readOnly = true)
-  public BucketList findVerifiedBucketList(long groupId, long bucketListId) {
-    Optional<BucketList> optionalBucketList = bucketListRepository.findByBucketListGroupIdAndId(groupId, bucketListId);
+  public BucketList findVerifiedBucketList(long groupId, long bucketListId, long memberId) {
+    Optional<BucketList> optionalBucketList = bucketListRepository.findByIdAndBucketListGroupIdAndMemberId(groupId, bucketListId, memberId);
 
-    BucketList bucketList = optionalBucketList
-      .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_NOT_FOUND));
-
-    return bucketList;
+    return optionalBucketList
+            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_NOT_FOUND));
   }
 
   public void updateCompleted(BucketList bucketList, boolean completed) {

@@ -20,12 +20,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ReCommentsService {
 
-    private final MemberService memberService;
     private final ReCommentsRepository reCommentsRepository;
 
 
-    public ReComments createReComments(ReComments reComments, String email){
-        reComments.setMember(memberService.findVerifiedMemberByEmail(email));
+    public ReComments createReComments(ReComments reComments){
         return reCommentsRepository.save(reComments);
     }
 
@@ -36,16 +34,14 @@ public class ReCommentsService {
                 PageRequest.of(page, size, Sort.by("RE_COMMENTS_ID").descending()));
     }
 
-    public ReComments updateReComments(ReComments reComments, String email){
-        Member member = memberService.findVerifiedMemberByEmail(email);
-        ReComments findReComments = findVerifiedReComments(reComments.getComments().getCommentsId(), reComments.getReCommentsId(),member.getMemberId());
+    public ReComments updateReComments(ReComments reComments){
+        ReComments findReComments = findVerifiedReComments(reComments.getComments().getCommentsId(), reComments.getReCommentsId(),reComments.getMember().getMemberId());
         Optional.ofNullable(reComments.getContents()).ifPresent(findReComments::setContents);
         return reCommentsRepository.save(findReComments);
     }
 
-    public void deleteReComments(long commentsId, long reCommentsId, String email){
-        Member member = memberService.findVerifiedMemberByEmail(email);
-        ReComments findReComments = findVerifiedReComments(commentsId,reCommentsId,member.getMemberId());
+    public void deleteReComments(long commentsId, long reCommentsId, long memberId){
+        ReComments findReComments = findVerifiedReComments(commentsId,reCommentsId, memberId);
         reCommentsRepository.delete(findReComments);
     }
 

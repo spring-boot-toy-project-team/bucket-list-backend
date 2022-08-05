@@ -5,13 +5,18 @@ import com.bucket.list.bucketList.entity.BucketListGroup;
 import com.bucket.list.completedList.dto.CompletedListRequestDto;
 import com.bucket.list.completedList.dto.CompletedListResponseDto;
 import com.bucket.list.completedList.entity.CompletedList;
+import com.bucket.list.member.entity.Member;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CompletedListMapper {
   default CompletedList createCompletedListDtoToCompletedList(CompletedListRequestDto.CreateCompletedListDto createCompletedListDto) {
+
     BucketListGroup bucketListGroup = new BucketListGroup();
     bucketListGroup.setBucketListGroupId(createCompletedListDto.getGroupId());
+    Member member = new Member();
+    member.setMemberId(createCompletedListDto.getMemberId());
+    bucketListGroup.setMember(member);
     BucketList bucketList = new BucketList();
     bucketList.setBucketListId(createCompletedListDto.getBucketListId());
     bucketList.setBucketListGroup(bucketListGroup);
@@ -24,13 +29,13 @@ public interface CompletedListMapper {
 
   default CompletedListResponseDto.CompletedListInfo completeListToCompletedInfo(CompletedList completedList) {
     return CompletedListResponseDto.CompletedListInfo.builder()
-      .contents(completedList.getContents())
-      .completedListId(completedList.getCompletedListId())
-      .tags(completedList.getTags())
-      .imgs(completedList.getImgs())
-      .bucketListId(completedList.getBucketList().getBucketListId())
-      .bucketListGroupId(completedList.getBucketList().getBucketListGroup().getBucketListGroupId())
-      .build();
+            .contents(completedList.getContents())
+            .completedListId(completedList.getCompletedListId())
+            .tags(completedList.getTags())
+            .imgs(completedList.getImgs())
+            .bucketListId(completedList.getBucketList().getBucketListId())
+            .bucketListGroupId(completedList.getBucketList().getBucketListGroup().getBucketListGroupId())
+            .build();
   }
 
   default CompletedList updateCompletedListToCompletedList(CompletedListRequestDto.UpdateCompletedListDto updateCompletedListDto) {

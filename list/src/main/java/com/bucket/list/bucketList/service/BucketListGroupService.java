@@ -24,39 +24,37 @@ public class BucketListGroupService {
   }
 
   @Transactional(readOnly = true)
-  public BucketListGroup findBucketListGroup(long bucketListGroupId) {
-    // TO-DO : memberId에 해당하는 BucketListGroup 조회 로직 추가
-    return findVerifiedGroup(bucketListGroupId);
+  public BucketListGroup findBucketListGroup(long bucketListGroupId, long memberId) {
+    return findVerifiedGroup(bucketListGroupId, memberId);
   }
 
-  public Page<BucketListGroup> findBucketListGroups(int page, int size) {
-    return bucketListGroupRepository.findAll(PageRequest.of(page, size,
-      Sort.by("bucketListGroupId").descending()));
+  public Page<BucketListGroup> findBucketListGroups(int page, int size, long memberId) {
+    return bucketListGroupRepository.findAllByMemberId(memberId, PageRequest.of(page, size,
+            Sort.by("BUCKET_LIST_GROUP_ID").descending()));
   }
 
   // TO-DO : memberId에 해당하고 BucketListGroupId가 일치하면 삭제하도록 설정 필요
-  public void deleteBucketListGroup(long bucketListGroupId) {
-     BucketListGroup bucketListGroup = findVerifiedGroup(bucketListGroupId);
-     bucketListGroupRepository.delete(bucketListGroup);
+  public void deleteBucketListGroup(long bucketListGroupId, long memberId) {
+    BucketListGroup bucketListGroup = findVerifiedGroup(bucketListGroupId, memberId);
+    bucketListGroupRepository.delete(bucketListGroup);
   }
 
   // TO-DO : memberId에 해당하고 BucketListGroupId가 일치하면 변경 가능하도록 설정 필요
   public BucketListGroup updateGroup(BucketListGroup bucketListGroup) {
-    BucketListGroup findBucketListGroup = findBucketListGroup(bucketListGroup.getBucketListGroupId());
+    BucketListGroup findBucketListGroup
+            = findBucketListGroup(bucketListGroup.getBucketListGroupId(), bucketListGroup.getMember().getMemberId());
     Optional.ofNullable(bucketListGroup.getTitle())
-      .ifPresent(findBucketListGroup::setTitle);
+            .ifPresent(findBucketListGroup::setTitle);
 
     return bucketListGroupRepository.save(findBucketListGroup);
   }
 
   // TO-DO : memberId에 해당하는 BucketListGroup 조회 로직 추가
   @Transactional(readOnly = true)
-  public BucketListGroup findVerifiedGroup(long bucketListGroupId) {
-    Optional<BucketListGroup> optionalBucketListGroup = bucketListGroupRepository.findById(bucketListGroupId);
+  public BucketListGroup findVerifiedGroup(long bucketListGroupId, long memberId) {
+    Optional<BucketListGroup> optionalBucketListGroup = bucketListGroupRepository.findByIdAndMemberId(bucketListGroupId, memberId);
 
-    BucketListGroup bucketListGroup = optionalBucketListGroup
-      .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_GROUP_NOT_FOUND));
-
-    return bucketListGroup;
+    return optionalBucketListGroup
+            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_GROUP_NOT_FOUND));
   }
 }

@@ -22,8 +22,9 @@ import java.util.Optional;
 public class CommentsService {
   private final CommentsRepository commentsRepository;
   private final MemberService memberService;
-  public Comments createComments(Comments comments, String email) {
-    comments.setMember(memberService.findVerifiedMemberByEmail(email));
+
+
+  public Comments createComments(Comments comments) {
     return commentsRepository.save(comments);
   }
 
@@ -33,18 +34,16 @@ public class CommentsService {
             PageRequest.of(page, size, Sort.by("COMMENTS_ID").descending()));
   }
 
-  public Comments updateComments(Comments comments, String email) {
-    Member member = memberService.findVerifiedMemberByEmail(email);
+  public Comments updateComments(Comments comments) {
     Comments findComments
-            = findVerifiedComments(comments.getCommentsId(), comments.getCompletedList().getCompletedListId(), member.getMemberId());
+            = findVerifiedComments(comments.getCommentsId(), comments.getCompletedList().getCompletedListId(), comments.getMember().getMemberId());
 
     Optional.ofNullable(comments.getContents()).ifPresent(findComments::setContents);
     return commentsRepository.save(findComments);
   }
 
-  public void deleteComments(long commentsId, long completedListId, String email) {
-    Member member = memberService.findVerifiedMemberByEmail(email);
-    Comments findComments = findVerifiedComments(commentsId, completedListId, member.getMemberId());
+  public void deleteComments(long commentsId, long completedListId, long memberId) {
+    Comments findComments = findVerifiedComments(commentsId, completedListId, memberId);
     commentsRepository.delete(findComments);
   }
 

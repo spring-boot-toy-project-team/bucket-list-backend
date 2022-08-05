@@ -34,10 +34,9 @@ public class CommentController {
                                        @Positive @PathVariable("completed-list-id") long completedListId,
                                        @RequestBody @Valid CommentsRequestDto.CreateCommentsDto createCommentsDto) {
     // TO-DO : MEMBER ID 이용하는 로직으로 변경
-    System.out.println(memberDetails.getMemberId());
     createCommentsDto.setCompletedListId(completedListId);
-    Comments comments = commentsService.createComments(mapper.createCommentsDtoToComments(createCommentsDto),
-            memberDetails.getUsername());
+    createCommentsDto.setMemberId(memberDetails.getMemberId());
+    Comments comments = commentsService.createComments(mapper.createCommentsDtoToComments(createCommentsDto));
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.commentsToCommentsInfo(comments),
             "SUCCESS"),
             HttpStatus.CREATED);
@@ -50,8 +49,7 @@ public class CommentController {
     Page<Comments> pageOfComments = commentsService.findCommentsLists(completedListId, page - 1, size);
     List<Comments> commentsList = pageOfComments.getContent();
     return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.commentsListToCommentsInfoList(commentsList),
-            pageOfComments),
-            HttpStatus.OK);
+            pageOfComments), HttpStatus.OK);
   }
 
   @PatchMapping("{comments-id}")
@@ -59,10 +57,10 @@ public class CommentController {
                                        @Positive @PathVariable("completed-list-id") long completedListId,
                                        @Positive @PathVariable("comments-id") long commentsId,
                                        @RequestBody @Valid CommentsRequestDto.UpdateCommentsDto updateCommentsDto) {
+    updateCommentsDto.setMemberId(memberDetails.getMemberId());
     updateCommentsDto.setCommentsId(commentsId);
     updateCommentsDto.setCompletedListId(completedListId);
-    Comments comments = commentsService.updateComments(mapper.updateCommentsDtoToComments(updateCommentsDto),
-            memberDetails.getUsername());
+    Comments comments = commentsService.updateComments(mapper.updateCommentsDtoToComments(updateCommentsDto));
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.commentsToCommentsInfo(comments),
             "SUCCESS"),
             HttpStatus.OK);
@@ -72,7 +70,7 @@ public class CommentController {
   public ResponseEntity deleteComments(@AuthenticationPrincipal MemberDetails memberDetails,
                                        @Positive @PathVariable("completed-list-id") long completedListId,
                                        @Positive @PathVariable("comments-id") long commentsId) {
-    commentsService.deleteComments(commentsId, completedListId, memberDetails.getEmail());
+    commentsService.deleteComments(commentsId, completedListId, memberDetails.getMemberId());
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

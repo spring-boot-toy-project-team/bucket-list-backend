@@ -7,6 +7,7 @@ import com.bucket.list.comment.entity.Comments;
 import com.bucket.list.comment.entity.ReComments;
 import com.bucket.list.completedList.entity.CompletedList;
 import com.bucket.list.member.dto.MemberResponseDto;
+import com.bucket.list.member.entity.Member;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.stream.Collectors;
 public interface ReCommentsMapper {
     default ReComments createReCommentsDtoToReComments(ReCommentsRequestDto.CreateReCommentsDto createReCommentsDto) {
         ReComments reComments = new ReComments();
+        Member member = new Member();
+        member.setMemberId(createReCommentsDto.getMemberId());
+        reComments.setMember(member);
         Comments comments = new Comments();
         comments.setCommentsId(createReCommentsDto.getCommentsId());
         reComments.setComments(comments);
@@ -42,6 +46,9 @@ public interface ReCommentsMapper {
 
     default ReComments updateReCommentsDtoToReComments(ReCommentsRequestDto.UpdateReCommentsDto updateReCommentsDto) {
         ReComments reComments = new ReComments();
+        Member member = new Member();
+        member.setMemberId(updateReCommentsDto.getMemberId());
+        reComments.setMember(member);
         Comments comments = new Comments();
         comments.setCommentsId(updateReCommentsDto.getCommentsId());
         reComments.setReCommentsId(updateReCommentsDto.getReCommentsId());

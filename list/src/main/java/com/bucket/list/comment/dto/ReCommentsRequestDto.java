@@ -17,6 +17,7 @@ public class ReCommentsRequestDto {
         private long commentsId;
         @NotEmpty
         private String contents;
+        private long memberId;
     }
 
     @Data
@@ -28,5 +29,6 @@ public class ReCommentsRequestDto {
         private long commentsId;
         @NotEmpty
         private String contents;
+        private long memberId;
     }
 }
