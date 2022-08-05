@@ -20,7 +20,8 @@ import java.util.Optional;
 public class MemberService {
   private final MemberRepository memberRepository;
 
-  public Member createMember(Member member) {
+
+    public Member createMember(Member member) {
     verifyExistsEmail(member.getEmail());
     return memberRepository.save(member);
   }
@@ -62,6 +63,17 @@ public class MemberService {
     Optional<Member> optionalMember = memberRepository.findById(memberId);
 
 
+    Member findMember = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    if(findMember.getMemberStatus().equals(Member.MemberStatus.MEMBER_QUIT))
+      throw new BusinessLogicException(ExceptionCode.MEMBER_IS_QUIT);
+    if(findMember.getMemberStatus().equals(Member.MemberStatus.MEMBER_SLEEP))
+      throw new BusinessLogicException(ExceptionCode.MEMBER_IS_SLEEP);
+    return findMember;
+  }
+
+  @Transactional(readOnly = true)
+  public Member findVerifiedMemberByEmail(String email){
+      Optional<Member> optionalMember = memberRepository.findByEmail(email);
     Member findMember = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     if(findMember.getMemberStatus().equals(Member.MemberStatus.MEMBER_QUIT))
       throw new BusinessLogicException(ExceptionCode.MEMBER_IS_QUIT);

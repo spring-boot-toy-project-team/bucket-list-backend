@@ -19,7 +19,9 @@ public enum ExceptionCode {
   ROLE_IS_NOT_EXISTS(403, "Role is not exists"),
   PASSWORD_INCORRECT(404, "Password Incorrect"),
   TOKEN_IS_NOT_VALID(401,"Token is not Valid"),
-  REFRESH_TOKEN_IS_EXPIRED(403, "Refresh Token is expired");
+  REFRESH_TOKEN_IS_EXPIRED(403, "Refresh Token is expired"),
+  COMMENTS_IS_NOT_FOUND(404,"Comments is not Found" ),
+  RE_COMMENTS_IS_NOT_FOUND(404,"ReComments is not Found" );
 
   @Getter
   private int status;
