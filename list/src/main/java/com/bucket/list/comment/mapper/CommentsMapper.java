@@ -5,6 +5,7 @@ import com.bucket.list.comment.dto.CommentsResponseDto;
 import com.bucket.list.comment.entity.Comments;
 import com.bucket.list.completedList.entity.CompletedList;
 import com.bucket.list.member.dto.MemberResponseDto;
+import com.bucket.list.member.entity.Member;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public interface CommentsMapper {
 
   default Comments createCommentsDtoToComments(CommentsRequestDto.CreateCommentsDto createCommentsDto) {
     Comments comments = new Comments();
+    Member member = new Member();
+    member.setMemberId(createCommentsDto.getMemberId());
+    comments.setMember(member);
     CompletedList completedList = new CompletedList();
     completedList.setCompletedListId(createCommentsDto.getCompletedListId());
     comments.setCompletedList(completedList);
@@ -40,6 +44,9 @@ public interface CommentsMapper {
 
   default Comments updateCommentsDtoToComments(CommentsRequestDto.UpdateCommentsDto updateCommentsDto) {
     Comments comments = new Comments();
+    Member member = new Member();
+    member.setMemberId(updateCommentsDto.getMemberId());
+    comments.setMember(member);
     CompletedList completedList = new CompletedList();
     completedList.setCompletedListId(updateCommentsDto.getCompletedListId());
     comments.setCommentsId(updateCommentsDto.getCommentsId());

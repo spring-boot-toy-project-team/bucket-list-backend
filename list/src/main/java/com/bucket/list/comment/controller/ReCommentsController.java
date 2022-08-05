@@ -32,8 +32,9 @@ public class ReCommentsController {
                                          @Positive @PathVariable("comments-id") long commentsId,
                                          @RequestBody @Valid ReCommentsRequestDto.CreateReCommentsDto createReCommentsDto) {
     createReCommentsDto.setCommentsId(commentsId);
+    createReCommentsDto.setMemberId(memberDetails.getMemberId());
     ReComments reComments
-      = reCommentsService.createReComments(mapper.createReCommentsDtoToReComments(createReCommentsDto), memberDetails.getUsername());
+      = reCommentsService.createReComments(mapper.createReCommentsDtoToReComments(createReCommentsDto));
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.reCommentsToReCommentsInfo(reComments),
       "SUCCESS"),
       HttpStatus.CREATED);
@@ -58,8 +59,9 @@ public class ReCommentsController {
                                          @RequestBody @Valid ReCommentsRequestDto.UpdateReCommentsDto updateReCommentsDto) {
     updateReCommentsDto.setCommentsId(commentsId);
     updateReCommentsDto.setReCommentsId(reCommentsId);
+    updateReCommentsDto.setMemberId(memberDetails.getMemberId());
     ReComments reComments
-      = reCommentsService.updateReComments(mapper.updateReCommentsDtoToReComments(updateReCommentsDto), memberDetails.getUsername());
+      = reCommentsService.updateReComments(mapper.updateReCommentsDtoToReComments(updateReCommentsDto));
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.reCommentsToReCommentsInfo(reComments),
       "SUCCESS"),
       HttpStatus.OK);
@@ -69,7 +71,7 @@ public class ReCommentsController {
   public ResponseEntity deleteReComments(@AuthenticationPrincipal MemberDetails memberDetails,
                                          @Positive @PathVariable("comments-id") long commentsId,
                                          @Positive @PathVariable("re-comments-id") long reCommentsId) {
-    reCommentsService.deleteReComments(commentsId, reCommentsId, memberDetails.getUsername());
+    reCommentsService.deleteReComments(commentsId, reCommentsId, memberDetails.getMemberId());
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

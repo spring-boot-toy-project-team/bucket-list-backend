@@ -28,6 +28,7 @@ public class CompletedListService {
     // TO-DO : 파일 로직 처리해서 CompletedList에 저장하기!
     BucketList bucketList = bucketListService.findVerifiedBucketList(completedList.getBucketList()
         .getBucketListGroup().getBucketListGroupId(),
+      1,
       completedList.getBucketList().getBucketListId());
 
     bucketListService.updateCompleted(bucketList, true);
@@ -55,7 +56,7 @@ public class CompletedListService {
   }
 
   public void deleteCompletedList(long groupId, long bucketListId, long completedListId) {
-    BucketList bucketList = bucketListService.findBucketList(groupId, bucketListId);
+    BucketList bucketList = bucketListService.findBucketList(groupId, bucketListId, 1);
     bucketListService.updateCompleted(bucketList, false);
     CompletedList completedList = findCompletedList(bucketListId, completedListId);
     completedListRepository.delete(completedList);

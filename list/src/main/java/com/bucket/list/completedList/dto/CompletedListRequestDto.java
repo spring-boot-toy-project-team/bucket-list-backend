@@ -19,6 +19,7 @@ public class CompletedListRequestDto {
     @NotBlank
     private String contents;
     private String tags;
+    private long memberId;
   }
 
   @Data
@@ -32,5 +33,6 @@ public class CompletedListRequestDto {
     @NotBlank
     private String contents;
     private String tags;
+    private long memberId;
   }
 }

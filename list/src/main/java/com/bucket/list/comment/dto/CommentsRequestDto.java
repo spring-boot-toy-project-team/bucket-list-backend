@@ -16,6 +16,7 @@ public class CommentsRequestDto {
     private long completedListId;
     @NotEmpty
     private String contents;
+    private long memberId;
   }
 
   @Data
@@ -27,5 +28,6 @@ public class CommentsRequestDto {
     private long completedListId;
     @NotEmpty
     private String contents;
+    private long memberId;
   }
 }

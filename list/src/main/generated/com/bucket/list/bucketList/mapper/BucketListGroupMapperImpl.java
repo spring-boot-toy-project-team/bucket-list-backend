@@ -1,6 +1,5 @@
 package com.bucket.list.bucketList.mapper;
 
-import com.bucket.list.bucketList.dto.BucketListGroupRequestDto;
 import com.bucket.list.bucketList.dto.BucketListGroupResponseDto;
 import com.bucket.list.bucketList.entity.BucketListGroup;
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-29T15:29:22+0900",
+    date = "2022-08-05T23:11:38+0900",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.15 (Azul Systems, Inc.)"
 )
 @Component
@@ -57,19 +56,5 @@ public class BucketListGroupMapperImpl implements BucketListGroupMapper {
         }
 
         return list;
-    }
-
-    @Override
-    public BucketListGroup updateGroupDtoToBucketListGroup(BucketListGroupRequestDto.UpdateGroupDto updateGroupDto) {
-        if ( updateGroupDto == null ) {
-            return null;
-        }
-
-        BucketListGroup bucketListGroup = new BucketListGroup();
-
-        bucketListGroup.setBucketListGroupId( updateGroupDto.getBucketListGroupId() );
-        bucketListGroup.setTitle( updateGroupDto.getTitle() );
-
-        return bucketListGroup;
     }
 }

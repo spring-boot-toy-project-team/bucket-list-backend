@@ -4,8 +4,6 @@ import com.bucket.list.comment.entity.ReComments;
 import com.bucket.list.comment.repository.ReCommentsRepository;
 import com.bucket.list.exception.BusinessLogicException;
 import com.bucket.list.exception.ExceptionCode;
-import com.bucket.list.member.entity.Member;
-import com.bucket.list.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,10 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ReCommentsService {
   private final ReCommentsRepository reCommentsRepository;
-  private final MemberService memberService;
 
-  public ReComments createReComments(ReComments reComments, String email) {
-    reComments.setMember(memberService.findVerifiedMemberByEmail(email));
+  public ReComments createReComments(ReComments reComments) {
     return reCommentsRepository.save(reComments);
   }
 
@@ -33,17 +29,15 @@ public class ReCommentsService {
       PageRequest.of(page, size, Sort.by("RE_COMMENTS_ID").descending()));
   }
 
-  public ReComments updateReComments(ReComments reComments, String email) {
-    Member member = memberService.findVerifiedMemberByEmail(email);
+  public ReComments updateReComments(ReComments reComments) {
     ReComments findReComments
-      = findVerifiedReComments(reComments.getComments().getCommentsId(), reComments.getReCommentsId(), member.getMemberId());
+      = findVerifiedReComments(reComments.getComments().getCommentsId(), reComments.getReCommentsId(), reComments.getMember().getMemberId());
     Optional.ofNullable(reComments.getContents()).ifPresent(findReComments::setContents);
     return reCommentsRepository.save(findReComments);
   }
 
-  public void deleteReComments(long commentsId, long reCommentsId, String email) {
-    Member member = memberService.findVerifiedMemberByEmail(email);
-    ReComments findReComments = findVerifiedReComments(commentsId, reCommentsId, member.getMemberId());
+  public void deleteReComments(long commentsId, long reCommentsId, long memberId) {
+    ReComments findReComments = findVerifiedReComments(commentsId, reCommentsId, memberId);
     reCommentsRepository.delete(findReComments);
   }
 
