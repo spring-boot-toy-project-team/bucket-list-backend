@@ -8,6 +8,9 @@ import com.bucket.list.exception.BusinessLogicException;
 import com.bucket.list.exception.ExceptionCode;
 import com.bucket.list.util.tags.TagsHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,10 +29,8 @@ public class CompletedListService {
 
   public CompletedList createCompletedList(CompletedList completedList, List<MultipartFile> files) {
     // TO-DO : 파일 로직 처리해서 CompletedList에 저장하기!
-    BucketList bucketList = bucketListService.findVerifiedBucketList(completedList.getBucketList()
-        .getBucketListGroup().getBucketListGroupId(),
-      1,
-      completedList.getBucketList().getBucketListId());
+    BucketList bucketList = bucketListService.findVerifiedBucketListByIdAndMemberId(completedList.getCompletedListId(),
+      completedList.getMember().getMemberId());
 
     bucketListService.updateCompleted(bucketList, true);
 
@@ -44,6 +45,12 @@ public class CompletedListService {
     return findCompletedList.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMPLETED_LIST_NOT_FOUND));
   }
 
+  @Transactional(readOnly = true)
+  public Page<CompletedList> findCompletedLists(long memberId, int page, int size) {
+    return completedListRepository.findAllByMemberId(memberId,
+      PageRequest.of(page, size, Sort.by("MODIFIED_AT").descending()));
+  }
+
   public CompletedList updateCompletedList(CompletedList completedList, List<MultipartFile> files) {
     // TO-DO : 파일 변경 로직 수행
     CompletedList findCompletedList = findCompletedList(completedList.getBucketList().getBucketListId(),
@@ -55,8 +62,9 @@ public class CompletedListService {
     return completedListRepository.save(findCompletedList);
   }
 
-  public void deleteCompletedList(long groupId, long bucketListId, long completedListId) {
-    BucketList bucketList = bucketListService.findBucketList(groupId, bucketListId, 1);
+  public void deleteCompletedList(long bucketListId, long completedListId, long memberId) {
+    // TO-DO : 바꾸기
+    BucketList bucketList = bucketListService.findVerifiedBucketListByIdAndMemberId(bucketListId, memberId);
     bucketListService.updateCompleted(bucketList, false);
     CompletedList completedList = findCompletedList(bucketListId, completedListId);
     completedListRepository.delete(completedList);
@@ -71,4 +79,8 @@ public class CompletedListService {
   }
 
 
+  public Page<CompletedList> findCompletedListByNickName(String nickName, int page, int size) {
+    return completedListRepository.findAllByNickName(nickName,
+      PageRequest.of(page, size, Sort.by("MODIFIED_AT").descending()));
+  }
 }

@@ -18,7 +18,6 @@ public class CompletedListResponseDto {
     private long completedListId;
     private String tags;
     private List<Img> imgs;
-    private long bucketListGroupId;
     private long bucketListId;
   }
 }

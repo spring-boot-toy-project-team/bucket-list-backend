@@ -1,6 +1,7 @@
 package com.bucket.list.bucketList.entity;
 
 import com.bucket.list.completedList.entity.CompletedList;
+import com.bucket.list.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,10 @@ public class BucketList {
   @OneToOne(mappedBy = "bucketList")
   private CompletedList completedList;
 
+  @ManyToOne
+  @JoinColumn(name = "MEMBER_ID")
+  Member member;
+
   public boolean getCompleted() {
     return this.completed;
   }
@@ -37,5 +42,8 @@ public class BucketList {
     this.bucketListGroup = bucketListGroup;
   }
 
+  public void addMember(Member member) {
+    this.member = member;
+  }
 
 }

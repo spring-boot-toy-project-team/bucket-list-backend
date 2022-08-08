@@ -5,8 +5,10 @@ import com.bucket.list.completedList.dto.CompletedListRequestDto;
 import com.bucket.list.completedList.entity.CompletedList;
 import com.bucket.list.completedList.mapper.CompletedListMapper;
 import com.bucket.list.completedList.service.CompletedListService;
+import com.bucket.list.dto.response.MultiResponseWithPageInfoDto;
 import com.bucket.list.dto.response.SingleResponseWithMessageDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,24 +19,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/v1/bucket-groups/{group-id}/list/{bucket-list-id}/complete")
+@RequestMapping("/v1/bucket-list")
 @RequiredArgsConstructor
 public class CompletedListController {
   private final CompletedListService completedListService;
   private final CompletedListMapper mapper;
 
   // 완료된 버킷 리스트 등록
-  @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+  @PostMapping(value = "/{bucket-list-id}/complete", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
   public ResponseEntity createCompletedList(@AuthenticationPrincipal MemberDetails memberDetails,
-                                            @Positive @PathVariable("group-id") long groupId,
                                             @Positive @PathVariable("bucket-list-id") long bucketListId,
                                             @Valid @RequestPart("data") CompletedListRequestDto.CreateCompletedListDto createCompletedListDto,
                                             @RequestPart(name = "files", required = false) List<MultipartFile> files) {
-    createCompletedListDto.setGroupId(groupId);
     createCompletedListDto.setBucketListId(bucketListId);
     createCompletedListDto.setMemberId(memberDetails.getMemberId());
     CompletedList completedList = completedListService.createCompletedList(mapper.createCompletedListDtoToCompletedList(createCompletedListDto), files);
@@ -44,8 +45,8 @@ public class CompletedListController {
   }
 
   // 완료된 버킷 리스트 조회
-  @GetMapping("/{completed-list-id}")
-  public ResponseEntity getCompletedList(@Positive @PathVariable("group-id") long groupId,
+  @GetMapping("/{bucket-list-id}/complete/{completed-list-id}")
+  public ResponseEntity getCompletedList(@AuthenticationPrincipal MemberDetails memberDetails,
                                          @Positive @PathVariable("bucket-list-id") long bucketListId,
                                          @Positive @PathVariable("completed-list-id") long completedListId) {
     CompletedList completedList = completedListService.findCompletedList(bucketListId, completedListId);
@@ -54,16 +55,29 @@ public class CompletedListController {
       HttpStatus.OK);
   }
 
+  // 완료된 버킷 리스트들 조회
+  @GetMapping("/complete")
+  public ResponseEntity getCompletedLists(@AuthenticationPrincipal MemberDetails memberDetails,
+                                          @Positive @PathParam("page") int page,
+                                          @Positive @PathParam("size") int size) {
+    Page<CompletedList> pageOfCompletedList
+      = completedListService.findCompletedLists(memberDetails.getMemberId(), page - 1, size);
+    List<CompletedList> completedLists = pageOfCompletedList.getContent();
+    return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.completeListsToCompletedInfoList(completedLists),
+      pageOfCompletedList),
+      HttpStatus.OK);
+  }
+
   // 완료된 버킷 리스트 변경
-  @PatchMapping("/{completed-list-id}")
-  public ResponseEntity updateCompletedList(@Positive @PathVariable("group-id") long groupId,
+  @PatchMapping("/{bucket-list-id}/complete/{completed-list-id}")
+  public ResponseEntity updateCompletedList(@AuthenticationPrincipal MemberDetails memberDetails,
                                             @Positive @PathVariable("bucket-list-id") long bucketListId,
                                             @Positive @PathVariable("completed-list-id") long completedListId,
                                             @Valid @RequestPart("data") CompletedListRequestDto.UpdateCompletedListDto updateCompletedListDto,
                                             @RequestPart(name = "files", required = false) List<MultipartFile> files) {
     updateCompletedListDto.setCompletedListId(completedListId);
     updateCompletedListDto.setBucketListId(bucketListId);
-    updateCompletedListDto.setGroupId(groupId);
+    updateCompletedListDto.setMemberId(memberDetails.getMemberId());
     CompletedList completedList = completedListService.updateCompletedList(
       mapper.updateCompletedListToCompletedList(updateCompletedListDto),
       files);
@@ -75,11 +89,38 @@ public class CompletedListController {
 
 
   // 완료된 버킷 리스트 삭제
-  @DeleteMapping("/{completed-list-id}")
-  public ResponseEntity deleteCompletedList(@Positive @PathVariable("group-id") long groupId,
-                                         @Positive @PathVariable("bucket-list-id") long bucketListId,
-                                         @Positive @PathVariable("completed-list-id") long completedListId) {
-    completedListService.deleteCompletedList(groupId, bucketListId, completedListId);
+  @DeleteMapping("/{bucket-list-id}/complete/{completed-list-id}")
+  public ResponseEntity deleteCompletedList(@AuthenticationPrincipal MemberDetails memberDetails,
+                                            @Positive @PathVariable("bucket-list-id") long bucketListId,
+                                            @Positive @PathVariable("completed-list-id") long completedListId) {
+    completedListService.deleteCompletedList(bucketListId, completedListId, memberDetails.getMemberId());
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  @GetMapping("/complete")
+  public ResponseEntity getCompletedListByNickName(@PathParam("nick-name") String nickName,
+                                                   @Positive @PathParam("page") int page,
+                                                   @Positive @PathParam("size") int size) {
+    Page<CompletedList> pageOfCompletedList = completedListService.findCompletedListByNickName(nickName, page - 1, size);
+    List<CompletedList> completedLists = pageOfCompletedList.getContent();
+    return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.completeListsToCompletedInfoList(completedLists),
+      pageOfCompletedList),
+      HttpStatus.OK);
+  }
+
+  @GetMapping("/complete")
+  public ResponseEntity getCompletedListByTagName(@PathParam("tag-name") String tagName,
+                                                  @Positive @PathParam("page") int page,
+                                                  @Positive @PathParam("size") int size) {
+    // TO-DO : 태그 이름으로 검색하기
+    // DB - #행복#기쁨#혼자 여행#여행#나홀로 여행
+    // tagName - #행복 #기쁨 # 혼자 # 홀 # 나로 #복
+    /*
+      1. # 태그를 기준으로 split 한다. (# 다음 공백도 같이 제거해야함)
+      2. 행복, 기쁨, 혼자, 홀, 나로, 복
+      3. LIKE 행복% 기쁨% 홀%...
+      4. 쿼리문에 유동적으로 LIKE 개수가 변경되어야 한다.
+     */
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }

@@ -1,6 +1,9 @@
 package com.bucket.list.completedList.respository;
 
 import com.bucket.list.completedList.entity.CompletedList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +22,17 @@ public interface CompletedListRepository extends JpaRepository<CompletedList, Lo
 
   @Modifying(clearAutomatically = true)
   CompletedList save(CompletedList completedList);
+
+  @Query(value = "select * " +
+    "from COMPLETED_LIST" +
+    "where 1 = 1 " +
+    "and MEMBER_ID = :memberId", nativeQuery = true)
+  Page<CompletedList> findAllByMemberId(@Param("memberId") long memberId, Pageable pageable);
+
+  @Query(value = "select CL.* " +
+    "from COMPLETED_LIST CL " +
+    "inner join MEMBER M" +
+    "on CL.MEMBER_ID = M.MEMBER_ID " +
+    "where M.NICK_NAME = :nickName")
+  Page<CompletedList> findAllByNickName(String nickName, Pageable pageable);
 }
