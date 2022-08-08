@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface CompletedListRepository extends JpaRepository<CompletedList, Long> {
   @Query(value = "select * from COMPLETED_LIST where COMPLETED_LIST_ID = :completedListId " +
-    "and BUCKET_LIST_ID = :bucketListId", nativeQuery = true)
+          "and BUCKET_LIST_ID = :bucketListId", nativeQuery = true)
   Optional<CompletedList> findByCompletedListIdAndBucketListId(@Param("completedListId") long completedListId,
                                                                @Param("bucketListId") long bucketListId);
 

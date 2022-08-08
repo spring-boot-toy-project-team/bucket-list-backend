@@ -35,7 +35,7 @@ public class BucketListGroupController {
     createGroupDto.setMemberId(memberDetails.getMemberId());
     BucketListGroup bucketListGroup = bucketListGroupService.createGroup(mapper.createGroupDtoToBucketListGroup(createGroupDto));
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.bucketListGroupToCreateGroupDto(bucketListGroup),
-      "CREATED"), HttpStatus.CREATED);
+            "CREATED"), HttpStatus.CREATED);
   }
 
   // 그룹 조회
@@ -45,19 +45,19 @@ public class BucketListGroupController {
     BucketListGroup bucketListGroup = bucketListGroupService.findBucketListGroup(bucketListGroupId, memberDetails.getMemberId());
 
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.bucketListGroupToGroupInfo(bucketListGroup),
-      "SUCCESS"), HttpStatus.OK);
+            "SUCCESS"), HttpStatus.OK);
   }
   // 그룹들 조회
   @GetMapping
   public ResponseEntity getGroups(@AuthenticationPrincipal MemberDetails memberDetails,
-          @Positive @PathParam("page") int page,
+                                  @Positive @PathParam("page") int page,
                                   @Positive @PathParam("size") int size) {
     Page<BucketListGroup> pageGroups = bucketListGroupService.findBucketListGroups(page - 1, size, memberDetails.getMemberId());
     List<BucketListGroup> bucketListGroups = pageGroups.getContent();
 
     return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.bucketListGroupsToGroupInfo(bucketListGroups),
-      pageGroups),
-      HttpStatus.OK);
+            pageGroups),
+            HttpStatus.OK);
   }
   // 그룹 삭제
   @DeleteMapping("/{group-id}")
@@ -73,11 +73,13 @@ public class BucketListGroupController {
                                     @RequestBody @Valid BucketListGroupRequestDto.UpdateGroupDto updateGroupDto) {
     updateGroupDto.setMemberId(memberDetails.getMemberId());
     updateGroupDto.setBucketListGroupId(bucketListGroupId);
-    BucketListGroup bucketListGroup =  bucketListGroupService.updateGroup(mapper.updateGroupDtoToBucketListGroup(updateGroupDto));
+    BucketListGroup bucketListGroup =  bucketListGroupService.updateGroup(
+            mapper.updateGroupDtoToBucketListGroup(updateGroupDto)
+    );
 
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.bucketListGroupToGroupInfo(bucketListGroup),
-      "SUCCESS"),
-      HttpStatus.OK
+            "SUCCESS"),
+            HttpStatus.OK
     );
   }
 }

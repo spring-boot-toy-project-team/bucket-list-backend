@@ -30,7 +30,7 @@ public class CompletedListController {
   // 완료된 버킷 리스트 등록
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
   public ResponseEntity createCompletedList(@AuthenticationPrincipal MemberDetails memberDetails,
-                                            @Positive@PathVariable("group-id") long groupId,
+                                            @Positive @PathVariable("group-id") long groupId,
                                             @Positive @PathVariable("bucket-list-id") long bucketListId,
                                             @Valid @RequestPart("data") CompletedListRequestDto.CreateCompletedListDto createCompletedListDto,
                                             @RequestPart(name = "files", required = false) List<MultipartFile> files) {
@@ -39,8 +39,8 @@ public class CompletedListController {
     createCompletedListDto.setMemberId(memberDetails.getMemberId());
     CompletedList completedList = completedListService.createCompletedList(mapper.createCompletedListDtoToCompletedList(createCompletedListDto), files);
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.completeListToCompletedInfo(completedList),
-      "SUCCESS"),
-      HttpStatus.CREATED);
+            "SUCCESS"),
+            HttpStatus.CREATED);
   }
 
   // 완료된 버킷 리스트 조회
@@ -50,8 +50,8 @@ public class CompletedListController {
                                          @Positive @PathVariable("completed-list-id") long completedListId) {
     CompletedList completedList = completedListService.findCompletedList(bucketListId, completedListId);
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.completeListToCompletedInfo(completedList),
-      "SUCCESS"),
-      HttpStatus.OK);
+            "SUCCESS"),
+            HttpStatus.OK);
   }
 
   // 완료된 버킷 리스트 변경
@@ -65,20 +65,20 @@ public class CompletedListController {
     updateCompletedListDto.setBucketListId(bucketListId);
     updateCompletedListDto.setGroupId(groupId);
     CompletedList completedList = completedListService.updateCompletedList(
-      mapper.updateCompletedListToCompletedList(updateCompletedListDto),
-      files);
+            mapper.updateCompletedListToCompletedList(updateCompletedListDto),
+            files);
 
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.completeListToCompletedInfo(completedList),
-      "SUCCESS"),
-      HttpStatus.OK);
+            "SUCCESS"),
+            HttpStatus.OK);
   }
 
 
   // 완료된 버킷 리스트 삭제
   @DeleteMapping("/{completed-list-id}")
   public ResponseEntity deleteCompletedList(@Positive @PathVariable("group-id") long groupId,
-                                         @Positive @PathVariable("bucket-list-id") long bucketListId,
-                                         @Positive @PathVariable("completed-list-id") long completedListId) {
+                                            @Positive @PathVariable("bucket-list-id") long bucketListId,
+                                            @Positive @PathVariable("completed-list-id") long completedListId) {
     completedListService.deleteCompletedList(groupId, bucketListId, completedListId);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }

@@ -58,9 +58,9 @@ public class ReCommentsController {
                                            @Positive @PathVariable("comments-id") long commentsId,
                                            @Positive @PathVariable("re-comments-id") long reCommentsId,
                                            @RequestBody @Valid ReCommentsRequestDto.UpdateReCommentsDto updateReCommentsDto) {
-        updateReCommentsDto.setMemberId(memberDetails.getMemberId());
         updateReCommentsDto.setCommentsId(commentsId);
         updateReCommentsDto.setReCommentsId(reCommentsId);
+        updateReCommentsDto.setMemberId(memberDetails.getMemberId());
         ReComments reComments
                 = reCommentsService.updateReComments(mapper.updateReCommentsDtoToReComments(updateReCommentsDto));
         return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.reCommentsToReCommentsInfo(reComments),

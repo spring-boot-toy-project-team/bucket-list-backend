@@ -27,8 +27,9 @@ public class CompletedListService {
   public CompletedList createCompletedList(CompletedList completedList, List<MultipartFile> files) {
     // TO-DO : 파일 로직 처리해서 CompletedList에 저장하기!
     BucketList bucketList = bucketListService.findVerifiedBucketList(completedList.getBucketList()
-        .getBucketListGroup().getBucketListGroupId(),
-      completedList.getBucketList().getBucketListId(),completedList.getCompletedListId());
+                    .getBucketListGroup().getBucketListGroupId(),
+            1,
+            completedList.getBucketList().getBucketListId());
 
     bucketListService.updateCompleted(bucketList, true);
 
@@ -39,23 +40,23 @@ public class CompletedListService {
   @Transactional(readOnly = true)
   public CompletedList findCompletedList(long bucketListId, long completedListId) {
     Optional<CompletedList> findCompletedList = completedListRepository.findByCompletedListIdAndBucketListId(completedListId,
-      bucketListId);
+            bucketListId);
     return findCompletedList.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMPLETED_LIST_NOT_FOUND));
   }
 
   public CompletedList updateCompletedList(CompletedList completedList, List<MultipartFile> files) {
     // TO-DO : 파일 변경 로직 수행
     CompletedList findCompletedList = findCompletedList(completedList.getBucketList().getBucketListId(),
-      completedList.getCompletedListId());
+            completedList.getCompletedListId());
 
     Optional.ofNullable(completedList.getTags())
-      .ifPresent(tags -> findCompletedList.setTags(TagsHelper.duplicateCheck(tags)));
+            .ifPresent(tags -> findCompletedList.setTags(TagsHelper.duplicateCheck(tags)));
     Optional.ofNullable(completedList.getContents()).ifPresent(findCompletedList::setContents);
     return completedListRepository.save(findCompletedList);
   }
 
   public void deleteCompletedList(long groupId, long bucketListId, long completedListId) {
-    BucketList bucketList = bucketListService.findBucketList(groupId, bucketListId,1);
+    BucketList bucketList = bucketListService.findBucketList(groupId, bucketListId, 1);
     bucketListService.updateCompleted(bucketList, false);
     CompletedList completedList = findCompletedList(bucketListId, completedListId);
     completedListRepository.delete(completedList);

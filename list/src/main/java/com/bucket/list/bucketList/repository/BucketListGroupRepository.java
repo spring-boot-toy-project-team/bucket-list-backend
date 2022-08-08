@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface BucketListGroupRepository extends JpaRepository<BucketListGroup, Long> {
-
     @Query(value = "select " +
             "* " +
             "from BUCKET_LIST_GROUP " +
@@ -25,3 +24,4 @@ public interface BucketListGroupRepository extends JpaRepository<BucketListGroup
     @Query(value = "select * from BUCKET_LIST_GROUP where MEMBER_ID = :memberId", nativeQuery = true)
     Page<BucketListGroup> findAllByMemberId(@Param("memberId") long memberId, Pageable pageable);
 }
+

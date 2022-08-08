@@ -49,7 +49,8 @@ public class CommentController {
     Page<Comments> pageOfComments = commentsService.findCommentsLists(completedListId, page - 1, size);
     List<Comments> commentsList = pageOfComments.getContent();
     return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.commentsListToCommentsInfoList(commentsList),
-            pageOfComments), HttpStatus.OK);
+            pageOfComments),
+            HttpStatus.OK);
   }
 
   @PatchMapping("{comments-id}")
@@ -57,9 +58,9 @@ public class CommentController {
                                        @Positive @PathVariable("completed-list-id") long completedListId,
                                        @Positive @PathVariable("comments-id") long commentsId,
                                        @RequestBody @Valid CommentsRequestDto.UpdateCommentsDto updateCommentsDto) {
-    updateCommentsDto.setMemberId(memberDetails.getMemberId());
     updateCommentsDto.setCommentsId(commentsId);
     updateCommentsDto.setCompletedListId(completedListId);
+    updateCommentsDto.setMemberId(memberDetails.getMemberId());
     Comments comments = commentsService.updateComments(mapper.updateCommentsDtoToComments(updateCommentsDto));
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.commentsToCommentsInfo(comments),
             "SUCCESS"),
