@@ -97,30 +97,26 @@ public class CompletedListController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-  @GetMapping("/complete")
-  public ResponseEntity getCompletedListByNickName(@PathParam("nick-name") String nickName,
+  @GetMapping("/complete/nick-name")
+  public ResponseEntity getCompletedListByNickName(@PathParam("nickName") String nickName,
                                                    @Positive @PathParam("page") int page,
                                                    @Positive @PathParam("size") int size) {
-    Page<CompletedList> pageOfCompletedList = completedListService.findCompletedListByNickName(nickName, page - 1, size);
+    Page<CompletedList> pageOfCompletedList = completedListService.findCompletedListsByNickName(nickName, page - 1, size);
     List<CompletedList> completedLists = pageOfCompletedList.getContent();
     return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.completeListsToCompletedInfoList(completedLists),
       pageOfCompletedList),
       HttpStatus.OK);
   }
 
-  @GetMapping("/complete")
-  public ResponseEntity getCompletedListByTagName(@PathParam("tag-name") String tagName,
+  @GetMapping("/complete/tag-name")
+  public ResponseEntity getCompletedListByTagName(@PathParam("tagName") String tagName,
                                                   @Positive @PathParam("page") int page,
                                                   @Positive @PathParam("size") int size) {
-    // TO-DO : 태그 이름으로 검색하기
-    // DB - #행복#기쁨#혼자 여행#여행#나홀로 여행
-    // tagName - #행복 #기쁨 # 혼자 # 홀 # 나로 #복
-    /*
-      1. # 태그를 기준으로 split 한다. (# 다음 공백도 같이 제거해야함)
-      2. 행복, 기쁨, 혼자, 홀, 나로, 복
-      3. LIKE 행복% 기쁨% 홀%...
-      4. 쿼리문에 유동적으로 LIKE 개수가 변경되어야 한다.
-     */
-    return new ResponseEntity<>(HttpStatus.OK);
+    Page<CompletedList> pageOfCompletedList = completedListService.findCompletedListsByTagName(tagName,page-1,size);
+    List<CompletedList> completedLists = pageOfCompletedList.getContent();
+
+    return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.completeListsToCompletedInfoList(completedLists),
+      pageOfCompletedList),
+      HttpStatus.OK);
   }
 }

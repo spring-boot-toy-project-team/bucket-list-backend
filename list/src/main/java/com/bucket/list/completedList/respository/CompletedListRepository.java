@@ -24,15 +24,20 @@ public interface CompletedListRepository extends JpaRepository<CompletedList, Lo
   CompletedList save(CompletedList completedList);
 
   @Query(value = "select * " +
-    "from COMPLETED_LIST" +
+    "from COMPLETED_LIST " +
     "where 1 = 1 " +
     "and MEMBER_ID = :memberId", nativeQuery = true)
   Page<CompletedList> findAllByMemberId(@Param("memberId") long memberId, Pageable pageable);
 
   @Query(value = "select CL.* " +
     "from COMPLETED_LIST CL " +
-    "inner join MEMBER M" +
+    "inner join MEMBER M " +
     "on CL.MEMBER_ID = M.MEMBER_ID " +
-    "where M.NICK_NAME = :nickName")
-  Page<CompletedList> findAllByNickName(String nickName, Pageable pageable);
+    "where M.NICK_NAME like %:nickName%", nativeQuery = true)
+  Page<CompletedList> findAllByNickName(@Param("nickName") String nickName, Pageable pageable);
+
+  @Query(value = "select * " +
+    "from COMPLETED_LIST " +
+    "where TAGS like '%'||:tagName||'%'", nativeQuery = true)
+  Page<CompletedList> findAllByTagName(@Param("tagName") String tagName, Pageable pageable);
 }

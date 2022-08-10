@@ -53,7 +53,7 @@ public class MemberService {
   public void verifyExistsEmail(String email) {
     Optional<Member> member = memberRepository.findByEmail(email);
     if(member.isPresent()) {
-      throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
+      throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_EXISTS);
     }
   }
 

@@ -29,7 +29,7 @@ public class CompletedListService {
 
   public CompletedList createCompletedList(CompletedList completedList, List<MultipartFile> files) {
     // TO-DO : 파일 로직 처리해서 CompletedList에 저장하기!
-    BucketList bucketList = bucketListService.findVerifiedBucketListByIdAndMemberId(completedList.getCompletedListId(),
+    BucketList bucketList = bucketListService.findVerifiedBucketListByIdAndMemberId(completedList.getBucketList().getBucketListId(),
       completedList.getMember().getMemberId());
 
     bucketListService.updateCompleted(bucketList, true);
@@ -79,8 +79,13 @@ public class CompletedListService {
   }
 
 
-  public Page<CompletedList> findCompletedListByNickName(String nickName, int page, int size) {
+  public Page<CompletedList> findCompletedListsByNickName(String nickName, int page, int size) {
     return completedListRepository.findAllByNickName(nickName,
+      PageRequest.of(page, size, Sort.by("MODIFIED_AT").descending()));
+  }
+
+  public Page<CompletedList> findCompletedListsByTagName(String tagName, int page, int size) {
+    return completedListRepository.findAllByTagName(tagName,
       PageRequest.of(page, size, Sort.by("MODIFIED_AT").descending()));
   }
 }

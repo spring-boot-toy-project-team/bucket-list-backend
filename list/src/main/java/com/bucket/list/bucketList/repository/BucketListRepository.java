@@ -41,8 +41,8 @@ public interface BucketListRepository extends JpaRepository<BucketList, Long> {
                                                                @Param("memberId") long memberId);
 
   @Query(value = "select * " +
-    "from BUCKET_LIST" +
-    "where 1 = 1" +
+    "from BUCKET_LIST " +
+    "where 1 = 1 " +
     "and BUCKET_LIST_ID = :bucketListId " +
     "and MEMBER_ID = :memberId", nativeQuery = true)
   Optional<BucketList> findByIdAndAndMemberId(@Param("bucketListId") long bucketListId, @Param("memberId") long memberId);
