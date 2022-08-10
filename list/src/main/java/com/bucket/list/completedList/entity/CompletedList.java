@@ -2,6 +2,7 @@ package com.bucket.list.completedList.entity;
 
 import com.bucket.list.bucketList.entity.BucketList;
 import com.bucket.list.comment.entity.Comments;
+import com.bucket.list.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,6 +44,14 @@ public class CompletedList {
   @OneToMany(mappedBy = "completedList", cascade = CascadeType.ALL)
   private List<Like> likes = new ArrayList<>();
 
+  @ManyToOne
+  @JoinColumn(name = "MEMBER_ID")
+  Member member;
+
+  public void addMember(Member member){
+    this.member = member;
+  }
+
   public void addLike(Like like) {
     if(!this.likes.contains(like)) {
       this.likes.add(like);
@@ -63,4 +72,5 @@ public class CompletedList {
     if(!this.imgs.contains(img))
       this.imgs.add(img);
   }
+
 }

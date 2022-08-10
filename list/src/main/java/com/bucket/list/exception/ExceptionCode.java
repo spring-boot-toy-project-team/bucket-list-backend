@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public enum ExceptionCode {
   MEMBER_NOT_FOUND(404, "Member not found"),
-  MEMBER_EXISTS(409, "Member exists"),
+  MEMBER_ALREADY_EXISTS(409, "Member exists"),
   MEMBER_IS_SLEEP(404, "Member is sleep"),
   MEMBER_IS_QUIT(404, "Member is quit"),
   FIELD_ERROR(400, "Field Error"),
@@ -21,7 +21,9 @@ public enum ExceptionCode {
   TOKEN_IS_NOT_VALID(401,"Token is not Valid"),
   REFRESH_TOKEN_IS_EXPIRED(403, "Refresh Token is expired"),
   COMMENTS_IS_NOT_FOUND(404,"Comments is not Found" ),
-  RE_COMMENTS_IS_NOT_FOUND(404,"ReComments is not Found" );
+  RE_COMMENTS_IS_NOT_FOUND(404,"ReComments is not Found" ),
+  LIKE_NOT_FOUND(404, "Like is not Found" ),
+  LIKE_ALREADY_EXISTS(409, "Lisk is already exists");
 
   @Getter
   private int status;

@@ -18,6 +18,7 @@ public interface BucketListMapper {
     BucketListGroup bucketListGroup = new BucketListGroup();
     Member member = new Member();
     member.setMemberId(createBucketListDto.getMemberId());
+    bucketList.setMember(member);
     bucketListGroup.setMember(member);
     bucketListGroup.setBucketListGroupId(createBucketListDto.getGroupId());
     bucketList.setBucketListGroup(bucketListGroup);

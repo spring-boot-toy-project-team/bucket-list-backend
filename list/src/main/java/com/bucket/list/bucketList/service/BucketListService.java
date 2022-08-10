@@ -31,7 +31,7 @@ public class BucketListService {
 
   @Transactional(readOnly = true)
   public Page<BucketList> findBucketLists(long groupId, int page, int size, long memberId) {
-    return bucketListRepository.findAllByBucketListGroup(groupId,
+    return bucketListRepository.findAllByBucketListGroupId(groupId,
             memberId, PageRequest.of(page, size, Sort.by("BUCKET_LIST_ID").descending()));
   }
 
@@ -52,6 +52,14 @@ public class BucketListService {
   @Transactional(readOnly = true)
   public BucketList findVerifiedBucketList(long groupId, long bucketListId, long memberId) {
     Optional<BucketList> optionalBucketList = bucketListRepository.findByIdAndBucketListGroupIdAndMemberId(groupId, bucketListId, memberId);
+
+    return optionalBucketList
+            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_NOT_FOUND));
+  }
+
+  @Transactional(readOnly = true)
+  public BucketList findVerifiedBucketListByIdAndMemberId(long bucketListId, long memberId) {
+    Optional<BucketList> optionalBucketList = bucketListRepository.findByBucketListIdAndMemberId(bucketListId, memberId);
 
     return optionalBucketList
             .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BUCKET_LIST_NOT_FOUND));

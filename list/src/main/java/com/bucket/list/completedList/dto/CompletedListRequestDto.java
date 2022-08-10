@@ -14,7 +14,6 @@ public class CompletedListRequestDto {
   @AllArgsConstructor
   @Builder
   public static class CreateCompletedListDto {
-    private long groupId;
     private long bucketListId;
     @NotBlank
     private String contents;
@@ -28,7 +27,6 @@ public class CompletedListRequestDto {
   @Builder
   public static class UpdateCompletedListDto {
     private long completedListId;
-    private long groupId;
     private long bucketListId;
     @NotBlank
     private String contents;

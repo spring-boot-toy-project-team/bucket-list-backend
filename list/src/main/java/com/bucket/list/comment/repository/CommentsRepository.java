@@ -23,4 +23,3 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
                                                              @Param("memberId") long memberId);
 }
 
-

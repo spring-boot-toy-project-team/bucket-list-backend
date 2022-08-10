@@ -29,27 +29,27 @@ public class MemberController {
   private final MemberMapper mapper;
   
 
-  @GetMapping("/{member-id}")
-  public ResponseEntity getMember(@AuthenticationPrincipal MemberDetails memberDetails, @Positive @PathVariable("member-id") long memberId)  {
+  @GetMapping
+  public ResponseEntity getMember(@AuthenticationPrincipal MemberDetails memberDetails)  {
     System.out.println("memberDetails.getEmail() = " + memberDetails.getEmail());
-    Member member = memberService.findMember(memberId);
+    Member member = memberService.findMember(memberDetails.getMemberId());
 
     MemberResponseDto.MemberInfo memberInfo = mapper.memberToMemberInfo(member);
     return new ResponseEntity<>(new SingleResponseDto(memberInfo), HttpStatus.OK);
   }
 
-  @PatchMapping("/{member-id}")
-  public ResponseEntity updateMember(@Positive @PathVariable("member-id") long memberId,
+  @PatchMapping
+  public ResponseEntity updateMember(@AuthenticationPrincipal MemberDetails memberDetails,
                                      @RequestBody MemberRequestDto.UpdateDto updateDto) {
-    updateDto.setMemberId(memberId);
+    updateDto.setMemberId(memberDetails.getMemberId());
     Member member = memberService.updateMember(mapper.updateDtoToMember(updateDto));
     MemberResponseDto.UpdateDto memberInfo = mapper.memberToUpdateDto(member);
     return new ResponseEntity<>(new SingleResponseWithMessageDto(memberInfo, "SUCCESS"), HttpStatus.OK);
   }
 
-  @DeleteMapping("/{member-id}")
-  public ResponseEntity deleteMember(@Positive @PathVariable("member-id") long memberId) {
-    memberService.deleteMember(memberId);
+  @DeleteMapping
+  public ResponseEntity deleteMember(@AuthenticationPrincipal MemberDetails memberDetails) {
+    memberService.deleteMember(memberDetails.getMemberId());
 
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }

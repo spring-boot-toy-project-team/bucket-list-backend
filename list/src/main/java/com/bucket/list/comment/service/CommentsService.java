@@ -21,8 +21,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CommentsService {
   private final CommentsRepository commentsRepository;
-  private final MemberService memberService;
-
 
   public Comments createComments(Comments comments) {
     return commentsRepository.save(comments);
