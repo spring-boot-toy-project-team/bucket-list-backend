@@ -7,12 +7,14 @@ import com.bucket.list.member.dto.MemberResponseDto;
 import com.bucket.list.member.entity.Member;
 import com.bucket.list.member.mapper.MemberMapper;
 import com.bucket.list.member.service.MemberService;
+import com.bucket.list.util.security.JwtTokenProvider;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
@@ -37,15 +39,20 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @WebMvcTest(MemberController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
+@AutoConfigureMockMvc(addFilters = false)
 class MemberControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
   private Gson gson;
+
+  @MockBean
+  private JwtTokenProvider jwtTokenProvider;
 
   @MockBean
   private MemberService memberService;
@@ -86,7 +93,7 @@ class MemberControllerTest {
     );
 
     // then
-    actions
+    ResultActions result = actions
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.data.email").value(member.getEmail()))
       .andExpect(jsonPath("$.data.nickName").value(member.getNickName()))
@@ -110,6 +117,7 @@ class MemberControllerTest {
           )
         )
       ));
+    System.out.println("result = " + result);
   }
 
   @Test

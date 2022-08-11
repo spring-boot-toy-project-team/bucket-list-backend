@@ -1,4 +1,4 @@
-package com.bucket.list.comment.mapper;
+package com.bucket.list.completedList.mapper;
 
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
@@ -9,5 +9,5 @@ import org.springframework.stereotype.Component;
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 @Component
-public class ReCommentsMapperImpl implements ReCommentsMapper {
+public class LikeMapperImpl implements LikeMapper {
 }
