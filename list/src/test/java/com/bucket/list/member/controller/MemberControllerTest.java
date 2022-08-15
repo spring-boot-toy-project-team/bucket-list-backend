@@ -1,18 +1,21 @@
 package com.bucket.list.member.controller;
 
-import com.bucket.list.dto.response.MessageResponseDto;
-import com.bucket.list.dto.response.SingleResponseDto;
+import com.bucket.list.auth.local.service.AuthService;
+import com.bucket.list.helper.WithMockCustomUser;
 import com.bucket.list.member.dto.MemberRequestDto;
 import com.bucket.list.member.dto.MemberResponseDto;
 import com.bucket.list.member.entity.Member;
 import com.bucket.list.member.mapper.MemberMapper;
 import com.bucket.list.member.service.MemberService;
+import com.bucket.list.stub.member.MemberStub;
+import com.bucket.list.util.security.JwtTokenProvider;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
@@ -21,25 +24,24 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-
 import java.util.List;
 
 import static com.bucket.list.util.ApiDocumentUtils.getRequestPreProcessor;
 import static com.bucket.list.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(MemberController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
+@WithMockCustomUser
 class MemberControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -53,34 +55,28 @@ class MemberControllerTest {
   @MockBean
   private MemberMapper mapper;
 
+  @MockBean
+  private JwtTokenProvider jwtTokenProvider;
+
+  @MockBean
+  private AuthService authService;
+
   @Test
+
   @DisplayName("회원 조회 테스트")
   public void getMemberTest() throws Exception {
     // given
-    long memberId = 1;
-    Member member = new Member();
-    member.setMemberId(memberId);
-    member.setEmail("hgd@gmail.com");
-    member.setPassword("1234");
-    member.setNickName("hgd");
-    member.setTel("010-1234-5678");
-    member.setIntroduction("hi");
+    Member member = MemberStub.getMember();
 
-    MemberResponseDto.MemberInfo memberInfo = MemberResponseDto.MemberInfo.builder()
-      .email(member.getEmail())
-      .introduction(member.getIntroduction())
-      .tel(member.getTel())
-      .nickName(member.getNickName())
-      .build();
-
-    SingleResponseDto responseDto = new SingleResponseDto(memberInfo);
+    MemberResponseDto.MemberInfo memberInfo = MemberStub.getMemberInfo(member);
 
     given(memberService.findMember(Mockito.anyLong())).willReturn(new Member());
     given(mapper.memberToMemberInfo(Mockito.any(Member.class))).willReturn(memberInfo);
 
     // when
     ResultActions actions = mockMvc.perform(
-      get("/v1/members/{member-id}", memberId)
+      get("/v1/members")
+        .header("Authorization","Bearer {ACCESS_TOKEN}")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -96,9 +92,7 @@ class MemberControllerTest {
       .andDo(document(
         "get-member",
         getResponsePreProcessor(),
-        pathParameters(
-          parameterWithName("member-id").description("회원 식별자")
-        ),
+        requestHeaders(headerWithName("Authorization").description("Bearer AccessToken")),
         responseFields(
           List.of(
             fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -113,33 +107,12 @@ class MemberControllerTest {
   }
 
   @Test
-  @DisplayName("회원 정보 업데이트 테스트")
+  @DisplayName("회원 정보 변경 테스트")
   public void updateMember() throws Exception {
     // given
-    long memberId = 1L;
-    Member member = new Member();
-    member.setMemberId(memberId);
-    member.setEmail("hgd@gmail.com");
-    member.setPassword("1234");
-    member.setNickName("hgd");
-    member.setTel("010-1234-5678");
-    member.setIntroduction("hi");
-
-    MemberRequestDto.UpdateDto updateDto = MemberRequestDto.UpdateDto.builder()
-      .password("1234")
-      .tel("010-1234-5678")
-      .status(Member.MemberStatus.MEMBER_SLEEP)
-      .nickName("hgd")
-      .introduction("hey")
-      .profileImg(null)
-      .build();
-
-    MemberResponseDto.UpdateDto response = MemberResponseDto.UpdateDto.builder()
-      .memberId(memberId)
-      .nickName("hgd")
-      .introduction("hey")
-      .tel("010-1234-5678")
-      .build();
+    Member member = MemberStub.getMember();
+    MemberRequestDto.UpdateDto updateDto = MemberStub.updateMember(member);
+    MemberResponseDto.UpdateDto response = MemberStub.getUpdateMemberInfo(member);
 
     String content = gson.toJson(updateDto);
 
@@ -149,7 +122,8 @@ class MemberControllerTest {
 
     // when
     ResultActions actions = mockMvc.perform(
-      patch("/v1/members/{member-id}", memberId)
+      patch("/v1/members")
+        .header("Authorization","Bearer {ACCESS_TOKEN}")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content)
@@ -168,9 +142,10 @@ class MemberControllerTest {
         document("update-member",
           getRequestPreProcessor(),
           getResponsePreProcessor(),
-          pathParameters(
-            parameterWithName("member-id").description("회원 식별자")
-          ),
+//          pathParameters(
+//            parameterWithName("member-id").description("회원 식별자")
+//          ),
+          requestHeaders(headerWithName("Authorization").description("Bearer AccessToken")),
           requestFields(
             List.of(
               fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자").ignored(),
@@ -207,7 +182,8 @@ class MemberControllerTest {
 
     // when
     ResultActions actions = mockMvc.perform(
-      delete("/v1/members/{member-id}", memberId)
+      delete("/v1/members")
+        .header("Authorization","Bearer {ACCESS_TOKEN}")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -219,9 +195,7 @@ class MemberControllerTest {
         document("delete-member",
           getRequestPreProcessor(),
           getResponsePreProcessor(),
-          pathParameters(
-            parameterWithName("member-id").description("회원 식별자")
-          )
+          requestHeaders(headerWithName("Authorization").description("Bearer AccessToken"))
         )
       );
   }

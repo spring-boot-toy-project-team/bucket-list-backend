@@ -31,6 +31,7 @@ public class MemberStub {
       .build();
   }
 
+  // 회원가입 결과
   public static MessageResponseDto signUpResult() {
     return  MessageResponseDto.builder()
       .message("WELCOME")
@@ -45,10 +46,36 @@ public class MemberStub {
       .build();
   }
 
-  public static TokenResponseDto.Token loginResult() {
-    return TokenResponseDto.Token.builder()
+
+  // 회원 정보 조회
+  public static MemberResponseDto.MemberInfo getMemberInfo(Member member) {
+    return MemberResponseDto.MemberInfo.builder()
+      .email(member.getEmail())
+      .introduction(member.getIntroduction())
+      .tel(member.getTel())
+      .nickName(member.getNickName())
       .build();
   }
 
   // 회원 정보 변경
+  public static MemberRequestDto.UpdateDto updateMember(Member member) {
+    return MemberRequestDto.UpdateDto.builder()
+      .memberId(member.getMemberId())
+      .password("1234")
+      .tel("010-1234-5678")
+      .status(Member.MemberStatus.MEMBER_SLEEP)
+      .nickName("hgd")
+      .introduction("hey")
+      .profileImg(null)
+      .build();
+  }
+
+  public static MemberResponseDto.UpdateDto getUpdateMemberInfo(Member member) {
+    return MemberResponseDto.UpdateDto.builder()
+      .memberId(member.getMemberId())
+      .nickName("hgd")
+      .introduction("hey")
+      .tel("010-1234-5678")
+      .build();
+  }
 }
