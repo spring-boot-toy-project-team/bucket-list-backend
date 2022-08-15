@@ -3,6 +3,7 @@ package com.bucket.list.stub.member;
 import com.bucket.list.dto.response.MessageResponseDto;
 import com.bucket.list.dto.token.TokenResponseDto;
 import com.bucket.list.member.dto.MemberRequestDto;
+import com.bucket.list.member.dto.MemberResponseDto;
 import com.bucket.list.member.entity.Member;
 import com.bucket.list.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +38,13 @@ public class MemberStub {
                 .message("WELCOME")
                 .build();
     }
+    public static MessageResponseDto loginMessage(){
+        return MessageResponseDto.builder()
+                .message("SUCCESS")
+                .build();
+    }
 
-    public static MemberRequestDto.loginDto loginMemberDot() {
+    public static MemberRequestDto.loginDto loginMemberDto() {
         return MemberRequestDto.loginDto.builder()
                 .email("hgd@gmail.com")
                 .password("1234")
@@ -49,4 +55,14 @@ public class MemberStub {
         return TokenResponseDto.Token.builder()
                 .build();
     }
+
+//    public static MemberResponseDto.MemberInfo login(){
+//        return MemberResponseDto.MemberInfo.builder()
+//                .email(signUpMemberDto().getEmail())
+//                .tel(signUpMemberDto().getTel())
+//                .nickName(signUpMemberDto().getNickName())
+//                .introduction(signUpMemberDto().getIntroduction())
+//                .profileImg(signUpMemberDto().getProfileImg())
+//                .build();
+//    }
 }
