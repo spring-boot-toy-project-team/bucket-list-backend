@@ -8,20 +8,47 @@
 v1.0.0, 2022.07.15
 
 ***
-== MemberController
-=== 회원 가입
+== AuthController
+==== 회원가입
 .curl-request
-include::{snippets}/signup-member/curl-request.adoc[]
+include::{snippets}/member-create/curl-request.adoc[]
 
 .http-request
-include::{snippets}/signup-member/http-request.adoc[]
+include::{snippets}/member-create/http-request.adoc[]
 
 .request-fields
-include::{snippets}/signup-member/request-fields.adoc[]
+include::{snippets}/member-create/request-fields.adoc[]
 
 .http-response
-include::{snippets}/signup-member/http-response.adoc[]
+include::{snippets}/member-create/http-response.adoc[]
 
+==== 로그인
+.curl-request
+include::{snippets}/member-login/curl-request.adoc[]
+
+.http-request
+include::{snippets}/member-login/http-request.adoc[]
+
+.request-fields
+include::{snippets}/member-login/request-fields.adoc[]
+
+.http-response
+include::{snippets}/member-login/http-response.adoc[]
+
+==== 토큰 재발급
+.curl-request
+include::{snippets}/refresh/curl-request.adoc[]
+
+.http-request
+include::{snippets}/refresh/http-request.adoc[]
+
+.request-fields
+include::{snippets}/refresh/request-fields.adoc[]
+
+.http-response
+include::{snippets}/refresh/http-response.adoc[]
+
+== MemberController
 === 회원 정보 조회
 .curl-request
 include::{snippets}/get-member/curl-request.adoc[]

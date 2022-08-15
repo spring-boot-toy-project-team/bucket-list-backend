@@ -2,6 +2,7 @@ package com.bucket.list.auth.local.controller;
 
 import com.bucket.list.auth.local.service.AuthService;
 import com.bucket.list.dto.response.MessageResponseDto;
+import com.bucket.list.dto.token.TokenRequestDto;
 import com.bucket.list.dto.token.TokenResponseDto;
 import com.bucket.list.member.controller.MemberController;
 import com.bucket.list.member.dto.MemberRequestDto;
@@ -125,7 +126,7 @@ class AuthControllerTest {
     }
 
     @Test
-    @DisplayName("로그인")
+    @DisplayName("로그인 테스트")
     void login() throws Exception {
         //given
         MemberRequestDto.loginDto loginDto = MemberStub.loginMemberDto();
@@ -180,6 +181,44 @@ class AuthControllerTest {
     }
 
     @Test
-    void reIssue() {
+    @DisplayName("accessToken 재발급")
+    void reIssue() throws Exception {
+        TokenRequestDto.ReIssue reIssue = TokenStub.reIssue();
+        TokenResponseDto.ReIssueToken response = TokenStub.getReIssue();
+        String content = gson.toJson(reIssue);
+
+        given(authService.reIssue(Mockito.any(TokenRequestDto.ReIssue.class))).willReturn(response);
+
+        ResultActions actions = mockMvc.perform(
+                post("/auth/reissue")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content)
+        );
+
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.grantType").value(response.getGrantType()))
+                .andExpect(jsonPath("$.data.accessToken").value(response.getAccessToken()))
+                .andExpect(jsonPath("$.data.accessTokenExpiredTime").value(response.getAccessTokenExpiredTime()))
+                .andDo(
+                        document("refresh",
+                                getRequestPreProcessor(),
+                                getResponsePreProcessor(),
+                                requestFields(
+                                        List.of(
+                                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("재발급된 엑세스 토큰"),
+                                                fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("리프레쉬 토큰 ")
+                                        )
+                                ),
+                                responseFields(
+                                        List.of(
+                                                fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                                fieldWithPath("data.grantType").type(JsonFieldType.STRING).description("인가 타입"),
+                                                fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("재발급된 엑세스 토큰"),
+                                                fieldWithPath("data.accessTokenExpiredTime").type(JsonFieldType.NUMBER).description("리프레쉬 토큰 만료 시간"),
+                                                fieldWithPath("message").type(JsonFieldType.STRING).description("메시지")
+                                        )
+                                ))
+                );
     }
 }

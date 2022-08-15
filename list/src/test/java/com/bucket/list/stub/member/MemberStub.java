@@ -14,28 +14,72 @@ public class MemberStub {
     private static MemberMapper mapper;
     private static PasswordEncoder passwordEncoder;
 
-    public static Member getMember(){
+    public static Member getMember() {
         Member member = new Member();
         member.setMemberId(1L);
-        member.setEmail("hgd@gamil.com");
+        member.setEmail("hgd@gmail.com");
         member.setTel("010-1234-5678");
-        member.setIntroduction("나다");
-        member.setNickName("홍길동");
+        member.setIntroduction("hi");
+        member.setNickName("hgd");
+        member.setRoles("ROLE_USER");
         return member;
     }
 
-    public static MemberRequestDto.SignUpDto signUpMemberDto(){
+    // 회원가입
+    public static MemberRequestDto.SignUpDto signUpMemberDto() {
         return MemberRequestDto.SignUpDto.builder()
                 .email("hgd@gmail.com")
-                .nickName("홍길동")
+                .nickName("hgd")
                 .password("1234")
                 .tel("010-1234-5678")
                 .build();
     }
 
-    public static MessageResponseDto signUpResult(){
-        return MessageResponseDto.builder()
+    // 회원가입 결과
+    public static MessageResponseDto signUpResult() {
+        return  MessageResponseDto.builder()
                 .message("WELCOME")
+                .build();
+    }
+
+    // 로그인
+    public static MemberRequestDto.loginDto loginMemberDto() {
+        return MemberRequestDto.loginDto.builder()
+                .email("hgd@gamil.com")
+                .password("1234")
+                .build();
+    }
+
+
+    // 회원 정보 조회
+    public static MemberResponseDto.MemberInfo getMemberInfo(Member member) {
+        return MemberResponseDto.MemberInfo.builder()
+                .email(member.getEmail())
+                .introduction(member.getIntroduction())
+                .tel(member.getTel())
+                .nickName(member.getNickName())
+                .build();
+    }
+
+    // 회원 정보 변경
+    public static MemberRequestDto.UpdateDto updateMember(Member member) {
+        return MemberRequestDto.UpdateDto.builder()
+                .memberId(member.getMemberId())
+                .password("1234")
+                .tel("010-1234-5678")
+                .status(Member.MemberStatus.MEMBER_SLEEP)
+                .nickName("hgd")
+                .introduction("hey")
+                .profileImg(null)
+                .build();
+    }
+
+    public static MemberResponseDto.UpdateDto getUpdateMemberInfo(Member member) {
+        return MemberResponseDto.UpdateDto.builder()
+                .memberId(member.getMemberId())
+                .nickName("hgd")
+                .introduction("hey")
+                .tel("010-1234-5678")
                 .build();
     }
     public static MessageResponseDto loginMessage(){
@@ -43,26 +87,4 @@ public class MemberStub {
                 .message("SUCCESS")
                 .build();
     }
-
-    public static MemberRequestDto.loginDto loginMemberDto() {
-        return MemberRequestDto.loginDto.builder()
-                .email("hgd@gmail.com")
-                .password("1234")
-                .build();
-    }
-
-    public static TokenResponseDto.Token loginResult(){
-        return TokenResponseDto.Token.builder()
-                .build();
-    }
-
-//    public static MemberResponseDto.MemberInfo login(){
-//        return MemberResponseDto.MemberInfo.builder()
-//                .email(signUpMemberDto().getEmail())
-//                .tel(signUpMemberDto().getTel())
-//                .nickName(signUpMemberDto().getNickName())
-//                .introduction(signUpMemberDto().getIntroduction())
-//                .profileImg(signUpMemberDto().getProfileImg())
-//                .build();
-//    }
 }
