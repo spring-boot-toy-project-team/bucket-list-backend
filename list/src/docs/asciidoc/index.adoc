@@ -51,34 +51,88 @@ include::{snippets}/refresh/http-response.adoc[]
 == MemberController
 === 회원 정보 조회
 .curl-request
-include::{snippets}/get-member/curl-request.adoc[]
+include::{snippets}/member-get/curl-request.adoc[]
 
 .http-request
-include::{snippets}/get-member/http-request.adoc[]
+include::{snippets}/member-get/http-request.adoc[]
+
+.request-headers
+include::{snippets}/member-get/request-headers.adoc[]
 
 .http-response
-include::{snippets}/get-member/http-response.adoc[]
+include::{snippets}/member-get/http-response.adoc[]
 
 === 회원 정보 수정
 .curl-request
-include::{snippets}/update-member/curl-request.adoc[]
+include::{snippets}/member-update/curl-request.adoc[]
 
 .http-request
-include::{snippets}/update-member/http-request.adoc[]
+include::{snippets}/member-update/http-request.adoc[]
+
+.request-headers
+include::{snippets}/member-update/request-headers.adoc[]
 
 .request-fields
-include::{snippets}/update-member/request-fields.adoc[]
+include::{snippets}/member-update/request-fields.adoc[]
 
 .http-response
-include::{snippets}/update-member/http-response.adoc[]
+include::{snippets}/member-update/http-response.adoc[]
 
 === 회원 탈퇴
 .curl-request
-include::{snippets}/delete-member/curl-request.adoc[]
+include::{snippets}/member-delete/curl-request.adoc[]
 
 .http-request
-include::{snippets}/delete-member/http-request.adoc[]
+include::{snippets}/member-delete/http-request.adoc[]
 
 .http-response
-include::{snippets}/delete-member/http-response.adoc[]
+include::{snippets}/member-delete/http-response.adoc[]
 
+== BucketListGroupController
+==== 버킷 그룹 등록
+.curl-request
+include::{snippets}/bucketListGroup-create/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketListGroup-create/http-request.adoc[]
+
+.request-headers
+include::{snippets}/bucketListGroup-create/request-headers.adoc[]
+
+.request-fields
+include::{snippets}/bucketListGroup-create/request-fields.adoc[]
+
+.http-response
+include::{snippets}/bucketListGroup-create/http-response.adoc[]
+
+==== 버킷 그룹 조회
+.curl-request
+include::{snippets}/bucketListGroup-get/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketListGroup-get/http-request.adoc[]
+
+.request-headers
+include::{snippets}/bucketListGroup-get/request-headers.adoc[]
+
+.path-parameters
+include::{snippets}/bucketListGroup-get/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/bucketListGroup-get/http-response.adoc[]
+
+==== 버킷 그룹들 조회
+.curl-request
+include::{snippets}/bucketListGroups-get/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketListGroups-get/http-request.adoc[]
+
+.request-headers
+include::{snippets}/bucketListGroups-get/request-headers.adoc[]
+
+.request-parameters
+include::{snippets}/bucketListGroups-get/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/bucketListGroups-get/http-response.adoc[]

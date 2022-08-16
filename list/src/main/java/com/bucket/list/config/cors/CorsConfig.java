@@ -14,10 +14,11 @@ public class CorsConfig {
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(true);
     // TO-DO : 프론트 엔드 url origin에 추가
-    config.addAllowedOrigin("*");
+//    config.addAllowedOrigin("*");
+    config.addAllowedOriginPattern("*");
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");
-    source.registerCorsConfiguration("/api/**", config);
+    source.registerCorsConfiguration("/**", config);
     return new CorsFilter(source);
   }
 }

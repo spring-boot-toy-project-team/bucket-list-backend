@@ -90,7 +90,7 @@ class MemberControllerTest {
       .andExpect(jsonPath("$.data.introduction").value(member.getIntroduction()))
       .andExpect(jsonPath("$.data.profileImg").value(member.getProfileImg()))
       .andDo(document(
-        "get-member",
+        "member-get",
         getResponsePreProcessor(),
         requestHeaders(headerWithName("Authorization").description("Bearer AccessToken")),
         responseFields(
@@ -139,12 +139,9 @@ class MemberControllerTest {
       .andExpect(jsonPath("$.data.memberId").value(response.getMemberId()))
       .andExpect(jsonPath("$.message").value("SUCCESS"))
       .andDo(
-        document("update-member",
+        document("member-update",
           getRequestPreProcessor(),
           getResponsePreProcessor(),
-//          pathParameters(
-//            parameterWithName("member-id").description("회원 식별자")
-//          ),
           requestHeaders(headerWithName("Authorization").description("Bearer AccessToken")),
           requestFields(
             List.of(
@@ -192,7 +189,7 @@ class MemberControllerTest {
     actions
       .andExpect(status().isNoContent())
       .andDo(
-        document("delete-member",
+        document("member-delete",
           getRequestPreProcessor(),
           getResponsePreProcessor(),
           requestHeaders(headerWithName("Authorization").description("Bearer AccessToken"))
