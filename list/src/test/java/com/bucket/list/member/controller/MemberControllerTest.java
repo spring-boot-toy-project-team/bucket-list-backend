@@ -77,15 +77,6 @@ class MemberControllerTest {
 
     MemberResponseDto.MemberInfo memberInfo = MemberStub.getMemberInfo(member);
 
-//    MemberResponseDto.MemberInfo memberInfo = MemberResponseDto.MemberInfo.builder()
-//            .email(member.getEmail())
-//            .introduction(member.getIntroduction())
-//            .tel(member.getTel())
-//            .nickName(member.getNickName())
-//            .build();
-
-//    SingleResponseDto responseDto = new SingleResponseDto(memberInfo);
-
     given(memberService.findMember(Mockito.anyLong())).willReturn(new Member());
     given(mapper.memberToMemberInfo(Mockito.any(Member.class))).willReturn(memberInfo);
 
