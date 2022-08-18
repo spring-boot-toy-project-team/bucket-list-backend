@@ -56,12 +56,10 @@ public class BucketListGroupStub {
 
 
   public static List<BucketListGroupResponseDto.GroupInfo> getBucketListGroupsResponse(int page, int size) {
-    return getBucketListGroups(page, size).stream().map(bucketListGroup -> {
-      return BucketListGroupResponseDto.GroupInfo.builder()
-        .year(bucketListGroup.getYear())
-        .title(bucketListGroup.getTitle())
-        .build();
-    }).collect(Collectors.toList());
+    return getBucketListGroups(page, size).stream().map(bucketListGroup -> BucketListGroupResponseDto.GroupInfo.builder()
+      .year(bucketListGroup.getYear())
+      .title(bucketListGroup.getTitle())
+      .build()).collect(Collectors.toList());
   }
 
   public static BucketListGroupRequestDto.UpdateGroupDto updateBucketListGroup(BucketListGroup bucketListGroup,

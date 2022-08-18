@@ -103,7 +103,7 @@ class BucketListGroupControllerTest {
         responseFields(
           List.of(
             fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
-            fieldWithPath("data.bucketListGroupId").type(JsonFieldType.NUMBER).description("버킷 그룹 아이디"),
+            fieldWithPath("data.bucketListGroupId").type(JsonFieldType.NUMBER).description("버킷 그룹 식별자"),
             fieldWithPath("data.title").type(JsonFieldType.STRING).description("버킷 그룹 제목"),
             fieldWithPath("data.year").type(JsonFieldType.NUMBER).description("버킷 그룹 생성 년도"),
             fieldWithPath("message").type(JsonFieldType.STRING).description("결과 메시지")
@@ -266,8 +266,8 @@ class BucketListGroupControllerTest {
         requestFields(
           List.of(
             fieldWithPath("title").type(JsonFieldType.STRING).description("버킷 그룹 제목"),
-            fieldWithPath("bucketListGroupId").type(JsonFieldType.STRING).description("버킷 그룹 식별자").ignored(),
-            fieldWithPath("memberId").type(JsonFieldType.STRING).description("회원 식별자").ignored()
+            fieldWithPath("bucketListGroupId").type(JsonFieldType.NUMBER).description("버킷 그룹 식별자").ignored(),
+            fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자").ignored()
           )
         ),
         responseFields(
