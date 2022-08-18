@@ -6,6 +6,7 @@
 + Spring boot
 + DB : PostgreSQL, Redis
 + OAuth2.0
++ Docker
 + JPA
 
 <hr>
