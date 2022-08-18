@@ -18,6 +18,9 @@
 <hr>
   
 ## BackEnd 테스트 환경 실행 방법
+
+<div>테스트 용 api 주소 : http://localhost:8081</div>
+<div>API 문서 : <a href="http://localhost:8081/docs/index.html">http://localhost:8081/docs/index.html</a></div>
   
 + **Redis 실행**
   + 해당 경로로 이동 : `cd DB/Redis`
