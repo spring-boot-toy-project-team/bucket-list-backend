@@ -24,6 +24,7 @@ public class BucketListRequestDto {
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
+  @Builder
   public static class UpdateBucketListDto {
     private long bucketListId;
     private long groupId;

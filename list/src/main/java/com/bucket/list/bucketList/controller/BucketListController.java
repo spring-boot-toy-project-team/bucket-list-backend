@@ -37,7 +37,7 @@ public class BucketListController {
     BucketList bucketList = bucketListService.createBucketList(mapper.createBucketListDtoToBucketList(createBucketListDto));
 
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.bucketListToBucketListInfo(bucketList),
-      "SUCCESS"),
+      "CREATED"),
       HttpStatus.CREATED);
   }
   // 버킷리스트 조회

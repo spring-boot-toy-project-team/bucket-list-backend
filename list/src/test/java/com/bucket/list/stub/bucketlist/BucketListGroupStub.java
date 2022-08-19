@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BucketListGroupStub {
-    private static Member member = MemberStub.getMember();
+    private static final Member member = MemberStub.getMember();
 
     public static BucketListGroup getBucketGroups(String title, long bucketListGroupId){
         BucketListGroup bucketListGroup = new BucketListGroup();
@@ -98,6 +98,7 @@ public class BucketListGroupStub {
         ), PageRequest.of(page - 1, size, Sort.by("BUCKET_LIST_GROUP_ID").descending()), 3);
     }
 
+    //질문
     public static List<BucketListGroupResponseDto.GroupInfo> groupBucketListGroupInfoList(int page, int size){
         return getBucketListGroupPage(page, size).stream().map(bucketListGroup -> {
             return BucketListGroupResponseDto.GroupInfo.builder()

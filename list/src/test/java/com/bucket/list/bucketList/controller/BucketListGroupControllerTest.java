@@ -67,7 +67,6 @@ class BucketListGroupControllerTest {
     @DisplayName("버킷그룹 등록 테스트")
     void createGroupTest() throws Exception {
         //given
-//    String title = "test";
         BucketListGroup bucketListGroup = BucketListGroupStub.getBucketGroup();
         BucketListGroupRequestDto.CreateGroupDto createGroupDto = BucketListGroupStub.createGroupDto();
         BucketListGroupResponseDto.CreateGroupDto bucketGroupInfo = BucketListGroupStub.getCreateBucketGroupInfo();
