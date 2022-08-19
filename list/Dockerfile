@@ -10,6 +10,6 @@ COPY . .
 RUN chmod +x ./gradlew
 RUN ./gradlew clean build
 
-COPY ${JAR_FILE} app.jar
+#COPY ${JAR_FILE} app.jar
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "./build/libs/list-0.0.1-SNAPSHOT.jar"]

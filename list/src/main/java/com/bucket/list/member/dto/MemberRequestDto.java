@@ -56,4 +56,14 @@ public class MemberRequestDto {
     private long memberId;
     private Member.MemberStatus status;
   }
+
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class EmailDto {
+    @NotBlank
+    @Pattern(regexp = "^[a-zA-Z\\d_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z\\d.-]+$")
+    private String email;
+  }
 }
