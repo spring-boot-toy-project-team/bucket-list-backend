@@ -17,4 +17,10 @@ public interface MemberMapper {
   Member updateDtoToMember(MemberRequestDto.UpdateDto updateDto);
 
   Member loginDtoToMember(MemberRequestDto.loginDto loginDto);
+
+  default MemberResponseDto.EmailValidation validationEmailCheckToEmailValidation(boolean validationEmailCheck) {
+    return MemberResponseDto.EmailValidation.builder()
+      .validation(validationEmailCheck)
+      .build();
+  }
 }

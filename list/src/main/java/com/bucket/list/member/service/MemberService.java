@@ -50,6 +50,11 @@ public class MemberService {
     memberRepository.save(member);
   }
 
+  public boolean validationEmailCheck(String email) {
+    Optional<Member> member = memberRepository.findByEmail(email);
+    return member.isEmpty();
+  }
+
   public void verifyExistsEmail(String email) {
     Optional<Member> member = memberRepository.findByEmail(email);
     if(member.isPresent()) {

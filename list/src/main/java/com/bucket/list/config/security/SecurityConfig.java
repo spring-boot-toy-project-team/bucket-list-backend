@@ -62,10 +62,13 @@ public class SecurityConfig {
       .apply(new CustomDsl())
       .and()
       .authorizeRequests()
+        .antMatchers("/v1/members/validation")
+        .permitAll()
         .antMatchers("/v1/**")
         .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
         .antMatchers("/admin/**")
         .access("hasRole('ROLE_ADMIN')")
+
         .anyRequest()
         .permitAll();
 

@@ -6,6 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 public class MemberResponseDto {
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class EmailValidation {
+    private boolean validation;
+  }
 
   @Data
   @NoArgsConstructor
