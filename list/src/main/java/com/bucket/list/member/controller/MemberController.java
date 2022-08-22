@@ -13,6 +13,7 @@ import com.bucket.list.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -28,9 +29,11 @@ public class MemberController {
   private final MemberService memberService;
   private final MemberMapper mapper;
 
-  @PostMapping ResponseEntity validationEmail(@Valid @RequestBody MemberRequestDto.EmailDto emailDto) {
-
-    return new ResponseEntity<>(HttpStatus.OK);
+  @PostMapping("/validation")
+  public ResponseEntity validationEmail(@Valid @RequestBody MemberRequestDto.EmailDto emailDto) {
+    MemberResponseDto.EmailValidation emailValidation
+      = mapper.validationEmailCheckToEmailValidation(memberService.validationEmailCheck(emailDto.getEmail()));
+    return new ResponseEntity<>(new SingleResponseWithMessageDto<>(emailValidation, "SUCCESS"), HttpStatus.OK);
   }
 
   @GetMapping
