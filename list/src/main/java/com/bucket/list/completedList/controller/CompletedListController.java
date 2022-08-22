@@ -40,7 +40,7 @@ public class CompletedListController {
     createCompletedListDto.setMemberId(memberDetails.getMemberId());
     CompletedList completedList = completedListService.createCompletedList(mapper.createCompletedListDtoToCompletedList(createCompletedListDto), files);
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.completeListToCompletedInfo(completedList),
-      "SUCCESS"),
+      "CREATED"),
       HttpStatus.CREATED);
   }
 
