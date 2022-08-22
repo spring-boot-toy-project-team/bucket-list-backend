@@ -82,3 +82,117 @@ include::{snippets}/delete-member/http-request.adoc[]
 .http-response
 include::{snippets}/delete-member/http-response.adoc[]
 
+== BucketListGroupController
+=== 버킷리스트 그룹 등록
+.curl-request
+include::{snippets}/bucketListGroup-create/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketListGroup-create/http-request.adoc[]
+
+.request-fields
+include::{snippets}/bucketListGroup-create/request-fields.adoc[]
+
+.http-response
+include::{snippets}/bucketListGroup-create/http-response.adoc[]
+
+=== 버킷리스트 그룹 조회
+.curl-request
+include::{snippets}/bucketListGroup-get/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketListGroup-get/http-request.adoc[]
+
+.http-response
+include::{snippets}/bucketListGroup-get/http-response.adoc[]
+
+=== 버킷리스트 그룹 다중 조회
+.curl-request
+include::{snippets}/bucketListGroupList-get/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketListGroupList-get/http-request.adoc[]
+
+.http-response
+include::{snippets}/bucketListGroupList-get/http-response.adoc[]
+
+=== 버킷리스트 그룹 수정
+.curl-request
+include::{snippets}/bucketListGroup-update/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketListGroup-update/http-request.adoc[]
+
+.request-fields
+include::{snippets}/bucketListGroup-update/request-fields.adoc[]
+
+.http-response
+include::{snippets}/bucketListGroup-update/http-response.adoc[]
+
+=== 버킷리스트 그룹 삭제
+.curl-request
+include::{snippets}/bucketListGroup-delete/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketListGroup-delete/http-request.adoc[]
+
+.http-response
+include::{snippets}/bucketListGroup-delete/http-response.adoc[]
+
+== BucketListController
+=== 버킷리스트 등록
+.curl-request
+include::{snippets}/bucketList-create/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketList-create/http-request.adoc[]
+
+.request-fields
+include::{snippets}/bucketList-create/request-fields.adoc[]
+
+.http-response
+include::{snippets}/bucketList-create/http-response.adoc[]
+
+=== 버킷리스트 조회
+.curl-request
+include::{snippets}/bucketList-get/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketList-get/http-request.adoc[]
+
+.http-response
+include::{snippets}/bucketList-get/http-response.adoc[]
+
+=== 버킷리스트 다중 조회
+.curl-request
+include::{snippets}/bucketLists-get/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketLists-get/http-request.adoc[]
+
+.http-response
+include::{snippets}/bucketLists-get/http-response.adoc[]
+
+=== 버킷리스트 수정
+.curl-request
+include::{snippets}/bucketList-update/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketList-update/http-request.adoc[]
+
+.request-fields
+include::{snippets}/bucketList-update/request-fields.adoc[]
+
+.http-response
+include::{snippets}/bucketList-update/http-response.adoc[]
+
+=== 버킷리스트 삭제
+.curl-request
+include::{snippets}/bucketList-delete/curl-request.adoc[]
+
+.http-request
+include::{snippets}/bucketList-delete/http-request.adoc[]
+
+.http-response
+include::{snippets}/bucketList-delete/http-response.adoc[]
+

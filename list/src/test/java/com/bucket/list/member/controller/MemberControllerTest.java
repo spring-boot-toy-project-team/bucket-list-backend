@@ -1,8 +1,6 @@
 package com.bucket.list.member.controller;
 
 import com.bucket.list.auth.local.service.AuthService;
-import com.bucket.list.dto.response.MessageResponseDto;
-import com.bucket.list.dto.response.SingleResponseDto;
 import com.bucket.list.helper.WithMockCustomUser;
 import com.bucket.list.member.dto.MemberRequestDto;
 import com.bucket.list.member.dto.MemberResponseDto;

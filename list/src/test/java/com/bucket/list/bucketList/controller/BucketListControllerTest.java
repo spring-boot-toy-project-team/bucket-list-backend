@@ -3,12 +3,10 @@ package com.bucket.list.bucketList.controller;
 import com.bucket.list.bucketList.dto.BucketListRequestDto;
 import com.bucket.list.bucketList.dto.BucketListResponseDto;
 import com.bucket.list.bucketList.entity.BucketList;
-import com.bucket.list.bucketList.entity.BucketListGroup;
 import com.bucket.list.bucketList.mapper.BucketListMapper;
 import com.bucket.list.bucketList.service.BucketListService;
 import com.bucket.list.dto.response.MessageResponseDto;
 import com.bucket.list.helper.WithMockCustomUser;
-import com.bucket.list.stub.bucketlist.BucketListGroupStub;
 import com.bucket.list.stub.bucketlist.BucketListStub;
 import com.bucket.list.util.security.JwtTokenProvider;
 import com.google.gson.Gson;
@@ -38,7 +36,6 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -197,7 +194,7 @@ class BucketListControllerTest {
         //then
         actions.andExpect(status().isOk())
                 .andDo(document(
-                        "bucketListList-get",
+                        "bucketLists-get",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestParameters(
