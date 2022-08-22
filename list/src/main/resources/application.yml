@@ -13,7 +13,7 @@ spring:
     secret: bucket-list-test-key                          # 추후 제거
 
   redis:
-    host: localhost
+    host: redis
     port: 6379
     pool:
       max-idle: 10
