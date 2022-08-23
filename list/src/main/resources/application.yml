@@ -1,17 +1,32 @@
 spring:
+  profiles:
+    active: dev
+    jpa:
+      hibernate:
+        ddl-auto: create
+      show-sql: true
+      jwt:
+        secret: bucket-list-test-key                          # 추후 제거
+
+---
+spring:
+  profiles: main
+  redis:
+    host: redis
+    port: 6379
+    pool:
+      max-idle: 10
+      min-idle: 0
+
+---
+spring:
+  profiles: dev
   h2:
     console:
       enabled: true
       path: /h2     # (1) Context path
   datasource:
     url: jdbc:h2:mem:bucket-list    # (2) JDBC URL
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-  jwt:
-    secret: bucket-list-test-key                          # 추후 제거
-
   redis:
     host: localhost
     port: 6379
