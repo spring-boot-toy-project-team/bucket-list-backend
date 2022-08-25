@@ -2,16 +2,12 @@ package com.bucket.list.member.service;
 
 import com.bucket.list.exception.BusinessLogicException;
 import com.bucket.list.exception.ExceptionCode;
-import com.bucket.list.member.dto.MemberRequestDto;
 import com.bucket.list.member.entity.Member;
-import com.bucket.list.member.mapper.MemberMapper;
 import com.bucket.list.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service

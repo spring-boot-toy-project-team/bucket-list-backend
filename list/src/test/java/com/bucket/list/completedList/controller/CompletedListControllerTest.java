@@ -26,14 +26,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bucket.list.util.ApiDocumentUtils.getRequestPreProcessor;
+import static com.bucket.list.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,47 +68,66 @@ class CompletedListControllerTest {
   @Test
   @DisplayName("인증글 등록")
   void createCompletedList() throws Exception {
+    /*
+    @PostMapping(value = "/{bucket-list-id}/complete", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+  public ResponseEntity createCompletedList(@AuthenticationPrincipal MemberDetails memberDetails,
+                                            @Positive @PathVariable("bucket-list-id") long bucketListId,
+                                            @Valid @RequestPart("data") CompletedListRequestDto.CreateCompletedListDto createCompletedListDto,
+                                            @RequestPart(name = "files", required = false) List<MultipartFile> files) {
+    createCompletedListDto.setBucketListId(bucketListId);
+    createCompletedListDto.setMemberId(memberDetails.getMemberId());
+    CompletedList completedList = completedListService.createCompletedList(mapper.createCompletedListDtoToCompletedList(createCompletedListDto), files);
+    return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.completeListToCompletedInfo(completedList),
+      "CREATED"),
+      HttpStatus.CREATED);
+  }
+     */
+
     // given
     long bucketListId = 1L;
     String contents = "test";
     String tags = "#test1#test2#test3";
-    List<MultipartFile> files = new ArrayList<>();
     CompletedListRequestDto.CreateCompletedListDto createCompletedListDto = CompletedListStub.createCompletedListDto(contents, tags);
     CompletedList completedList = CompletedListStub.getCompletedList(contents, tags);
     CompletedListResponseDto.CompletedListInfo completedListInfo = CompletedListStub.getCompletedListInfo(completedList);
     String content = gson.toJson(createCompletedListDto);
+    MockMultipartFile dataJson = new MockMultipartFile("data", null,
+      "application/json", content.getBytes());
+    MockMultipartFile files = new MockMultipartFile("files", "test.png", "image/png",
+      "test".getBytes());
 
-    given(mapper.createCompletedListDtoToCompletedList(Mockito.any(CompletedListRequestDto.CreateCompletedListDto.class))).willReturn(new CompletedList());
+    given(mapper.createCompletedListDtoToCompletedList(Mockito.any(CompletedListRequestDto.CreateCompletedListDto.class))).willReturn(completedList);
     given(completedListService.createCompletedList(Mockito.any(CompletedList.class), Mockito.anyList())).willReturn(completedList);
     given(mapper.completeListToCompletedInfo(Mockito.any(CompletedList.class))).willReturn(completedListInfo);
 
     // when
     ResultActions actions = mockMvc.perform(
-//      post("/v1/bucket-list/{bucket-list-id}/complete", bucketListId)
         multipart("/v1/bucket-list/{bucket-list-id}/complete", bucketListId)
-//          .part("data")
-//          .content(content)
-          .param("data", content)
-//          .file(file).header("Content-Type", "multipart/form-data"))
-//        .accept(MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE)
-//        .contentType(MediaType.APPLICATION_JSON)
-        .header("Authorization", "Bearer {ACCESS_TOKEN}")
-//        .content()
+          .file(dataJson)
+          .file(files)
+          .header("Authorization", "Bearer {ACCESS_TOKEN}")
     );
 
+    System.out.println(actions.andReturn().getResponse().getContentAsString());
+
     // then
-//    actions
-//      .andExpect(status().isCreated())
-//      .andExpect(jsonPath("$.data.contents").value(completedListInfo.getContents()))
-//      .andExpect(jsonPath("$.data.tags").value(completedListInfo.getTags()))
-//      .andExpect(jsonPath("$.data.bucketListId").value(completedListInfo.getBucketListId()))
-//      .andExpect(jsonPath("$.message").value("CREATED"))
-//      .andDo(
-//        document(
-//          "completedList-create",
-//
-//        )
-//      );
+    actions
+      .andExpect(status().isCreated())
+      .andExpect(jsonPath("$.data.contents").value(completedListInfo.getContents()))
+      .andExpect(jsonPath("$.data.tags").value(completedListInfo.getTags()))
+      .andExpect(jsonPath("$.data.bucketListId").value(completedListInfo.getBucketListId()))
+      .andExpect(jsonPath("$.message").value("CREATED"))
+      .andDo(
+        document(
+          "completedList-create",
+          getRequestPreProcessor(),
+          getResponsePreProcessor(),
+          requestHeaders(headerWithName("Authorization").description("Bearer AccessToken")),
+
+          responseFields()
+
+        )
+      );
   }
 
   @Test
