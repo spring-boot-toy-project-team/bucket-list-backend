@@ -25,11 +25,13 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.request.RequestPartsSnippet;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +45,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -79,10 +80,8 @@ class CompletedListControllerTest {
         CompletedListResponseDto.CompletedListInfo completedListInfo = CompletedListStub.getCompletedListInfo(completedList);
         MessageResponseDto messageResponseDto = CompletedListStub.getCompletedListResult();
         String content = gson.toJson(createCompletedListDto);
-        MockMultipartFile dataJson = new MockMultipartFile("data", null,
-                "application/json", content.getBytes());
-        MockMultipartFile files = new MockMultipartFile("files", "test.png", "image/png",
-                "test".getBytes());
+        MockMultipartFile dataJson = new MockMultipartFile("data", null, "application/json", content.getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile files = new MockMultipartFile("files", "test.png", "image/png", "test".getBytes(StandardCharsets.UTF_8));
 
         given(mapper.createCompletedListDtoToCompletedList(Mockito.any(CompletedListRequestDto.CreateCompletedListDto.class))).willReturn(completedList);
         given(completedListService.createCompletedList(Mockito.any(CompletedList.class), Mockito.anyList())).willReturn(completedList);
@@ -93,6 +92,7 @@ class CompletedListControllerTest {
                 multipart("/v1/bucket-list/{bucket-list-id}/complete", bucketListId)
                         .file(dataJson)
                         .file(files)
+                        .accept(MediaType.APPLICATION_JSON, MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
@@ -105,31 +105,33 @@ class CompletedListControllerTest {
                 .andExpect(jsonPath("$.data.tags").value(completedListInfo.getTags()))
                 .andExpect(jsonPath("$.data.bucketListId").value(completedListInfo.getBucketListId()))
                 .andExpect(jsonPath("$.message").value(messageResponseDto.getMessage()))
-                .andDo(
-                        document(
+                .andDo(document(
                                 "completedList-create",
                                 getRequestPreProcessor(),
                                 getResponsePreProcessor(),
                                 pathParameters(
-                                        parameterWithName("bucket-list-id").description("버킷리스트 아이디")
+                                parameterWithName("bucket-list-id").description("버킷리스트 아이디")
                                 ),
                                 requestHeaders(headerWithName("Authorization").description("Bearer AccessToken")),
-                                requestFields(List.of(
+                                requestParts( partWithName("data").description("댓글 정보").optional(),
+                                            partWithName("files").description("이미지 파일").optional()),
+
+
+                                requestPartFields("data",List.of(
                                         fieldWithPath("contents").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("tags").type(JsonFieldType.STRING).description("태그"),
-                                        fieldWithPath("files").type(JsonFieldType.STRING).description("이미지").ignored(),
                                         fieldWithPath("bucketListId").type(JsonFieldType.NUMBER).description("버킷 리스트아이디").ignored(),
-                                        fieldWithPath("groupId").type(JsonFieldType.NUMBER).description("버킷 그룹아이디").ignored(),
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 아이디").ignored()
 
 
                                 )),
                                 responseFields(List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.completedListId").type(JsonFieldType.NUMBER).description("완료리스트 아이디"),
+                                        fieldWithPath("data.bucketListId").type(JsonFieldType.NUMBER).description("버킷리스트 아이디"),
                                         fieldWithPath("data.contents").type(JsonFieldType.STRING).description("내용"),
-                                        fieldWithPath("data.completedId").type(JsonFieldType.NUMBER).description("완료된 버킷리스트 아이디"),
                                         fieldWithPath("data.tags").type(JsonFieldType.STRING).description("태그"),
-                                        fieldWithPath("data.Imgs").type(JsonFieldType.OBJECT).description("이미지 파일"),
+                                        fieldWithPath("data.imgs[]").type(JsonFieldType.ARRAY).description("이미지"),
                                         fieldWithPath("message").type(JsonFieldType.STRING).description("메시지")
                                 ))
 

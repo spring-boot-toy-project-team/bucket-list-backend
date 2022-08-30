@@ -49,7 +49,7 @@ public class CompletedListStub {
 
     public static MessageResponseDto getCompletedListResult(){
         return MessageResponseDto.builder()
-                .message("SUCCESS")
+                .message("CREATED")
                 .build();
     }
 }
