@@ -4,6 +4,7 @@ import com.bucket.list.bucketList.entity.BucketList;
 import com.bucket.list.completedList.dto.CompletedListRequestDto;
 import com.bucket.list.completedList.dto.CompletedListResponseDto;
 import com.bucket.list.completedList.entity.CompletedList;
+import com.bucket.list.dto.response.MessageResponseDto;
 import com.bucket.list.member.entity.Member;
 import com.bucket.list.stub.bucketlist.BucketListStub;
 import com.bucket.list.stub.member.MemberStub;
@@ -15,23 +16,22 @@ public class CompletedListStub {
     private static final Member member = MemberStub.getMember();
     private static final BucketList bucketList = BucketListStub.getBucketList();
 
-    public static CompletedListRequestDto.CreateCompletedListDto createCompletedListDto(String contents, String tags) {
+    public static CompletedListRequestDto.CreateCompletedListDto createCompletedListDto() {
         return CompletedListRequestDto.CreateCompletedListDto.builder()
                 .bucketListId(bucketList.getBucketListId())
-                .contents(contents)
-                .tags(tags)
+                .contents(getCompletedList().getContents())
+                .tags(getCompletedList().getTags())
                 .build();
     }
 
-    public static CompletedList getCompletedList(String contents, String tags) {
-
+    public static CompletedList getCompletedList() {
         CompletedList completedList = new CompletedList();
         completedList.setCompletedListId(1L);
         completedList.setBucketList(bucketList);
         completedList.setMember(member);
         completedList.setImgs(new ArrayList<>());
-        completedList.setTags(tags);
-        completedList.setContents(contents);
+        completedList.setTags("#태그1#태그2");
+        completedList.setContents("BucketList Finish");
         completedList.setCreatedAt(LocalDateTime.now());
         completedList.setModifiedAt(LocalDateTime.now());
         return completedList;
@@ -44,6 +44,12 @@ public class CompletedListStub {
                 .tags(completedList.getTags())
                 .contents(completedList.getContents())
                 .imgs(completedList.getImgs())
+                .build();
+    }
+
+    public static MessageResponseDto getCompletedListResult(){
+        return MessageResponseDto.builder()
+                .message("SUCCESS")
                 .build();
     }
 }

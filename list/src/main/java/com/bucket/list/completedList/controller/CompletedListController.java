@@ -40,8 +40,8 @@ public class CompletedListController {
     createCompletedListDto.setMemberId(memberDetails.getMemberId());
     CompletedList completedList = completedListService.createCompletedList(mapper.createCompletedListDtoToCompletedList(createCompletedListDto), files);
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.completeListToCompletedInfo(completedList),
-      "SUCCESS"),
-      HttpStatus.CREATED);
+            "CREATED"),
+            HttpStatus.CREATED);
   }
 
   // 완료된 버킷 리스트 조회
@@ -51,8 +51,8 @@ public class CompletedListController {
                                          @Positive @PathVariable("completed-list-id") long completedListId) {
     CompletedList completedList = completedListService.findCompletedList(bucketListId, completedListId);
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.completeListToCompletedInfo(completedList),
-      "SUCCESS"),
-      HttpStatus.OK);
+            "SUCCESS"),
+            HttpStatus.OK);
   }
 
   // 완료된 버킷 리스트들 조회
@@ -61,11 +61,11 @@ public class CompletedListController {
                                           @Positive @PathParam("page") int page,
                                           @Positive @PathParam("size") int size) {
     Page<CompletedList> pageOfCompletedList
-      = completedListService.findCompletedLists(memberDetails.getMemberId(), page - 1, size);
+            = completedListService.findCompletedLists(memberDetails.getMemberId(), page - 1, size);
     List<CompletedList> completedLists = pageOfCompletedList.getContent();
     return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.completeListsToCompletedInfoList(completedLists),
-      pageOfCompletedList),
-      HttpStatus.OK);
+            pageOfCompletedList),
+            HttpStatus.OK);
   }
 
   // 완료된 버킷 리스트 변경
@@ -79,12 +79,12 @@ public class CompletedListController {
     updateCompletedListDto.setBucketListId(bucketListId);
     updateCompletedListDto.setMemberId(memberDetails.getMemberId());
     CompletedList completedList = completedListService.updateCompletedList(
-      mapper.updateCompletedListToCompletedList(updateCompletedListDto),
-      files);
+            mapper.updateCompletedListToCompletedList(updateCompletedListDto),
+            files);
 
     return new ResponseEntity<>(new SingleResponseWithMessageDto<>(mapper.completeListToCompletedInfo(completedList),
-      "SUCCESS"),
-      HttpStatus.OK);
+            "SUCCESS"),
+            HttpStatus.OK);
   }
 
 
@@ -104,8 +104,8 @@ public class CompletedListController {
     Page<CompletedList> pageOfCompletedList = completedListService.findCompletedListsByNickName(nickName, page - 1, size);
     List<CompletedList> completedLists = pageOfCompletedList.getContent();
     return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.completeListsToCompletedInfoList(completedLists),
-      pageOfCompletedList),
-      HttpStatus.OK);
+            pageOfCompletedList),
+            HttpStatus.OK);
   }
 
   @GetMapping("/complete/tag-name")
@@ -116,7 +116,7 @@ public class CompletedListController {
     List<CompletedList> completedLists = pageOfCompletedList.getContent();
 
     return new ResponseEntity<>(new MultiResponseWithPageInfoDto<>(mapper.completeListsToCompletedInfoList(completedLists),
-      pageOfCompletedList),
-      HttpStatus.OK);
+            pageOfCompletedList),
+            HttpStatus.OK);
   }
 }
