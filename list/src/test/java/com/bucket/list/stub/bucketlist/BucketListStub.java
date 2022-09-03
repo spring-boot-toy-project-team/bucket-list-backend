@@ -71,7 +71,6 @@ public class BucketListStub {
                     .completed(bucketList.getCompleted())
                     .build()).collect(Collectors.toList()
         );
-
     }
 
     public static BucketListRequestDto.UpdateBucketListDto updateBucketListDto(BucketList bucketList){
