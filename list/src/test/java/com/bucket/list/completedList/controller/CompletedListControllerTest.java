@@ -186,49 +186,49 @@ class CompletedListControllerTest {
 
     }
 
-//    @Test
-//    @DisplayName("인증글 리스트 조회")
-//    void getCompletedLists() throws Exception {
-//        //given
-//        int page = 1, size = 3;
-//        long bucketListId = 1L;
-//        Page<CompletedList> completedListPage = CompletedListStub.completedListPage(page,size);
-//        List<CompletedListResponseDto.CompletedListInfo> completedListInfoList = CompletedListStub.completedListInfoList(page,size);
-//
-//        given(completedListService.findCompletedLists(Mockito.anyLong(),Mockito.anyInt(),Mockito.anyInt())).willReturn(completedListPage);
-//        given(mapper.completeListsToCompletedInfoList(Mockito.anyList())).willReturn(completedListInfoList);
-//
-//        //when
-//        ResultActions actions = mockMvc.perform(
-//                get("/v1/bucket-list/complete?page={page}&size={size}",page,size)
-//                        .accept(MediaType.APPLICATION_JSON, MediaType.MULTIPART_FORM_DATA)
-//                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
-//        );
-//
-//        //then
-//        actions.andExpect(status().isOk())
-//                .andExpect(jsonPath("$.pageInfo.page").value(page))
-//                .andExpect(jsonPath("$.pageInfo.size").value(size))
-//                .andDo(document(
-//                        "completedLists-get",
-//                        getRequestPreProcessor(),
-//                        getResponsePreProcessor(),
-//                        requestHeaders(headerWithName("Authorization").description("Bearer AccessToken")),
-//                        requestParameters(
-//                                parameterWithName("page").description("페이지 수"),
-//                                parameterWithName("size").description("페이지 크기")
-//                        ),
-//                        responseFields(List.of(
-//                                fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
-//                                fieldWithPath("data.completedListId").type(JsonFieldType.NUMBER).description("완료리스트 아이디"),
-//                                fieldWithPath("data.bucketListId").type(JsonFieldType.NUMBER).description("버킷리스트 아이디"),
-//                                fieldWithPath("data.contents").type(JsonFieldType.STRING).description("내용"),
-//                                fieldWithPath("data.tags").type(JsonFieldType.STRING).description("태그"),
-//                                fieldWithPath("data.imgs[]").type(JsonFieldType.ARRAY).description("이미지")
-//                        ))
-//
-//                ));
-//    }
+    @Test
+    @DisplayName("인증글 리스트 조회")
+    void getCompletedLists() throws Exception {
+        //given
+        int page = 1, size = 3;
+        long bucketListId = 1L;
+        Page<CompletedList> completedListPage = CompletedListStub.completedListPage(page,size);
+        List<CompletedListResponseDto.CompletedListInfo> completedListInfoList = CompletedListStub.completedListInfoList(page,size);
+
+        given(completedListService.findCompletedLists(Mockito.anyLong(),Mockito.anyInt(),Mockito.anyInt())).willReturn(completedListPage);
+        given(mapper.completeListsToCompletedInfoList(Mockito.anyList())).willReturn(completedListInfoList);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/v1/bucket-list/complete?page={page}&size={size}",page,size)
+                        .accept(MediaType.APPLICATION_JSON, MediaType.MULTIPART_FORM_DATA)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
+        );
+
+        //then
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.pageInfo.page").value(page))
+                .andExpect(jsonPath("$.pageInfo.size").value(size))
+                .andDo(document(
+                        "completedLists-get",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestHeaders(headerWithName("Authorization").description("Bearer AccessToken")),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 수"),
+                                parameterWithName("size").description("페이지 크기")
+                        ),
+                        responseFields(List.of(
+                                fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                fieldWithPath("data.completedListId").type(JsonFieldType.NUMBER).description("완료리스트 아이디"),
+                                fieldWithPath("data.bucketListId").type(JsonFieldType.NUMBER).description("버킷리스트 아이디"),
+                                fieldWithPath("data.contents").type(JsonFieldType.STRING).description("내용"),
+                                fieldWithPath("data.tags").type(JsonFieldType.STRING).description("태그"),
+                                fieldWithPath("data.imgs[]").type(JsonFieldType.ARRAY).description("이미지")
+                        ))
+
+                ));
+    }
 
     @Test
     @DisplayName("인증글 수정")
@@ -250,7 +250,7 @@ class CompletedListControllerTest {
 
         //when
         ResultActions actions = mockMvc.perform(
-                multipartPatchBuilder("/v1/bucket-list/{bucket-list-id}/complete/{completed-list-id}",bucketListId,completedListId)
+                    multipartPatchBuilder("/v1/bucket-list/{bucket-list-id}/complete/{completed-list-id}",bucketListId,completedListId)
                         .file(dataJson)
                         .file(files)
                         .accept(MediaType.APPLICATION_JSON, MediaType.MULTIPART_FORM_DATA)
@@ -278,7 +278,7 @@ class CompletedListControllerTest {
                                 fieldWithPath("contents").type(JsonFieldType.STRING).description("내용"),
                                 fieldWithPath("tags").type(JsonFieldType.STRING).description("태그"),
                                 fieldWithPath("bucketListId").type(JsonFieldType.NUMBER).description("버킷 리스트아이디").ignored(),
-                                fieldWithPath("completedListId").type(JsonFieldType.NUMBER).description("완료리스트 아이디").ignored(),
+                                fieldWithPath("completedListId").type(JsonFieldType.NUMBER).description("완료리스트 아이디"),
                                 fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 아이디").ignored()
 
                         )),
